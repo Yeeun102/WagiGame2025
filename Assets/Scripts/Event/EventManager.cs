@@ -1,0 +1,22 @@
+using UnityEngine;
+
+public class EventManager : MonoBehaviour
+{
+    public static EventManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
+    public void TryPoliceEvent()
+    {
+        // TODO: °æÂû ´Ü¼Ó ¹ß»ý È®·ü Ã¼Å©
+    }
+
+    public void TriggerRivalEvent()
+    {
+        // TODO: ¶óÀÌ¹ú ¼ÎÇÁ ¹æÇØ
+    }
+}
