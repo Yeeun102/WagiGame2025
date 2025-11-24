@@ -1,11 +1,20 @@
 using UnityEngine;
 
+public class FryingPan
+{
+    //코드 작성 예정 
+}
 public class DragAndDropManager : MonoBehaviour
 {
     private Vector3 originalPosition;
     private Vector3 offset;
 
     private bool isDragging = false;
+
+    private string currentRecipe;
+    private CookingSystem cookingSystem;
+    private GameObject currentObject;
+    private Collider2D foodCollider;
 
     void OnMouseDown()
     {
@@ -64,11 +73,11 @@ public class DragAndDropManager : MonoBehaviour
             FryingPan fryingPan = hit.GetComponent<FryingPan>();
             if (fryingPan != null)
             {
-                CrepeItem crepeItem = GetComponent<CrepeItem>();
-                if (crepeItem != null)
+                 foodCollider = GetComponent<Collider2D>();
+                if (foodCollider != null)
                 {
-                    fryingPan.StartCooking(crepeItem);
-                    transform.position = fryingPan.transform.position; 
+                    cookingSystem.StartCooking(currentRecipe);
+                    //transform.position = fryingPan.transform.position; 
                     return true;
                 }
             }

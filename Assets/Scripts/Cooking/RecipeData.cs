@@ -17,3 +17,21 @@ public class RecipeData : ScriptableObject
     [Header("기타")]
     public int 평판보너스;
 }
+
+public enum FoodState
+{
+    Raw,
+    Undercooked,
+    Perfect,
+    Burnt
+}
+
+public enum ToppingType
+{
+    Strawberry,
+    Blueberry,
+    Chocolate,
+    CreamCheese,
+    Cream // 추가 필요한 경우 추후 수정
+
+}

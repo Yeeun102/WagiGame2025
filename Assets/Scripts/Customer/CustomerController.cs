@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CustomerController : MonoBehaviour
@@ -33,4 +34,22 @@ public class CustomerController : MonoBehaviour
         State = CustomerState.Leave;
         Destroy(gameObject);
     }
+
+    public bool CheckOrderMatch() 
+    {
+        //손님의 주문과 제공된 요리가 일치하는지 확인 
+        
+
+
+        bool toppingsMatch = CheckToppingsMatch();
+
+        //토핑이 맞는지 확인 
+        return false;
+    }
+
+    private bool CheckToppingsMatch()
+    {
+        return false; //수정예정 
+    }
+
 }
