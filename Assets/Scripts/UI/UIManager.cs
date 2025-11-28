@@ -1,22 +1,49 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("HUD")]
+    public HUDController hud;
+
+    [Header("Popup")]
+    public GameObject popupPanel;
+    public Text popupMessage;
+    public Button popupCloseButton;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        // 팝업 기본 비활성화
+        popupPanel.SetActive(false);
+
+        // 닫기 버튼 연결
+        popupCloseButton.onClick.AddListener(HidePopup);
     }
 
-    public void UpdateHUD()
+    //HUD 업데이트
+    public void UpdateHUD(int money, int fame, int ingredient, string cookingState)
     {
-        // TODO: 돈, 재료, 평판 등 HUD 갱신
+        if (hud != null)
+        {
+            hud.Refresh(money, fame, ingredient, cookingState);
+        }
     }
 
-    public void ShowPopup(string msg)
+    public void ShowPopup(string popupMassage)
     {
         // TODO: 팝업 표시
+        popupMessage.text = popupMassage;
+        popupPanel.SetActive(true);
+    }
+
+    // 팝업 숨기기
+    public void HidePopup()
+    {
+        popupPanel.SetActive(false);
     }
 }
