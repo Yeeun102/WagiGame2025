@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
@@ -26,11 +27,11 @@ public class UIManager : MonoBehaviour
     }
 
     //HUD 업데이트
-    public void UpdateHUD(int money, int fame, int ingredient, string cookingState)
+    public void UpdateHUD(int money, int fame, Dictionary<string, int> ingredients, string cookingState)
     {
         if (hud != null)
         {
-            hud.Refresh(money, fame, ingredient, cookingState);
+            hud.Refresh(money, fame, ingredients, cookingState);
         }
     }
 
