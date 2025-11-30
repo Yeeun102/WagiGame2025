@@ -4,7 +4,7 @@ public class RegionManager : MonoBehaviour
 {
     public static RegionManager Instance;
 
-    public RegionData CurrentRegion;
+    public RegionData currentRegion;
 
     private void Awake()
     {
@@ -15,7 +15,7 @@ public class RegionManager : MonoBehaviour
 
     public void SetRegion(RegionData data)
     {
-        CurrentRegion = data;
+        currentRegion = data;
         // TODO: 지역 변경 시 초기화 처리
     }
 
