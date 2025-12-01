@@ -5,6 +5,13 @@ public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
 
+    public RegionManager regionManager;
+    public InventorySystem inventorySystem;
+    public EconomyManager economyManager;
+    public CookingSystem cookingSystem;
+    public CustomerManager customerManager;
+    public EventManager eventManager;
+
     public enum GameMode { Day, Night }
     public GameMode CurrentMode;
 
