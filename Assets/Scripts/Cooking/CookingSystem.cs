@@ -22,8 +22,7 @@ public class CookingSystem : MonoBehaviour
     // 현재 사용 가능한 레시피 데이터 목록
     private Dictionary<string, RecipeData> recipeDictionary = new Dictionary<string, RecipeData>();
 
-
-[Header("조리 상태")]
+    [Header("조리 상태")]
     public FoodState currentState = FoodState.Raw;
 
     private List<ToppingType> toppings = new List<ToppingType>();
@@ -66,16 +65,6 @@ public class CookingSystem : MonoBehaviour
         // TODO: 조리 시작 (타이밍 바 생성 등)
         timerBar.gameObject.SetActive(true);
 
-        if (!recipeDictionary.ContainsKey(recipeID))
-        {
-            Debug.LogError($"레시피 ID '{recipeID}'를 찾을 수 없습니다.");
-            return;
-        }
-        currentRecipe = recipeDictionary[recipeID];
-        // 상태 초기화
-        ChangeState(FoodState.Raw);
-        timerBar.gameObject.SetActive(true);
-
         cookingCoroutine = StartCoroutine(CookFoodRoutine());
     }
 
@@ -92,24 +81,6 @@ public class CookingSystem : MonoBehaviour
     public void FailCooking()
     {
         // TODO: 태움/버림 처리
-        if (cookingCoroutine != null)
-        {
-            StopCoroutine(cookingCoroutine);
-        }
-        timerBar.gameObject.SetActive(false);
-
-        // 실패 사운드 및 이펙트 (구현 예정)
-        // SoundManager.Instance.PlaySFX("FailCook");
-
-        // 크레페/음식 오브젝트 파괴 (currentFood 변수가 음식 오브젝트를 참조해야 함)
-        if (currentFood != null)
-        {
-            Destroy(currentFood);
-            currentFood = null;
-        }
-
-        // 현재 조리대 오브젝트(이 스크립트가 붙어있는 오브젝트) 파괴 
-        Destroy(gameObject);
     }
 
 
