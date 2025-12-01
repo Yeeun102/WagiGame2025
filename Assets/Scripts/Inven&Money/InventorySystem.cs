@@ -9,9 +9,14 @@ public class InventorySystem : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            Debug.Log("InventorySystem Awake 실행됨"); // 나중에 삭제
+        }
         else Destroy(gameObject);
     }
+
 
     public bool HasItem(string itemID)
     {
