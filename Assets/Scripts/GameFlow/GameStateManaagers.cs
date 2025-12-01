@@ -17,10 +17,16 @@ public class GameStateManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            Debug.Log("GameStateManager Awake 실행됨"); // 나중에 삭제
+        }
         else Destroy(gameObject);
+
         DontDestroyOnLoad(gameObject);
     }
+
 
     private void Start()
     {
