@@ -114,32 +114,42 @@ public class CookingSystem : MonoBehaviour
 
     private IEnumerator CookFoodRoutine()
     {
-        float timeToPerfect = currentRecipe.조리시간;
         float elapsedTime = 0f;
+        // 전체 조리 시간 계산 (UI 슬라이더의 최대값 기준)
+        float totalPerfectTime = undercookedTime + perfectTime;
 
-        while (elapsedTime < timeToPerfect)
+        // 1단계: Raw -> Undercooked (설익음)
+        while (elapsedTime < undercookedTime)
         {
             elapsedTime += Time.deltaTime;
-            timerBar.value = elapsedTime / timeToPerfect;
+            timerBar.value = elapsedTime / totalPerfectTime; // 슬라이더 업데이트
+            yield return null;
+        }
+        ChangeState(FoodState.Undercooked); // 
 
+        // 2단계: Undercooked -> Perfect (잘 익음)
+        while (elapsedTime < totalPerfectTime)
+        {
+            elapsedTime += Time.deltaTime;
+            timerBar.value = elapsedTime / totalPerfectTime;
+            yield return null;
+        }
+        ChangeState(FoodState.Perfect); // 
+
+        // 3단계: Perfect -> Burnt (탐) - 대기 시간
+        float timeSpentBurning = 0f;
+        while (timeSpentBurning < burntTime)
+        {
+            timeSpentBurning += Time.deltaTime;
+            // 슬라이더가 꽉 찬 상태에서 빨간색으로 깜빡이는 효과 등을 추가할 수 있음
             yield return null;
         }
 
-        ChangeState(FoodState.Perfect);
+        // 4단계: 상태 변경 및 실패 처리
+        ChangeState(FoodState.Burnt); // 
+        FailCooking(); // [cite: 26]
 
-        float timeToBurnt = timeToPerfect * 0.5f;
-        elapsedTime = 0f;
-
-        while (elapsedTime < timeToBurnt)
-        {
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        ChangeState(FoodState.Burnt);
-        CookingSystem.Instance.FailCooking();
-
-        // 팬 역할 종료
+        // 팬 역할 종료 및 파괴
         Destroy(gameObject);
     }
 }
