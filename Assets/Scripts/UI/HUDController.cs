@@ -39,15 +39,17 @@ public class HUDController : MonoBehaviour
             int amount = pair.Value;
 
             // IngredientDB에서 이름/아이콘 가져오기
-            var data = IngredientDatabase.Instance.Get(id);
+            //var data = IngredientDatabase.Instance.Get(id);
 
             var slot = Instantiate(ingredientSlotPrefab, ingredientPanel);
 
+            /*
             slot.GetComponent<IngredientSlot>().SetData(
                 data.이름,
                 amount,
                 data.아이콘
             );
+            */
         }
     }
 }
