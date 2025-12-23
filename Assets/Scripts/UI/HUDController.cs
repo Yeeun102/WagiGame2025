@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using static UnityEditor.Progress;
+using TMPro;
+using System.Collections.Generic;
 
 public class HUDController : MonoBehaviour
 {
@@ -31,42 +30,26 @@ public class HUDController : MonoBehaviour
 
         // 재료 슬롯 초기화
         foreach (Transform child in ingredientPanel)
-        {
             Destroy(child.gameObject);
-        }
-
-        if (_ingredients == null)
-            return;
 
         // 재료 슬롯 생성
         foreach (var pair in _ingredients)
         {
-            string itemID = pair.Key;
+            string id = pair.Key;
             int amount = pair.Value;
 
-            if (amount <= 0)
-                continue;
+            // IngredientDB에서 이름/아이콘 가져오기
+            //var data = IngredientDatabase.Instance.Get(id);
 
-            // ItemData 조회 (읽기 전용)
-            ItemData itemData = Resources.Load<ItemData>($"ItemData/{itemID}");
+            var slot = Instantiate(ingredientSlotPrefab, ingredientPanel);
 
-            GameObject slot = Instantiate(ingredientSlotPrefab, ingredientPanel);
-
-            // 슬롯 안에 TMP 텍스트가 하나 있다고 가정
-            TextMeshProUGUI text = slot.GetComponentInChildren<TextMeshProUGUI>();
-
-            if (text == null)
-                continue;
-
-            if (itemData != null)
-            {
-                text.text = $"{itemData.재료명} x {amount}";
-            }
-            else
-            {
-                // ItemData가 없을 경우 안전 fallback
-                text.text = $"{itemID} x {amount}";
-            }
+            /*
+            slot.GetComponent<IngredientSlot>().SetData(
+                data.이름,
+                amount,
+                data.아이콘
+            );
+            */
         }
     }
 }
