@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: 9ee5b53bb495a5c41b7b8d25c34b0316
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - money: {instanceID: 0}
+  - fame: {instanceID: 0}
+  - ingredientPanel: {instanceID: 0}
+  - ingredientSlotPrefab: {fileID: 2489690554385113346, guid: ff66a054db4e0aa418a080a1d22a2bdd, type: 3}
+  - cookingState: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
