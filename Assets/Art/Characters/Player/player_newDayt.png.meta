@@ -1,0 +1,554 @@
+fileFormatVersion: 2
+guid: 110821ba1fe5b034eaed5b3172260401
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3654827212762679558
+    second: player_newDayt_0
+  - first:
+      213: 1636658935963189219
+    second: player_newDayt_1
+  - first:
+      213: -5324469507418933021
+    second: player_newDayt_2
+  - first:
+      213: 7635818590585030823
+    second: player_newDayt_3
+  - first:
+      213: -2384514907944898302
+    second: player_newDayt_4
+  - first:
+      213: 1280730246415502435
+    second: player_newDayt_5
+  - first:
+      213: 5105504439142591657
+    second: player_newDayt_6
+  - first:
+      213: -6701530187758699128
+    second: player_newDayt_7
+  - first:
+      213: -5959838729185412671
+    second: player_newDayt_8
+  - first:
+      213: -7591820795627454839
+    second: player_newDayt_9
+  - first:
+      213: 4131096065498356259
+    second: player_newDayt_10
+  - first:
+      213: 7896735664081465401
+    second: player_newDayt_11
+  - first:
+      213: 4677317414416016686
+    second: player_newDayt_12
+  - first:
+      213: -122123015254084834
+    second: player_newDayt_13
+  - first:
+      213: -1915256999604189559
+    second: player_newDayt_14
+  - first:
+      213: -253328194866944428
+    second: player_newDayt_15
+  - first:
+      213: -6648143195972404938
+    second: player_newDayt_16
+  - first:
+      213: 308331645109861762
+    second: player_newDayt_17
+  - first:
+      213: -7537838525947776590
+    second: player_newDayt_18
+  - first:
+      213: -7077975561094437976
+    second: player_newDayt_19
+  - first:
+      213: 2195414444523184524
+    second: player_newDayt_20
+  - first:
+      213: -5646093431550935685
+    second: player_newDayt_21
+  - first:
+      213: 1314084052423271590
+    second: player_newDayt_22
+  - first:
+      213: 6049367849791305140
+    second: player_newDayt_23
+  - first:
+      213: 5039975241445344098
+    second: player_newDayt_24
+  - first:
+      213: 7177727132739394266
+    second: player_newDayt_25
+  - first:
+      213: -3894478328237671907
+    second: player_newDayt_26
+  - first:
+      213: 6298920468154856633
+    second: player_newDayt_27
+  - first:
+      213: 470921758451015131
+    second: player_newDayt_28
+  - first:
+      213: -1345511383636345035
+    second: player_newDayt_29
+  - first:
+      213: 4477993163196632308
+    second: player_newDayt_30
+  - first:
+      213: 4290574799423007075
+    second: player_newDayt_31
+  - first:
+      213: -7764770451786517404
+    second: player_newDayt_32
+  - first:
+      213: 1441835567197576301
+    second: player_newDayt_33
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: player_newDayt_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 560
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3186ba816aa63d140b4d10b1514d0d59
+      internalID: -1342761124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_1
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 560
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8984d9d38b470504e8fff5b7ef44b2eb
+      internalID: 1159697608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_2
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 560
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f562dc4dcb02d942a29e3d621942a20
+      internalID: 941213401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_3
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 560
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90d97e9add5b5a740b0117929c3fa77c
+      internalID: -977932911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_4
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 560
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c81b2e1cbe3ac8c4893decfd3ef9fa61
+      internalID: -1436666604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 280
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fa12c27a29c32742be84c87aa0115c1
+      internalID: -1312217890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_6
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 280
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae2eb23fd732b614d82ce8f923bffc74
+      internalID: 1060576948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_7
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 280
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e18ece9978feac94b813a0118d129b33
+      internalID: 1891972502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_8
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 280
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c6acbfcfff787e4f9f7d9e7d579e805
+      internalID: 2143736845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_9
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 280
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1caf8d7841e5fb34e91f8c1e996d4635
+      internalID: -244128058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ced862db84876f4f85f97fb18bfa2e3
+      internalID: -1557700659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_11
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce088dae24222af4fabe6f01014d7aa3
+      internalID: -911068187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_12
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbebffb5dc3c05d479d655140d077031
+      internalID: 1712024130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player_newDayt_13
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 0
+        width: 240
+        height: 280
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02cd50cdd304e404b8fce785c3548a42
+      internalID: 612301686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3beeb98e90e10a54984a0d6c564a2b4c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      player_newDayt_0: -1342761124
+      player_newDayt_1: 1159697608
+      player_newDayt_10: -1557700659
+      player_newDayt_11: -911068187
+      player_newDayt_12: 1712024130
+      player_newDayt_13: 612301686
+      player_newDayt_2: 941213401
+      player_newDayt_3: -977932911
+      player_newDayt_4: -1436666604
+      player_newDayt_5: -1312217890
+      player_newDayt_6: 1060576948
+      player_newDayt_7: 1891972502
+      player_newDayt_8: 2143736845
+      player_newDayt_9: -244128058
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
