@@ -119,10 +119,10 @@ TextureImporter:
       name: logo_0
       rect:
         serializedVersion: 2
-        x: 54
-        y: 159
-        width: 427
-        height: 147
+        x: 0
+        y: 0
+        width: 640
+        height: 320
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,33 +137,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: logo_1
-      rect:
-        serializedVersion: 2
-        x: 59
-        y: 9
-        width: 547
-        height: 152
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 91ca81a91078beb40800000000000000
-      internalID: 5470614613321624601
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9aaf549e21b27db4aac47a6d3da29e83
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +152,6 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       logo_0: -4320295261928297051
-      logo_1: 5470614613321624601
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
