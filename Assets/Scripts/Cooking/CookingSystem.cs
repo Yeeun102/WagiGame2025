@@ -7,10 +7,10 @@ public class CookingSystem : MonoBehaviour
 {
     public static CookingSystem Instance;
 
-    [Header("¸ÖÆ¼ ÆÒ ¼³Á¤")]
-    // Á¶¸® ¾ÀÀÇ Slider 2°³¸¦ ¼ø¼­´ë·Î ¿¬°áÇÏ¼¼¿ä.
+    [Header("ë©€í‹° íŒ¬ ì„¤ì •")]
+    // ì¡°ë¦¬ ì”¬ì˜ Slider 2ê°œë¥¼ ìˆœì„œëŒ€ë¡œ ì—°ê²°í•˜ì„¸ìš”.
     [SerializeField] private Slider[] timerBars;
-    // Á¶¸® ¾ÀÀÇ ÆÒ SpriteRenderer 2°³¸¦ ¼ø¼­´ë·Î ¿¬°áÇÏ¼¼¿ä.
+    // ì¡°ë¦¬ ì”¬ì˜ íŒ¬ SpriteRenderer 2ê°œë¥¼ ìˆœì„œëŒ€ë¡œ ì—°ê²°í•˜ì„¸ìš”.
     //[SerializeField] private SpriteRenderer[] panRenderers;
 
     private FoodState[] panStates = new FoodState[2];
@@ -25,22 +25,22 @@ public class CookingSystem : MonoBehaviour
     public Sprite perfectSprite;
     public Sprite burntSprite;
 
-    [Header("·¹½ÃÇÇ ¼³Á¤")]
-    // ÀÎ½ºÆåÅÍ¿¡¼­ ¸¸µç RecipeData ÆÄÀÏµéÀ» ¿©±â¿¡ µå·¡±×ÇØ¼­ ³ÖÀ¸¼¼¿ä.
+    [Header("ë ˆì‹œí”¼ ì„¤ì •")]
+    // ì¸ìŠ¤í™í„°ì—ì„œ ë§Œë“  RecipeData íŒŒì¼ë“¤ì„ ì—¬ê¸°ì— ë“œë˜ê·¸í•´ì„œ ë„£ìœ¼ì„¸ìš”.
     public List<RecipeData> recipeList = new List<RecipeData>();
 
     private Dictionary<string, RecipeData> recipeDictionary = new Dictionary<string, RecipeData>();
 
     [Header("Cooking Timers")]
-    [SerializeField] private float undercookedTime = 2.0f; // ¼³ÀÍÀ½ µµ´Ş ½Ã°£ [cite: 49]
-    [SerializeField] private float perfectTime = 2.0f;    // ¼³ÀÍÀ½ ÀÌÈÄ ¿Ï¼º±îÁö ½Ã°£ [cite: 50]
-    [SerializeField] private float burntTime = 2.0f;      // ¿Ï¼º ÀÌÈÄ Å¸±â±îÁö ½Ã°£ [cite: 50]
+    [SerializeField] private float undercookedTime = 2.0f; // ì„¤ìµìŒ ë„ë‹¬ ì‹œê°„ [cite: 49]
+    [SerializeField] private float perfectTime = 2.0f;    // ì„¤ìµìŒ ì´í›„ ì™„ì„±ê¹Œì§€ ì‹œê°„ [cite: 50]
+    [SerializeField] private float burntTime = 2.0f;      // ì™„ì„± ì´í›„ íƒ€ê¸°ê¹Œì§€ ì‹œê°„ [cite: 50]
 
     private DragAndDropManager[] activeDoughs = new DragAndDropManager[2];
 
     private void Awake()
     {
-        // ½Ì±ÛÅæ ¼³Á¤: Managers ÇÁ¸®ÆÕÀÌ ¾À ÀüÈ¯ ½Ã¿¡µµ À¯ÁöµÇµµ·Ï ÇÔ
+        // ì‹±ê¸€í†¤ ì„¤ì •: Managers í”„ë¦¬íŒ¹ì´ ì”¬ ì „í™˜ ì‹œì—ë„ ìœ ì§€ë˜ë„ë¡ í•¨
         if (Instance == null)
         {
             Instance = this;
@@ -52,7 +52,7 @@ public class CookingSystem : MonoBehaviour
             return;
         }
 
-        // ÆÒ »óÅÂ ÃÊ±âÈ­
+        // íŒ¬ ìƒíƒœ ì´ˆê¸°í™”
         for (int i = 0; i < panStates.Length; i++)
         {
             panStates[i] = FoodState.Raw;
@@ -68,33 +68,33 @@ public class CookingSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// ¿ÜºÎ(DragAndDropManager µî)¿¡¼­ Á¶¸®¸¦ ½ÃÀÛÇÒ ¶§ È£ÃâÇÕ´Ï´Ù.
+    /// ì™¸ë¶€(DragAndDropManager ë“±)ì—ì„œ ì¡°ë¦¬ë¥¼ ì‹œì‘í•  ë•Œ í˜¸ì¶œí•©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="panIndex">0 ¶Ç´Â 1 (ÆÒ ¹øÈ£)</param>
-    /// <param name="recipeID">·¹½ÃÇÇ µ¥ÀÌÅÍ ID</param>
+    /// <param name="panIndex">0 ë˜ëŠ” 1 (íŒ¬ ë²ˆí˜¸)</param>
+    /// <param name="recipeID">ë ˆì‹œí”¼ ë°ì´í„° ID</param>
     public void StartCooking(int panIndex, string recipeID, DragAndDropManager dough)
     {
         if (panIndex < 0 || panIndex >= timerBars.Length) return;
         activeDoughs[panIndex] = dough;
 
-        // ÀÌ¹Ì ÇØ´ç ÆÒÀÌ Á¶¸® ÁßÀÎÁö Ã¼Å©
+        // ì´ë¯¸ í•´ë‹¹ íŒ¬ì´ ì¡°ë¦¬ ì¤‘ì¸ì§€ ì²´í¬
         if (cookingCoroutines[panIndex] != null)
         {
-            Debug.Log($"{panIndex}¹ø ÆÒÀº ÀÌ¹Ì Á¶¸® ÁßÀÔ´Ï´Ù.");
+            Debug.Log($"{panIndex}ë²ˆ íŒ¬ì€ ì´ë¯¸ ì¡°ë¦¬ ì¤‘ì…ë‹ˆë‹¤.");
             return;
         }
 
-        // ·¹½ÃÇÇ µ¥ÀÌÅÍ È®ÀÎ
+        // ë ˆì‹œí”¼ ë°ì´í„° í™•ì¸
         if (recipeDictionary.TryGetValue(recipeID, out RecipeData recipe))
         {
             timerBars[panIndex].gameObject.SetActive(true);
-            // [¼öÁ¤] ÀÌÁ¦ panRenderers ´ë½Å activeDoughsÀÇ ÀÌ¹ÌÁö¸¦ ¹Ù²ß´Ï´Ù.
+            // [ìˆ˜ì •] ì´ì œ panRenderers ëŒ€ì‹  activeDoughsì˜ ì´ë¯¸ì§€ë¥¼ ë°”ê¿‰ë‹ˆë‹¤.
             UpdateDoughVisual(panIndex, FoodState.Raw);
             cookingCoroutines[panIndex] = StartCoroutine(CookFoodRoutine(panIndex, recipe));
         }
         else
         {
-            Debug.LogWarning($"·¹½ÃÇÇ ID '{recipeID}'¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"ë ˆì‹œí”¼ ID '{recipeID}'ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
     }
     private void UpdateDoughVisual(int panIndex, FoodState newState)
@@ -112,14 +112,14 @@ public class CookingSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// Á¶¸® °úÁ¤À» ´Ü°èº°·Î °ü¸®ÇÏ´Â ÄÚ·çÆ¾ÀÔ´Ï´Ù.
+    /// ì¡°ë¦¬ ê³¼ì •ì„ ë‹¨ê³„ë³„ë¡œ ê´€ë¦¬í•˜ëŠ” ì½”ë£¨í‹´ì…ë‹ˆë‹¤.
     /// </summary>
     private IEnumerator CookFoodRoutine(int panIndex, RecipeData recipe)
     {
         float elapsedTime = 0f;
         float totalPerfectTime = undercookedTime + perfectTime;
 
-        // 1´Ü°è: Raw -> Undercooked (¼³ÀÍÀ½) [cite: 49]
+        // 1ë‹¨ê³„: Raw -> Undercooked (ì„¤ìµìŒ) [cite: 49]
         while (elapsedTime < undercookedTime)
         {
             elapsedTime += Time.deltaTime;
@@ -128,7 +128,7 @@ public class CookingSystem : MonoBehaviour
         }
         UpdatePanState(panIndex, FoodState.Undercooked);
 
-        // 2´Ü°è: Undercooked -> Perfect (Àß ÀÍÀ½) [cite: 50]
+        // 2ë‹¨ê³„: Undercooked -> Perfect (ì˜ ìµìŒ) [cite: 50]
         while (elapsedTime < totalPerfectTime)
         {
             elapsedTime += Time.deltaTime;
@@ -137,7 +137,7 @@ public class CookingSystem : MonoBehaviour
         }
         UpdatePanState(panIndex, FoodState.Perfect);
 
-        // 3´Ü°è: Perfect -> Burnt (Å½) - ´ë±â ½Ã°£ [cite: 50]
+        // 3ë‹¨ê³„: Perfect -> Burnt (íƒ) - ëŒ€ê¸° ì‹œê°„ [cite: 50]
         float timeSpentBurning = 0f;
         while (timeSpentBurning < burntTime)
         {
@@ -145,13 +145,13 @@ public class CookingSystem : MonoBehaviour
             yield return null;
         }
 
-// 4´Ü°è: Å¸¹ö¸² Ã³¸® [cite: 26, 50]
+        // 4ë‹¨ê³„: íƒ€ë²„ë¦¼ ì²˜ë¦¬ [cite: 26, 50]
         UpdatePanState(panIndex, FoodState.Burnt);
         FailCooking(panIndex);
     }
 
     /// <summary>
-    /// ÆÒÀÇ »óÅÂ °ªÀ» º¯°æÇÏ°í ºñÁÖ¾ó ¾÷µ¥ÀÌÆ®¸¦ È£ÃâÇÕ´Ï´Ù.
+    /// íŒ¬ì˜ ìƒíƒœ ê°’ì„ ë³€ê²½í•˜ê³  ë¹„ì£¼ì–¼ ì—…ë°ì´íŠ¸ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
     /// </summary>
     private void UpdatePanState(int panIndex, FoodState newState)
     {
@@ -160,13 +160,13 @@ public class CookingSystem : MonoBehaviour
     }
 
     /// <summary>
-    /// ½ÇÁ¦ ÆÒ ¿ÀºêÁ§Æ®ÀÇ SpriteRenderer¸¦ º¯°æÇÕ´Ï´Ù.
+    /// ì‹¤ì œ íŒ¬ ì˜¤ë¸Œì íŠ¸ì˜ SpriteRendererë¥¼ ë³€ê²½í•©ë‹ˆë‹¤.
     /// </summary>
     public void UpdatePanVisual(int panIndex, FoodState newState)
     {
         if (activeDoughs[panIndex] == null) return;
 
-        // ÇØ´ç µµ¿ìÀÇ SpriteRenderer¸¦ °¡Á®¿Í¼­ ÀÌ¹ÌÁö ±³Ã¼
+        // í•´ë‹¹ ë„ìš°ì˜ SpriteRendererë¥¼ ê°€ì ¸ì™€ì„œ ì´ë¯¸ì§€ êµì²´
         SpriteRenderer sr = activeDoughs[panIndex].GetComponent<SpriteRenderer>();
 
         switch (newState)
@@ -179,8 +179,8 @@ public class CookingSystem : MonoBehaviour
     }
 
     /// <summary>
-/// ¿ä¸®°¡ Å¸¹ö·ÈÀ» ¶§ È£ÃâµË´Ï´Ù. [cite: 26]
-                /// </summary>
+    /// ìš”ë¦¬ê°€ íƒ€ë²„ë ¸ì„ ë•Œ í˜¸ì¶œë©ë‹ˆë‹¤. [cite: 26]
+    /// </summary>
     public void FailCooking(int panIndex)
     {
         if (cookingCoroutines[panIndex] != null)
@@ -189,11 +189,11 @@ public class CookingSystem : MonoBehaviour
             cookingCoroutines[panIndex] = null;
         }
         //timerBars[panIndex].gameObject.SetActive(false);
-        Debug.Log($"{panIndex + 1}¹ø ÆÒÀÇ ¿ä¸®°¡ Å¸¹ö·È½À´Ï´Ù! [°¡°İ: 0¿ø]");
+        Debug.Log($"{panIndex + 1}ë²ˆ íŒ¬ì˜ ìš”ë¦¬ê°€ íƒ€ë²„ë ¸ìŠµë‹ˆë‹¤! [ê°€ê²©: 0ì›]");
     }
 
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ ÀûÀıÇÑ Å¸ÀÌ¹Ö¿¡ ¿ä¸®¸¦ ²¨³ÂÀ» ¶§ È£ÃâÇØ¾ß ÇÕ´Ï´Ù.
+    /// í”Œë ˆì´ì–´ê°€ ì ì ˆí•œ íƒ€ì´ë°ì— ìš”ë¦¬ë¥¼ êº¼ëƒˆì„ ë•Œ í˜¸ì¶œí•´ì•¼ í•©ë‹ˆë‹¤.
     /// </summary>
     public void CompleteCooking(int panIndex)
     {
@@ -203,7 +203,7 @@ public class CookingSystem : MonoBehaviour
             cookingCoroutines[panIndex] = null;
         }
         timerBars[panIndex].gameObject.SetActive(false);
-        // ¿©±â¼­ ¸¸Á·µµ ¹× ±İ¾× Á¤»ê ·ÎÁ÷À» Ãß°¡ÇÕ´Ï´Ù. [cite: 29]
+        // ì—¬ê¸°ì„œ ë§Œì¡±ë„ ë° ê¸ˆì•¡ ì •ì‚° ë¡œì§ì„ ì¶”ê°€í•©ë‹ˆë‹¤. [cite: 29]
     }
 
     public void StopCookingManually(int panIndex)
@@ -214,12 +214,12 @@ public class CookingSystem : MonoBehaviour
             cookingCoroutines[panIndex] = null;
         }
 
-        // Å¸ÀÌ¸Ó ¹Ù ¼û±â±â
+        // íƒ€ì´ë¨¸ ë°” ìˆ¨ê¸°ê¸°
         timerBars[panIndex].gameObject.SetActive(false);
 
-        // ÆÒ »óÅÂ¸¦ ´Ù½Ã Raw³ª ÃÊ±â »óÅÂ·Î º¯°æ (ÇÊ¿ä ½Ã)
+        // íŒ¬ ìƒíƒœë¥¼ ë‹¤ì‹œ Rawë‚˜ ì´ˆê¸° ìƒíƒœë¡œ ë³€ê²½ (í•„ìš” ì‹œ)
         panStates[panIndex] = FoodState.Raw;
 
-        Debug.Log($"{panIndex + 1}¹ø ÆÒ¿¡¼­ À½½ÄÀ» Áı¾î ¿Ã·È½À´Ï´Ù. Á¶¸® Áß´Ü!");
+        Debug.Log($"{panIndex + 1}ë²ˆ íŒ¬ì—ì„œ ìŒì‹ì„ ì§‘ì–´ ì˜¬ë ¸ìŠµë‹ˆë‹¤. ì¡°ë¦¬ ì¤‘ë‹¨!");
     }
 }

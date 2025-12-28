@@ -20,7 +20,7 @@ public class GameStateManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("GameStateManager Awake ½ÇÇàµÊ"); // ³ªÁß¿¡ »èÁ¦
+            Debug.Log("GameStateManager Awake ì‹¤í–‰ë¨"); // ë‚˜ì¤‘ì— ì‚­ì œ
         }
         else Destroy(gameObject);
 
@@ -36,19 +36,19 @@ public class GameStateManager : MonoBehaviour
     public void StartDay()
     {
         CurrentMode = GameMode.Day;
-        // TODO: ³· ÃÊ±âÈ­ ·ÎÁ÷
+        // TODO: ë‚® ì´ˆê¸°í™” ë¡œì§
     }
 
     public void EndDay()
     {
-        // TODO: ÇÏ·ç Á¾·á Ã³¸® (Á¤»ê, ÆòÆÇ, Àç°í µî)
+        // TODO: í•˜ë£¨ ì¢…ë£Œ ì²˜ë¦¬ (ì •ì‚°, í‰íŒ, ì¬ê³  ë“±)
         LoadNightScene();
     }
 
     public void StartNight()
     {
         CurrentMode = GameMode.Night;
-        // TODO: ¹ã ÃÊ±âÈ­ ·ÎÁ÷
+        // TODO: ë°¤ ì´ˆê¸°í™” ë¡œì§
     }
 
     public void LoadDayScene()

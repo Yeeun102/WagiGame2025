@@ -16,6 +16,6 @@ public class UpgradeManager : MonoBehaviour
     public void ApplyUpgrade(string upgradeID)
     {
         OwnedUpgrades.Add(upgradeID);
-        // TODO: ¾÷±×·¹ÀÌµå È¿°ú Àû¿ë
+        // TODO: ì—…ê·¸ë ˆì´ë“œ íš¨ê³¼ ì ìš©
     }
 }

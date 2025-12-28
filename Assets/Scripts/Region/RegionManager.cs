@@ -11,7 +11,7 @@ public class RegionManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("RegionManager Awake ½ÇÇàµÊ"); // ³ªÁß¿¡ »èÁ¦
+            Debug.Log("RegionManager Awake ì‹¤í–‰ë¨"); // ë‚˜ì¤‘ì— ì‚­ì œ
         }
         else Destroy(gameObject);
 
@@ -22,7 +22,7 @@ public class RegionManager : MonoBehaviour
     public void SetRegion(RegionData data)
     {
         currentRegion = data;
-        // TODO: Áö¿ª º¯°æ ½Ã ÃÊ±âÈ­ Ã³¸®
+        // TODO: ì§€ì—­ ë³€ê²½ ì‹œ ì´ˆê¸°í™” ì²˜ë¦¬
     }
 
     public bool CanUnlockRegion(RegionData data, int brandLevel)

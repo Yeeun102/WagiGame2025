@@ -4,14 +4,14 @@ using UnityEngine;
 public class UpgradeData : ScriptableObject
 {
     public string ID;
-    public string ¾÷±×·¹ÀÌµå¸í;
-    public string ¼³¸í;
+    public string ì—…ê·¸ë ˆì´ë“œëª…;
+    public string ì„¤ëª…;
 
-    [Header("°¡°İ")]
-    public int ºñ¿ë;
+    [Header("ê°€ê²©")]
+    public int ë¹„ìš©;
 
-    [Header("È¿°ú")]
-    public int Á¶¸®´ëÁõ°¡;
-    public float Á¶¸®¼ÓµµÁõ°¡ÆÛ¼¾Æ®;
-    public int ÃÖ´ëÀç°íÁõ°¡;
+    [Header("íš¨ê³¼")]
+    public int ì¡°ë¦¬ëŒ€ì¦ê°€;
+    public float ì¡°ë¦¬ì†ë„ì¦ê°€í¼ì„¼íŠ¸;
+    public int ìµœëŒ€ì¬ê³ ì¦ê°€;
 }

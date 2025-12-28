@@ -5,14 +5,14 @@ public class InventorySystem : MonoBehaviour
 {
     public static InventorySystem Instance;
 
-    public Dictionary<string, int> Àç°í = new();
+    public Dictionary<string, int> ìž¬ê³  = new();
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("InventorySystem Awake ½ÇÇàµÊ"); // ³ªÁß¿¡ »èÁ¦
+            Debug.Log("InventorySystem Awake ì‹¤í–‰ë¨"); // ë‚˜ì¤‘ì— ì‚­ì œ
         }
         else Destroy(gameObject);
     }
@@ -20,12 +20,12 @@ public class InventorySystem : MonoBehaviour
 
     public bool HasItem(string itemID)
     {
-        return Àç°í.ContainsKey(itemID) && Àç°í[itemID] > 0;
+        return ìž¬ê³ .ContainsKey(itemID) && ìž¬ê³ [itemID] > 0;
     }
 
     public void UseItem(string itemID)
     {
         if (HasItem(itemID))
-            Àç°í[itemID]--;
+            ìž¬ê³ [itemID]--;
     }
 }

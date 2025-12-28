@@ -4,14 +4,14 @@ using UnityEngine;
 public class ItemData : ScriptableObject
 {
     public string ID;
-    public string Àç·á¸í;
+    public string ìž¬ë£Œëª…;
 
-    [Header("±¸¸Å Á¤º¸")]
-    public int ±¸¸Å°¡°Ý;
+    [Header("êµ¬ë§¤ ì •ë³´")]
+    public int êµ¬ë§¤ê°€ê²©;
 
-    [Header("º¸°ü")]
-    public int ÃÖ´ëº¸°ü¼ö·®;
+    [Header("ë³´ê´€")]
+    public int ìµœëŒ€ë³´ê´€ìˆ˜ëŸ‰;
 
-    [Header("¼³¸í")]
-    public string ¼³¸í;
+    [Header("ì„¤ëª…")]
+    public string ì„¤ëª…;
 }

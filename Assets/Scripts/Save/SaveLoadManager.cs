@@ -13,11 +13,11 @@ public class SaveLoadManager : MonoBehaviour
 
     public void Save()
     {
-        // TODO: JSON ÀúÀå
+        // TODO: JSON ì €ìž¥
     }
 
     public void Load()
     {
-        // TODO: JSON ·Îµå
+        // TODO: JSON ë¡œë“œ
     }
 }

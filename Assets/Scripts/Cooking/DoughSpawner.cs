@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class DoughSpawner : MonoBehaviour
 {
-    public GameObject doughPrefab; // ¹æ±İ ¸¸µç ¹İÁ× ÇÁ¸®ÆÕ
-    public Transform spawnPoint;   // ¹İÁ×ÀÌ »ı¼ºµÉ À§Ä¡ (¹İÁ× Åë À§)
+    public GameObject doughPrefab; // ë°©ê¸ˆ ë§Œë“  ë°˜ì£½ í”„ë¦¬íŒ¹
+    public Transform spawnPoint;   // ë°˜ì£½ì´ ìƒì„±ë  ìœ„ì¹˜ (ë°˜ì£½ í†µ ìœ„)
 
     private void OnMouseDown()
     {
-        // Å¬¸¯ ½Ã »õ·Î¿î ¹İÁ× »ı¼º
+        // í´ë¦­ ì‹œ ìƒˆë¡œìš´ ë°˜ì£½ ìƒì„±
         GameObject newDough = Instantiate(doughPrefab, transform.position, Quaternion.identity);
 
-        // »ı¼ºµÇÀÚ¸¶ÀÚ µå·¡±× »óÅÂ·Î ¸¸µé°í ½Í´Ù¸é Ãß°¡ ·ÎÁ÷ÀÌ ÇÊ¿äÇÒ ¼ö ÀÖ½À´Ï´Ù.
-        Debug.Log("»õ ¹İÁ×À» ²¨³Â½À´Ï´Ù.");
+        // ìƒì„±ë˜ìë§ˆì ë“œë˜ê·¸ ìƒíƒœë¡œ ë§Œë“¤ê³  ì‹¶ë‹¤ë©´ ì¶”ê°€ ë¡œì§ì´ í•„ìš”í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+        Debug.Log("ìƒˆ ë°˜ì£½ì„ êº¼ëƒˆìŠµë‹ˆë‹¤.");
     }
 }

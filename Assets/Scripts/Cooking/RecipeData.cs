@@ -5,17 +5,17 @@ using System.Collections.Generic;
 public class RecipeData : ScriptableObject
 {
     public string ID;
-    public string ¸Ş´º¸í;
+    public string ë©”ë‰´ëª…;
 
-    [Header("Á¶¸® Á¤º¸")]
-    public float Á¶¸®½Ã°£;
-    public int °¡°İ;
+    [Header("ì¡°ë¦¬ ì •ë³´")]
+    public float ì¡°ë¦¬ì‹œê°„;
+    public int ê°€ê²©;
 
-    [Header("ÇÊ¿ä Àç·á")]
-    public List<string> ÇÊ¿äÇÑÀç·áIDs;
+    [Header("í•„ìš” ì¬ë£Œ")]
+    public List<string> í•„ìš”í•œì¬ë£ŒIDs;
 
-    [Header("±âÅ¸")]
-    public int ÆòÆÇº¸³Ê½º;
+    [Header("ê¸°íƒ€")]
+    public int í‰íŒë³´ë„ˆìŠ¤;
 }
 
 public enum FoodState
@@ -32,6 +32,6 @@ public enum ToppingType
     Blueberry,
     Chocolate,
     CreamCheese,
-    Cream // Ãß°¡ ÇÊ¿äÇÑ °æ¿ì ÃßÈÄ ¼öÁ¤
+    Cream // ì¶”ê°€ í•„ìš”í•œ ê²½ìš° ì¶”í›„ ìˆ˜ì •
 
 }

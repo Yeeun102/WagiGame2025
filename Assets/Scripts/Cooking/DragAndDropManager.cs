@@ -20,13 +20,13 @@ public class DragAndDropManager : MonoBehaviour
         isDragging = true;
         offset = (Vector2)transform.position - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        // ¸¸¾à ÆÒ À§¿¡¼­ ´Ù½Ã Áı¾î ¿Ã¸®´Â °Å¶ó¸é
+        // ë§Œì•½ íŒ¬ ìœ„ì—ì„œ ë‹¤ì‹œ ì§‘ì–´ ì˜¬ë¦¬ëŠ” ê±°ë¼ë©´
         if (isOnPan)
         {
-            // 1. ÇØ´ç ÆÒÀÇ Á¶¸®¸¦ ÀÏ½Ã Áß´ÜÇÏ°Å³ª ÃÊ±âÈ­ÇØ¾ß ÇÔ
+            // 1. í•´ë‹¹ íŒ¬ì˜ ì¡°ë¦¬ë¥¼ ì¼ì‹œ ì¤‘ë‹¨í•˜ê±°ë‚˜ ì´ˆê¸°í™”í•´ì•¼ í•¨
             CookingSystem.Instance.StopCookingManually(currentPanIndex);
 
-            // 2. ÆÒ°úÀÇ ºÎ¸ğ °ü°è ÇØÁ¦ (´Ù½Ã ÀÚÀ¯·Î¿î ¸ö)
+            // 2. íŒ¬ê³¼ì˜ ë¶€ëª¨ ê´€ê³„ í•´ì œ (ë‹¤ì‹œ ììœ ë¡œìš´ ëª¸)
             transform.SetParent(null);
             isOnPan = false;
         }
@@ -65,10 +65,10 @@ public class DragAndDropManager : MonoBehaviour
     {
 
         Vector3 mouseScreenPosition = Input.mousePosition;
-        mouseScreenPosition.z = Camera.main.nearClipPlane; 
+        mouseScreenPosition.z = Camera.main.nearClipPlane;
         return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
     }
-    
+
 
     private bool HandleDropInteraction()
     {
@@ -83,7 +83,7 @@ public class DragAndDropManager : MonoBehaviour
                 transform.position = hit.transform.position;
                 transform.SetParent(hit.transform);
 
-                // [¼öÁ¤] ¼¼ ¹øÂ° ÀÎÀÚ·Î 'this'¸¦ º¸³À´Ï´Ù.
+                // [ìˆ˜ì •] ì„¸ ë²ˆì§¸ ì¸ìë¡œ 'this'ë¥¼ ë³´ëƒ…ë‹ˆë‹¤.
                 CookingSystem.Instance.StartCooking(fryingPan.panIndex, currentRecipe, this);
 
                 isOnPan = true;
@@ -101,9 +101,9 @@ public class DragAndDropManager : MonoBehaviour
 
     private void DeliverToTarget(GameObject target)
     {
-        // ÇöÀç Á¶¸® »óÅÂ(FoodState)¸¦ °¡Á®¿Í¼­ Á¡¼ö °è»ê
-        // ¿¹: CookingSystem.Instance.GetFoodState(currentPanIndex);
-        Debug.Log(target.name + "¿¡°Ô À½½ÄÀ» Àü´ŞÇÔ!");
-        Destroy(gameObject); // Àü´ŞÇßÀ¸¹Ç·Î ÆÄ±«
+        // í˜„ì¬ ì¡°ë¦¬ ìƒíƒœ(FoodState)ë¥¼ ê°€ì ¸ì™€ì„œ ì ìˆ˜ ê³„ì‚°
+        // ì˜ˆ: CookingSystem.Instance.GetFoodState(currentPanIndex);
+        Debug.Log(target.name + "ì—ê²Œ ìŒì‹ì„ ì „ë‹¬í•¨!");
+        Destroy(gameObject); // ì „ë‹¬í–ˆìœ¼ë¯€ë¡œ íŒŒê´´
     }
 }

@@ -19,14 +19,14 @@ public class UIManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        // ÆË¾÷ ±âº» ºñÈ°¼ºÈ­
+        // íŒì—… ê¸°ë³¸ ë¹„í™œì„±í™”
         popupPanel.SetActive(false);
 
-        // ´İ±â ¹öÆ° ¿¬°á
+        // ë‹«ê¸° ë²„íŠ¼ ì—°ê²°
         popupCloseButton.onClick.AddListener(HidePopup);
     }
 
-    //HUD ¾÷µ¥ÀÌÆ®
+    //HUD ì—…ë°ì´íŠ¸
     public void UpdateHUD(int money, int fame, Dictionary<string, int> ingredients, string cookingState)
     {
         if (hud != null)
@@ -37,12 +37,12 @@ public class UIManager : MonoBehaviour
 
     public void ShowPopup(string popupMassage)
     {
-        // TODO: ÆË¾÷ Ç¥½Ã
+        // TODO: íŒì—… í‘œì‹œ
         popupMessage.text = popupMassage;
         popupPanel.SetActive(true);
     }
 
-    // ÆË¾÷ ¼û±â±â
+    // íŒì—… ìˆ¨ê¸°ê¸°
     public void HidePopup()
     {
         popupPanel.SetActive(false);

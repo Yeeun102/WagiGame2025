@@ -12,11 +12,11 @@ public class EventManager : MonoBehaviour
 
     public void TryPoliceEvent()
     {
-        // TODO: °æÂû ´Ü¼Ó ¹ß»ı È®·ü Ã¼Å©
+        // TODO: ê²½ì°° ë‹¨ì† ë°œìƒ í™•ë¥  ì²´í¬
     }
 
     public void TriggerRivalEvent()
     {
-        // TODO: ¶óÀÌ¹ú ¼ÎÇÁ ¹æÇØ
+        // TODO: ë¼ì´ë²Œ ì…°í”„ ë°©í•´
     }
 }

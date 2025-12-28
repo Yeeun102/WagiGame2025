@@ -4,18 +4,18 @@ using System.Collections.Generic;
 [CreateAssetMenu(menuName = "Data/Region")]
 public class RegionData : ScriptableObject
 {
-    [Header("Áö¿ª ±âº» Á¤º¸")]
-    public string Áö¿ªID;
-    public string Áö¿ª¸íÄª;
+    [Header("ì§€ì—­ ê¸°ë³¸ ì •ë³´")]
+    public string ì§€ì—­ID;
+    public string ì§€ì—­ëª…ì¹­;
 
-    [Header("¼Õ´Ô °ü·Ã")]
+    [Header("ì†ë‹˜ ê´€ë ¨")]
     public int baseCustomerRate;
-    public List<string> ÀÎ±â¸Ş´ºIDs;
+    public List<string> ì¸ê¸°ë©”ë‰´IDs;
 
-    [Header("ÀÌº¥Æ® °ü·Ã")]
+    [Header("ì´ë²¤íŠ¸ ê´€ë ¨")]
     public float policeBaseChance;
     public bool HasRival;
 
-    [Header("ÇØ±İ Á¶°Ç")]
+    [Header("í•´ê¸ˆ ì¡°ê±´")]
     public int requiredBrandLevel;
 }

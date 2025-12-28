@@ -16,7 +16,7 @@ public class HUDController : MonoBehaviour
     private Dictionary<string, int> _ingredients;
     private string _cookingState;
 
-    // HUD UI °»½Å
+    // HUD UI ê°±ì‹ 
     public void Refresh(int getMoney, int getFame, Dictionary<string, int> ingredientDict, string getCookingState)
     {
         _money = getMoney;
@@ -28,26 +28,26 @@ public class HUDController : MonoBehaviour
         if (fame != null) fame.text = _fame.ToString();
         if (cookingState != null) cookingState.text = _cookingState;
 
-        // Àç·á ½½·Ô ÃÊ±âÈ­
+        // ì¬ë£Œ ìŠ¬ë¡¯ ì´ˆê¸°í™”
         foreach (Transform child in ingredientPanel)
             Destroy(child.gameObject);
 
-        // Àç·á ½½·Ô »ı¼º
+        // ì¬ë£Œ ìŠ¬ë¡¯ ìƒì„±
         foreach (var pair in _ingredients)
         {
             string id = pair.Key;
             int amount = pair.Value;
 
-            // IngredientDB¿¡¼­ ÀÌ¸§/¾ÆÀÌÄÜ °¡Á®¿À±â
+            // IngredientDBì—ì„œ ì´ë¦„/ì•„ì´ì½˜ ê°€ì ¸ì˜¤ê¸°
             //var data = IngredientDatabase.Instance.Get(id);
 
             var slot = Instantiate(ingredientSlotPrefab, ingredientPanel);
 
             /*
             slot.GetComponent<IngredientSlot>().SetData(
-                data.ÀÌ¸§,
+                data.ì´ë¦„,
                 amount,
-                data.¾ÆÀÌÄÜ
+                data.ì•„ì´ì½˜
             );
             */
         }

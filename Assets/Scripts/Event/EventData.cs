@@ -11,16 +11,16 @@ public enum EventType
 public class EventData : ScriptableObject
 {
     public string ID;
-    public EventType Å¸ÀÔ;
+    public EventType íƒ€ì…;
 
-    [Header("¹ß»ı È®·ü(Áö¿ª º¸Á¤ Àü¿¡)")]
-    public float ±âº»È®·ü;
+    [Header("ë°œìƒ í™•ë¥ (ì§€ì—­ ë³´ì • ì „ì—)")]
+    public float ê¸°ë³¸í™•ë¥ ;
 
-    [Header("ÀÌº¥Æ® ¼³¸í")]
-    public string ¼³¸í;
+    [Header("ì´ë²¤íŠ¸ ì„¤ëª…")]
+    public string ì„¤ëª…;
 
-    [Header("È¿°ú °ª")]
-    public int ¹ú±İ¾×;
-    public float ÆòÆÇº¯È­;
-    public int º¸³Ê½º¸ÅÃâ;
+    [Header("íš¨ê³¼ ê°’")]
+    public int ë²Œê¸ˆì•¡;
+    public float í‰íŒë³€í™”;
+    public int ë³´ë„ˆìŠ¤ë§¤ì¶œ;
 }

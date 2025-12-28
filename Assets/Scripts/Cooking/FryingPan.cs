@@ -3,15 +3,15 @@ using UnityEngine;
 public class FryingPan : MonoBehaviour
 {
     public int panIndex;
-    //ÄÚµå ÀÛ¼º ¿¹Á¤ 
+    //ì½”ë“œ ìž‘ì„± ì˜ˆì • 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

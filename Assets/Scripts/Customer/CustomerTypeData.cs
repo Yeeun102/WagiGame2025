@@ -5,13 +5,13 @@ using UnityEngine;
 public class CustomerTypeData : ScriptableObject
 {
     public string ID;
-    public string Å¸ÀÔ¸í;  // ¿¹: "ÇĞ»ı", "Á÷ÀåÀÎ", "°ü±¤°´"
+    public string íƒ€ì…ëª…;  // ì˜ˆ: "í•™ìƒ", "ì§ì¥ì¸", "ê´€ê´‘ê°"
 
-    [Header("¼ºÇâ")]
-    public float ´ë±âÀÎ³»µµ;       // ¾ó¸¶³ª ¿À·¡ ±â´Ù·ÁÁÖ´Â°¡
-    public float Áö°©µÎ²²Áö¼ö;      // ±âº» ÁöºÒ °¡°İ(+¥á)
-    public float ÆòÆÇ°¡ÁßÄ¡;       // ¸¸Á·/ºÒ¸¸Á·ÀÌ ÆòÆÇ¿¡ ÁÖ´Â ¿µÇâµµ
+    [Header("ì„±í–¥")]
+    public float ëŒ€ê¸°ì¸ë‚´ë„;       // ì–¼ë§ˆë‚˜ ì˜¤ë˜ ê¸°ë‹¤ë ¤ì£¼ëŠ”ê°€ (ê¸°ë³¸ ëŒ€ê¸° ì‹œê°„ì— ê³±í•´ì¤„ ê³„ìˆ˜ ë“±)
+    public float ì§€ê°‘ë‘ê»˜ì§€ìˆ˜;     // ê¸°ë³¸ ì§€ë¶ˆ ê°€ê²©(+Î±) - ì¶”í›„ íŒ/ë³´ë„ˆìŠ¤ìš©
+    public float í‰íŒê°€ì¤‘ì¹˜;       // ë§Œì¡±/ë¶ˆë§Œì¡±ì´ í‰íŒì— ì£¼ëŠ” ì˜í–¥ë„
 
-    [Header("Ãß°¡ ¼±È£µµ")]
-    public List<string> ¼±È£¸Ş´ºIDs;
+    [Header("ì¶”ê°€ ì„ í˜¸ë„")]
+    public List<string> ì„ í˜¸ë©”ë‰´IDs;   // ì¢‹ì•„í•˜ëŠ” ë©”ë‰´ IDë“¤ (RecipeData.ID ê¸°ì¤€)
 }
