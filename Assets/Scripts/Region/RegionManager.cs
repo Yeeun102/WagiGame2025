@@ -8,10 +8,16 @@ public class RegionManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            Debug.Log("RegionManager Awake 실행됨"); // 나중에 삭제
+        }
         else Destroy(gameObject);
+
         DontDestroyOnLoad(gameObject);
     }
+
 
     public void SetRegion(RegionData data)
     {

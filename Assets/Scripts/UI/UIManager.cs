@@ -27,13 +27,21 @@ public class UIManager : MonoBehaviour
     }
 
     //HUD 업데이트
-    public void UpdateHUD(int money, int fame, Dictionary<string, int> ingredients, string cookingState)
+    public void UpdateHUD()
     {
-        if (hud != null)
-        {
-            hud.Refresh(money, fame, ingredients, cookingState);
-        }
+        if (hud == null) return;
+
+        var economy = GameStateManager.Instance.economyManager;
+        var inventory = GameStateManager.Instance.inventorySystem;
+
+        int money = economy.Money;
+        int fame = 0; // 아직 FameManager 없으면 0
+        var ingredients = inventory.재고;
+        string cookingState = "";
+
+        hud.Refresh(money, fame, ingredients, cookingState);
     }
+
 
     public void ShowPopup(string popupMassage)
     {

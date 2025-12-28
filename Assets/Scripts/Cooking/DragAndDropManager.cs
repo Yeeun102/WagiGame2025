@@ -1,9 +1,5 @@
 using UnityEngine;
 
-public class FryingPan : MonoBehaviour 
-{
-    //코드 작성 예정 
-}
 public class DragAndDropManager : MonoBehaviour
 {
     private Vector3 originalPosition;
@@ -11,35 +7,30 @@ public class DragAndDropManager : MonoBehaviour
 
     private bool isDragging = false;
 
-    private string currentRecipe;
+    public string currentRecipe = "Crepe_Basic";
     private CookingSystem cookingSystem;
     private GameObject currentObject;
     private Collider2D foodCollider;
 
-    void Awake()
-    {
-        // CookingSystem 싱글톤 참조
-        if (CookingSystem.Instance != null)
-        {
-            cookingSystem = CookingSystem.Instance;
-        }
-        // 이 오브젝트가 어떤 레시피의 재료인지 초기화하는 로직이 필요
-        // 현재는 하드코딩하거나 외부에서 설정해야 함
-        currentRecipe = "Recipe"; // 실제 구현 시 외부에서 설정 필요
-
-        currentObject = gameObject;
-        foodCollider = GetComponent<Collider2D>();
-    }
+    private bool isOnPan = false;
+    private int currentPanIndex = -1;
 
     void OnMouseDown()
     {
-        originalPosition = transform.position;
-
-        offset = transform.position - GetMouseWorldPosition();
-
         isDragging = true;
+        offset = (Vector2)transform.position - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        transform.position = new Vector3(transform.position.x, transform.position.y, -0.1f);
+        // 만약 팬 위에서 다시 집어 올리는 거라면
+        if (isOnPan)
+        {
+            // 1. 해당 팬의 조리를 일시 중단하거나 초기화해야 함
+            CookingSystem.Instance.StopCookingManually(currentPanIndex);
+
+            // 2. 팬과의 부모 관계 해제 (다시 자유로운 몸)
+            transform.SetParent(null);
+            isOnPan = false;
+        }
+        GetComponent<SpriteRenderer>().sortingOrder = 10;
     }
 
     void OnMouseDrag()
@@ -77,6 +68,7 @@ public class DragAndDropManager : MonoBehaviour
         mouseScreenPosition.z = Camera.main.nearClipPlane; 
         return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
     }
+    
 
     private bool HandleDropInteraction()
     {
@@ -85,40 +77,33 @@ public class DragAndDropManager : MonoBehaviour
 
         foreach (Collider2D hit in hitColliders)
         {
-            // 1. 팬 오브젝트를 찾습니다. (FryingPan이 MonoBehaviour를 상속받았다고 가정)
             FryingPan fryingPan = hit.GetComponent<FryingPan>();
-
-            // FryingPan이 빈 클래스이므로, 임시로 태그로 검사할 수도 있습니다.
-            // if (hit.CompareTag("FryingPan")) 
-
             if (fryingPan != null)
             {
-                // 이 컴포넌트가 붙은 오브젝트(음식)가 콜라이더를 가지고 있는지 확인
-                if (foodCollider != null)
-                {
-                    // 2. 조리 시작 요청 (이 로직은 현재 CookingSystem 안에 팬 로직이 통합되었기에 CookingSystem을 직접 호출합니다.)
-                    if (cookingSystem != null)
-                    {
-                        // CookingSystem이 팬 오브젝트에 붙어있는 경우:
-                        if (cookingSystem.gameObject == hit.gameObject)
-                        {
-                            cookingSystem.InitializePan(null); // 레시피 데이터 전달 (null 대신 실제 RecipeData 필요)
-                            cookingSystem.StartCooking(currentRecipe); // 조리 시작
+                transform.position = hit.transform.position;
+                transform.SetParent(hit.transform);
 
-                            // 음식 오브젝트를 팬의 자식으로 만들고 위치를 팬 중앙으로 고정
-                            transform.SetParent(hit.transform);
-                            transform.position = hit.transform.position;
+                // [수정] 세 번째 인자로 'this'를 보냅니다.
+                CookingSystem.Instance.StartCooking(fryingPan.panIndex, currentRecipe, this);
 
-                            // 드래그 컴포넌트 비활성화 (조리 중에는 드래그 불가)
-                            enabled = false;
-                            return true;
-                        }
-                    }
-                }
+                isOnPan = true;
+                currentPanIndex = fryingPan.panIndex;
+                return true;
             }
-
-            // TODO: 도마에 드롭, 손님에게 드롭 등의 상호작용 로직을 여기에 추가
+            /*if (hit.CompareTag("Customer") || hit.CompareTag("Plate"))
+            {
+                DeliverToTarget(hit.gameObject);
+                return true;
+            }*/
         }
         return false;
+    }
+
+    private void DeliverToTarget(GameObject target)
+    {
+        // 현재 조리 상태(FoodState)를 가져와서 점수 계산
+        // 예: CookingSystem.Instance.GetFoodState(currentPanIndex);
+        Debug.Log(target.name + "에게 음식을 전달함!");
+        Destroy(gameObject); // 전달했으므로 파괴
     }
 }

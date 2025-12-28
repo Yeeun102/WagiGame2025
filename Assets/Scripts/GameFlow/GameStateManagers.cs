@@ -17,32 +17,43 @@ public class GameStateManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            Debug.Log("GameStateManager Awake 실행됨"); // 나중에 삭제
+        }
         else Destroy(gameObject);
+
         DontDestroyOnLoad(gameObject);
     }
+
 
     private void Start()
     {
         CurrentMode = GameMode.Day;
+        StartDay();
     }
 
     public void StartDay()
     {
+        Debug.Log("TimeScale = " + Time.timeScale);
         CurrentMode = GameMode.Day;
-        // TODO: 낮 초기화 로직
+        Debug.Log("Day  시작");
+        Invoke(nameof(EndDay), 5f);
     }
 
     public void EndDay()
     {
-        // TODO: 하루 종료 처리 (정산, 평판, 재고 등)
-        LoadNightScene();
+        Debug.Log("Day 종료");
+        StartNight();
+        SaveLoadManager.Instance.Save();
     }
 
     public void StartNight()
     {
         CurrentMode = GameMode.Night;
-        // TODO: 밤 초기화 로직
+        Debug.Log("Night 시작");
+        Invoke(nameof(StartDay), 5f);
     }
 
     public void LoadDayScene()
