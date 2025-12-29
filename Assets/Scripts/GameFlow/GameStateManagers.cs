@@ -11,6 +11,7 @@ public class GameStateManager : MonoBehaviour
     public CookingSystem cookingSystem;
     public CustomerManager customerManager;
     public EventManager eventManager;
+    public UpgradeManager upgradeManager;
 
     public enum GameMode { Day, Night }
     public GameMode CurrentMode;
