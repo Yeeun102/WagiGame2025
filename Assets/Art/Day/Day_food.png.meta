@@ -659,7 +659,29 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Day_food_0: -2828792945217695351
+      Day_food_1: 6106567065526346979
+      Day_food_10: 8420933850113433503
+      Day_food_11: -7923055391030566977
+      Day_food_12: 2345954998195044873
+      Day_food_13: -6693360482821228930
+      Day_food_14: 6463896382238754442
+      Day_food_15: 1664068494640126421
+      Day_food_16: 589876698931531965
+      Day_food_17: 3209923347518327392
+      Day_food_18: -6159778269886507304
+      Day_food_19: 2588046282868343707
+      Day_food_2: 1245129265412248803
+      Day_food_20: -1890793020933605702
+      Day_food_21: 1201969227005914378
+      Day_food_3: 2847255297579613229
+      Day_food_4: 399579892569031191
+      Day_food_5: -5828139135896742590
+      Day_food_6: -2178982798228782541
+      Day_food_7: -3990588580646719722
+      Day_food_8: -1336385014195167563
+      Day_food_9: -5363479308401653695
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
