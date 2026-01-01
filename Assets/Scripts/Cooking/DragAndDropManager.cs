@@ -15,6 +15,8 @@ public class DragAndDropManager : MonoBehaviour
     private bool isOnPan = false;
     private int currentPanIndex = -1;
 
+    public FoodState currentFoodState;
+
     void OnMouseDown()
     {
         isDragging = true;
@@ -77,6 +79,7 @@ public class DragAndDropManager : MonoBehaviour
 
         foreach (Collider2D hit in hitColliders)
         {
+            
             FryingPan fryingPan = hit.GetComponent<FryingPan>();
             if (fryingPan != null)
             {
@@ -90,20 +93,36 @@ public class DragAndDropManager : MonoBehaviour
                 currentPanIndex = fryingPan.panIndex;
                 return true;
             }
-            /*if (hit.CompareTag("Customer") || hit.CompareTag("Plate"))
+           
+            // 1. 도마에 올리기
+            CuttingBoard board = hit.GetComponent<CuttingBoard>();
+            if (board != null)
             {
-                DeliverToTarget(hit.gameObject);
+                board.PlaceDough(this);
+                isOnPan = false; // 팬에서 벗어남
                 return true;
-            }*/
+            }
+
+            // 2. 손님에게 전달하기 (태그 사용)
+            if (hit.CompareTag("Customer"))
+            {
+                DeliverToCustomer(hit.gameObject);
+                return true;
+            }
+            
         }
         return false;
     }
 
-    private void DeliverToTarget(GameObject target)
+
+    private void DeliverToCustomer(GameObject customer)
     {
-        // 현재 조리 상태(FoodState)를 가져와서 점수 계산
-        // 예: CookingSystem.Instance.GetFoodState(currentPanIndex);
-        Debug.Log(target.name + "에게 음식을 전달함!");
-        Destroy(gameObject); // 전달했으므로 파괴
+        // 도마에 있는 토핑 리스트 등을 가져와서 최종 점수 계산 가능
+        Debug.Log("손님에게 배달! 상태: " + currentFoodState);
+
+        // 돈 계산 로직 (예시)
+        // EconomyManager.Instance.AddMoney(currentFoodState, addedToppings);
+
+        Destroy(gameObject); // 배달 완료 후 파괴
     }
 }

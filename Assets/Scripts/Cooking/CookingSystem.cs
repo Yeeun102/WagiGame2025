@@ -101,6 +101,8 @@ public class CookingSystem : MonoBehaviour
     {
         if (activeDoughs[panIndex] == null) return;
 
+        activeDoughs[panIndex].currentFoodState = newState;
+
         SpriteRenderer sr = activeDoughs[panIndex].GetComponent<SpriteRenderer>();
         switch (newState)
         {
