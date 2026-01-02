@@ -5,34 +5,79 @@ public class CuttingBoard : MonoBehaviour
 {
     public Transform anchorPoint; // 도우가 붙을 중심점
     public DragAndDropManager currentDough;
-    public List<string> addedToppings = new List<string>();
+
+    [Header("스프레드 설정")]
+    public SpriteRenderer spreadRenderer; // 도우 위에 겹쳐질 SpriteRenderer
+    public Sprite[] spreadSprites; // 0: 생크림, 1: 치즈크림, 2: 초콜릿
+
+    [Header("토핑 설정")]
+    public Transform toppingParent; // 토핑들이 생성될 부모 오브젝트
+    public GameObject[] toppingPrefabs;
+
+    //public List<string> addedToppings = new List<string>();
+
+    public List<ToppingType> addedToppings = new List<ToppingType>();
+    public SpreadType currentSpread = SpreadType.None;
 
     public void PlaceDough(DragAndDropManager dough)
     {
         currentDough = dough;
 
-        // 1. 드래그 스크립트를 즉시 비활성화 (가장 중요!)
-        // 업데이트 루프가 위치를 다시 계산하지 못하게 막습니다.
-        dough.enabled = false;
-
         // 2. 부모 설정 및 좌표 강제 고정
         dough.transform.SetParent(this.transform, false);
         dough.transform.localPosition = (anchorPoint != null) ? anchorPoint.localPosition : Vector3.zero;
 
-        // Z축은 도마보다 앞(-0.5 정도)으로 확실히 뺍니다.
-        Vector3 pos = dough.transform.localPosition;
-        pos.z = -0.5f;
-        dough.transform.localPosition = pos;
-
-        Debug.Log("고정 완료. 이제 움직이지 않아야 합니다.");
+        Debug.Log("고정 완료.");
     }
 
-    public void AddTopping(string toppingName)
-    {
-        if (currentDough == null) return;
 
-        addedToppings.Add(toppingName);
-        Debug.Log($"토핑 추가됨: {toppingName}");
-        // 여기에 토핑 시각적 효과(Instantiate)를 추가할 수 있습니다.
+
+    // 1. 스프레드 바르기
+    public void ApplySpread(SpreadType type)
+    {
+        if (currentDough == null) return; // 도우가 없으면 못 바름
+
+        currentSpread = type;
+        // Enum 순서에 맞춰 스프라이트 변경 (예: 1번이 생크림)
+        int index = (int)type - 1;
+        if (index >= 0 && index < spreadSprites.Length)
+        {
+            spreadRenderer.sprite = spreadSprites[index];
+            spreadRenderer.gameObject.SetActive(true);
+        }
+        Debug.Log($"스프레드 적용: {type}");
+    }
+
+    // 2. 토핑 얹기
+    public void AddTopping(ToppingType type)
+    {
+        if (currentDough == null) return; // 도우가 없으면 못 얹음
+
+        addedToppings.Add(type);
+
+        // 시각적 연출: 도우 위치에 토핑 프리팹 생성
+        int index = (int)type - 1;
+        if (index >= 0 && index < toppingPrefabs.Length)
+        {
+            GameObject visualTopping = Instantiate(toppingPrefabs[index], this.transform, false);
+
+            Vector3 spawnPos = (anchorPoint != null) ? anchorPoint.localPosition : Vector3.zero;
+            visualTopping.transform.localPosition = new Vector3(
+                spawnPos.x + Random.Range(-0.2f, 0.2f),
+                spawnPos.y + Random.Range(-0.2f, 0.2f),
+                -0.2f
+            );
+
+            // 스크립트 및 콜라이더 비활성화
+            IngredientDrag drag = visualTopping.GetComponent<IngredientDrag>();
+            if (drag != null) Destroy(drag);
+
+            Collider2D col = visualTopping.GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
+
+            // 5. 레이어를 도우(5)보다 높게 설정 (코드로 강제 설정 가능)
+            //visualTopping.GetComponent<SpriteRenderer>().sortingOrder = 10;
+        }
+        Debug.Log($"토핑 추가: {type}");
     }
 }

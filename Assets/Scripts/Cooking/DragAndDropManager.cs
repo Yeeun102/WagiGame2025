@@ -26,13 +26,16 @@ public class DragAndDropManager : MonoBehaviour
         if (isOnPan)
         {
             // 1. 해당 팬의 조리를 일시 중단하거나 초기화해야 함
-            CookingSystem.Instance.StopCookingManually(currentPanIndex);
+            //CookingSystem.Instance.StopCookingManually(currentPanIndex);
 
             // 2. 팬과의 부모 관계 해제 (다시 자유로운 몸)
             transform.SetParent(null);
+            //isOnPan = false;
+
+            CookingSystem.Instance.StopCookingVisual(currentPanIndex);
             isOnPan = false;
         }
-        GetComponent<SpriteRenderer>().sortingOrder = 10;
+        //GetComponent<SpriteRenderer>().sortingOrder = 10;
     }
 
     void OnMouseDrag()
@@ -98,7 +101,9 @@ public class DragAndDropManager : MonoBehaviour
             CuttingBoard board = hit.GetComponent<CuttingBoard>();
             if (board != null)
             {
-                board.PlaceDough(this);
+                transform.position = hit.transform.position;
+                transform.SetParent(hit.transform);
+                //board.PlaceDough(this);
                 isOnPan = false; // 팬에서 벗어남
                 return true;
             }
@@ -118,7 +123,7 @@ public class DragAndDropManager : MonoBehaviour
     private void DeliverToCustomer(GameObject customer)
     {
         // 도마에 있는 토핑 리스트 등을 가져와서 최종 점수 계산 가능
-        Debug.Log("손님에게 배달! 상태: " + currentFoodState);
+        Debug.Log("손님에게 배달! 상태: " + this.currentFoodState);
 
         // 돈 계산 로직 (예시)
         // EconomyManager.Instance.AddMoney(currentFoodState, addedToppings);

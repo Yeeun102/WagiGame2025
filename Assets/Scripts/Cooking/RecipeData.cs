@@ -20,6 +20,7 @@ public class RecipeData : ScriptableObject
 
 public enum FoodState
 {
+    OnPan,
     Raw,
     Undercooked,
     Perfect,
@@ -28,10 +29,14 @@ public enum FoodState
 
 public enum ToppingType
 {
+    None,
     Strawberry,
     Blueberry,
-    Chocolate,
-    CreamCheese,
-    Cream // 추가 필요한 경우 추후 수정
+    Banana,
+    Mango// 추가 필요한 경우 추후 수정
 
+}
+public enum SpreadType
+{
+    None, WhippedCream, CheeseCream, Chocolate
 }
