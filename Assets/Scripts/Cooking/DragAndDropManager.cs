@@ -12,8 +12,8 @@ public class DragAndDropManager : MonoBehaviour
     private GameObject currentObject;
     private Collider2D foodCollider;
 
-    private bool isOnPan = false;
-    private int currentPanIndex = -1;
+    public bool isOnPan = false;
+    public int currentPanIndex = -1; 
 
     public FoodState currentFoodState;
 
@@ -30,10 +30,9 @@ public class DragAndDropManager : MonoBehaviour
 
             // 2. 팬과의 부모 관계 해제 (다시 자유로운 몸)
             transform.SetParent(null);
-            //isOnPan = false;
+            isOnPan = false;
 
             CookingSystem.Instance.StopCookingVisual(currentPanIndex);
-            isOnPan = false;
         }
         //GetComponent<SpriteRenderer>().sortingOrder = 10;
     }
@@ -63,7 +62,7 @@ public class DragAndDropManager : MonoBehaviour
             transform.position = originalPosition;
         }
 
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -103,7 +102,7 @@ public class DragAndDropManager : MonoBehaviour
             {
                 transform.position = hit.transform.position;
                 transform.SetParent(hit.transform);
-                //board.PlaceDough(this);
+                board.PlaceDough(this);
                 isOnPan = false; // 팬에서 벗어남
                 return true;
             }

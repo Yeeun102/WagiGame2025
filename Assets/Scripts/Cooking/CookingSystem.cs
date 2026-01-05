@@ -173,7 +173,7 @@ public class CookingSystem : MonoBehaviour
     private void UpdatePanState(int panIndex, FoodState newState)
     {
         panStates[panIndex] = newState;
-        UpdatePanVisual(panIndex, newState);
+        UpdateFoodState(panIndex, newState, activeDoughs[panIndex]);
     }
 
     public void StopCookingVisual(int panIndex)
@@ -190,9 +190,12 @@ public class CookingSystem : MonoBehaviour
     /// <summary>
     /// 실제 팬 오브젝트의 SpriteRenderer를 변경합니다.
     /// </summary>
-    public void UpdatePanVisual(int panIndex, FoodState newState)
+    private void UpdateFoodState(int panIndex, FoodState newState, DragAndDropManager dough)
     {
+        if (dough == null) dough = activeDoughs[panIndex];
         if (activeDoughs[panIndex] == null) return;
+
+        dough.currentFoodState = newState;
 
         // 해당 도우의 SpriteRenderer를 가져와서 이미지 교체
         SpriteRenderer sr = activeDoughs[panIndex].GetComponent<SpriteRenderer>();
@@ -205,6 +208,7 @@ public class CookingSystem : MonoBehaviour
             case FoodState.Perfect: sr.sprite = perfectSprite; break;
             case FoodState.Burnt: sr.sprite = burntSprite; break;
         }
+        Debug.Log($"팬 {panIndex} 상태 데이터 변경: {newState}");
     }
 
     public void FailCooking(int panIndex)

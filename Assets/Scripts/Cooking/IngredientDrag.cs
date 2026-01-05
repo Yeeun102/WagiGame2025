@@ -34,14 +34,23 @@ public class IngredientDrag : MonoBehaviour
 
     private void CheckDrop()
     {
-        Collider2D hit = Physics2D.OverlapPoint(transform.position);
+        Collider2D hit = Physics2D.OverlapCircle(transform.position,0.5f);
         if (hit != null)
         {
+            Debug.Log($"토핑이 닿은 오브젝트: {hit.name}");
             CuttingBoard board = hit.GetComponent<CuttingBoard>();
+            if (board == null)
+            {
+                board = hit.GetComponentInParent<CuttingBoard>();
+            }
             if (board != null && board.currentDough != null)
             {
                 if (isTopping) board.AddTopping(toppingType);
                 else board.ApplySpread(spreadType);
+                Debug.Log("도마(또는 도우 위)에 성공적으로 재료를 전달했습니다.");
+            } else
+            {
+                Debug.Log($"감지된 {hit.name}은 도마와 연결되어 있지 않습니다.");
             }
         }
     }

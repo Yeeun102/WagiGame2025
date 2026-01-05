@@ -74,6 +74,9 @@ public class DoughSpawner : MonoBehaviour
 
         if (doughManager != null)
         {
+            doughManager.isOnPan = true;
+            doughManager.currentPanIndex = pan.panIndex;
+
             newDough.transform.SetParent(pan.transform);
             newDough.transform.localPosition = new Vector3(0, 0, -0.1f);
             if (CookingSystem.Instance != null)

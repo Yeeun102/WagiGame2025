@@ -7,8 +7,8 @@ public class CuttingBoard : MonoBehaviour
     public DragAndDropManager currentDough;
 
     [Header("스프레드 설정")]
-    public SpriteRenderer spreadRenderer; // 도우 위에 겹쳐질 SpriteRenderer
-    public Sprite[] spreadSprites; // 0: 생크림, 1: 치즈크림, 2: 초콜릿
+    public GameObject[] spreadPrefabs;
+    private GameObject currentSpreadObject; // 0: 생크림, 1: 치즈크림, 2: 초콜릿
 
     [Header("토핑 설정")]
     public Transform toppingParent; // 토핑들이 생성될 부모 오브젝트
@@ -25,7 +25,7 @@ public class CuttingBoard : MonoBehaviour
 
         // 2. 부모 설정 및 좌표 강제 고정
         dough.transform.SetParent(this.transform, false);
-        dough.transform.localPosition = (anchorPoint != null) ? anchorPoint.localPosition : Vector3.zero;
+        dough.transform.localPosition = new Vector3(0, 0, -0.1f);
 
         Debug.Log("고정 완료.");
     }
@@ -37,15 +37,39 @@ public class CuttingBoard : MonoBehaviour
     {
         if (currentDough == null) return; // 도우가 없으면 못 바름
 
-        currentSpread = type;
-        // Enum 순서에 맞춰 스프라이트 변경 (예: 1번이 생크림)
-        int index = (int)type - 1;
-        if (index >= 0 && index < spreadSprites.Length)
+        // 이미 스프레드가 발라져 있다면 기존 것은 삭제 (중복 방지)
+        if (currentSpreadObject != null)
         {
-            spreadRenderer.sprite = spreadSprites[index];
-            spreadRenderer.gameObject.SetActive(true);
+            Destroy(currentSpreadObject);
         }
-        Debug.Log($"스프레드 적용: {type}");
+
+        currentSpread = type;
+
+        // Enum 순서에 맞춰 프리팹 생성 (None이 0이므로 type-1)
+        int index = (int)type - 1;
+
+        if (index >= 0 && index < spreadPrefabs.Length)
+        {
+            // 1. 스프레드 프리팹 생성 (도우의 자식으로 넣으면 도우와 함께 움직입니다)
+            currentSpreadObject = Instantiate(spreadPrefabs[index], currentDough.transform);
+
+            // 2. 위치 및 크기 초기화
+            currentSpreadObject.transform.localPosition = new Vector3(0, 0, -0.01f); // 도우보다 살짝 앞
+            currentSpreadObject.transform.localScale = Vector3.one;
+
+            // 3. 레이어 설정 (도우보다 높고 토핑보다 낮게)
+            SpriteRenderer sr = currentSpreadObject.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.sortingOrder = 5;
+            }
+
+            // 4. 스패츌라로 바른 것이므로 클릭 방해 안 되게 콜라이더 제거
+            Collider2D col = currentSpreadObject.GetComponent<Collider2D>();
+            if (col != null) col.enabled = false;
+
+            Debug.Log($"스프레드 프리팹 적용 완료: {type}");
+        }
     }
 
     // 2. 토핑 얹기
@@ -59,13 +83,13 @@ public class CuttingBoard : MonoBehaviour
         int index = (int)type - 1;
         if (index >= 0 && index < toppingPrefabs.Length)
         {
-            GameObject visualTopping = Instantiate(toppingPrefabs[index], this.transform, false);
-
-            Vector3 spawnPos = (anchorPoint != null) ? anchorPoint.localPosition : Vector3.zero;
+            GameObject visualTopping = Instantiate(toppingPrefabs[index], toppingParent);
+            visualTopping.transform.localScale = new Vector3(0.35f, 0.7f, 0.6f);
+            //Vector3 spawnPos = Vector3.zero;
             visualTopping.transform.localPosition = new Vector3(
-                spawnPos.x + Random.Range(-0.2f, 0.2f),
-                spawnPos.y + Random.Range(-0.2f, 0.2f),
-                -0.2f
+                Random.Range(-0.2f, 0.2f),
+                Random.Range(-0.2f, 0.2f),
+                -1f
             );
 
             // 스크립트 및 콜라이더 비활성화
@@ -76,7 +100,7 @@ public class CuttingBoard : MonoBehaviour
             if (col != null) col.enabled = false;
 
             // 5. 레이어를 도우(5)보다 높게 설정 (코드로 강제 설정 가능)
-            //visualTopping.GetComponent<SpriteRenderer>().sortingOrder = 10;
+            visualTopping.GetComponent<SpriteRenderer>().sortingOrder = 10;
         }
         Debug.Log($"토핑 추가: {type}");
     }
