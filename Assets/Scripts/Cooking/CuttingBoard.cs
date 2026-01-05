@@ -75,33 +75,33 @@ public class CuttingBoard : MonoBehaviour
     // 2. 토핑 얹기
     public void AddTopping(ToppingType type)
     {
-        if (currentDough == null) return; // 도우가 없으면 못 얹음
-
+        if (currentDough == null) return;
         addedToppings.Add(type);
 
-        // 시각적 연출: 도우 위치에 토핑 프리팹 생성
         int index = (int)type - 1;
         if (index >= 0 && index < toppingPrefabs.Length)
         {
-            GameObject visualTopping = Instantiate(toppingPrefabs[index], toppingParent);
-            visualTopping.transform.localScale = new Vector3(0.35f, 0.7f, 0.6f);
-            //Vector3 spawnPos = Vector3.zero;
+            // [수정] 부모를 도마(toppingParent)가 아닌 도우(currentDough)로 설정합니다.
+            GameObject visualTopping = Instantiate(toppingPrefabs[index], currentDough.transform);
+
+            // 부모가 도우이므로 도우의 중심(0,0,0)을 기준으로 랜덤 위치 설정
             visualTopping.transform.localPosition = new Vector3(
-                Random.Range(-0.2f, 0.2f),
-                Random.Range(-0.2f, 0.2f),
-                -1f
+                Random.Range(-0.4f, 0.4f),
+                Random.Range(-0.4f, 0.4f),
+                -0.1f // 도우보다 앞, 스프레드(-0.01)보다도 앞
             );
 
-            // 스크립트 및 콜라이더 비활성화
-            IngredientDrag drag = visualTopping.GetComponent<IngredientDrag>();
-            if (drag != null) Destroy(drag);
+            visualTopping.transform.localScale = new Vector3(1.4f,1.4f,1.4f);
 
-            Collider2D col = visualTopping.GetComponent<Collider2D>();
-            if (col != null) col.enabled = false;
+            // 드래그 방해 요소 제거
+            Destroy(visualTopping.GetComponent<Collider2D>());
+            Destroy(visualTopping.GetComponent<IngredientDrag>());
 
-            // 5. 레이어를 도우(5)보다 높게 설정 (코드로 강제 설정 가능)
-            visualTopping.GetComponent<SpriteRenderer>().sortingOrder = 10;
+            // 레이어 설정
+            SpriteRenderer sr = visualTopping.GetComponent<SpriteRenderer>();
+            if (sr != null) sr.sortingOrder = 10;
+
+            Debug.Log($"토핑 {type}이 도우에 귀속되어 생성되었습니다.");
         }
-        Debug.Log($"토핑 추가: {type}");
     }
 }
