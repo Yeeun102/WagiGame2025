@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
 
         int money = economy.Money;
         int fame = 0; // 아직 FameManager 없으면 0
-        var ingredients = inventory.재고;
+        Dictionary<string, int> ingredients = inventory.inventory;
         string cookingState = "";
 
         hud.Refresh(money, fame, ingredients, cookingState);

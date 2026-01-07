@@ -7,15 +7,19 @@ public class RecipeData : ScriptableObject
     public string ID;
     public string 메뉴명;
 
-    [Header("조리 정보")]
-    public float 조리시간;
-    public int 가격;
+    [Header("기본 정보")]
+    public string recipeID;
+    public string recipeName;
 
-    [Header("필요 재료")]
-    public List<string> 필요한재료IDs;
+    [Header("조리")]
+    public float cookTime;
+    public int price;
 
-    [Header("기타")]
-    public int 평판보너스;
+    [Header("재료")]
+    public List<string> requiredItemIDs;
+
+    [Header("보상")]
+    public int fameBonus;
 }
 
 public enum FoodState

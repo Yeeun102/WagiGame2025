@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 540fefca990ebee479c386e3662eb2b5, type: 3}
-  m_Name: Crepe_Basic
+  m_Script: {fileID: 11500000, guid: 8a303d171e35c51449f80593e42eeef9, type: 3}
+  m_Name: Event_Police
   m_EditorClassIdentifier: 
-  ID: Crepe_Basic
-  "\uBA54\uB274\uBA85": Crepe_Basic
-  "\uC870\uB9AC\uC2DC\uAC04": 6
-  "\uAC00\uACA9": 1000
-  "\uD544\uC694\uD55C\uC7AC\uB8CCIDs": []
-  "\uD3C9\uD310\uBCF4\uB108\uC2A4": 0
+  ID: 
+  "\uD0C0\uC785": 0
+  "\uAE30\uBCF8\uD655\uB960": 0
+  "\uC124\uBA85": 
+  "\uBC8C\uAE08\uC561": 0
+  "\uD3C9\uD310\uBCC0\uD654": 0
+  "\uBCF4\uB108\uC2A4\uB9E4\uCD9C": 0
