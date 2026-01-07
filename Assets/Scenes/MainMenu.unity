@@ -355,10 +355,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1701509941185286673, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
+      propertyPath: customerPrefabs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109454677139601035, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
+      propertyPath: recipeList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109454677139601035, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
+      propertyPath: 'recipeList.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8b82c06351514334998e18cdacd6e459, type: 2}
+    - target: {fileID: 2109454677139601035, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
+      propertyPath: 'recipeList.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e68cc3000693cd840aa438fb0d12dc31, type: 2}
     - target: {fileID: 2863502756931711571, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 3978547725287816054, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
+      propertyPath: currentRegion
+      value: 
+      objectReference: {fileID: 11400000, guid: 1103d426ab60f424cb7b80d700bad6cd, type: 2}
     - target: {fileID: 6660539173408198330, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
