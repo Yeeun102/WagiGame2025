@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 9594b8f9ae3eed74589f2e5eaa5d0703
+guid: babf9b3e55064ff4bb3d3cd61fc1f423
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4608988584043512144
-    second: TimeBar_0
-  - first:
-      213: 8960935546862106139
-    second: TimeBar_1
+      213: 379815154239844978
+    second: Nutella_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TimeBar_0
+      name: Nutella_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 19
-        width: 67
-        height: 397
+        x: 49
+        y: 29
+        width: 137
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,30 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0be71426d459900c0800000000000000
-      internalID: -4608988584043512144
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: TimeBar_1
-      rect:
-        serializedVersion: 2
-        x: 109
-        y: 74
-        width: 37
-        height: 322
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b16f2ed1763ab5c70800000000000000
-      internalID: 8960935546862106139
+      spriteID: 272b6c4dedf554500800000000000000
+      internalID: 379815154239844978
       vertices: []
       indices: 
       edges: []
@@ -173,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      TimeBar_0: -4608988584043512144
-      TimeBar_1: 8960935546862106139
+      Nutella_0: 379815154239844978
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
