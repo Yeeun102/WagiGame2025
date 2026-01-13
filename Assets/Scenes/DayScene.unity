@@ -362,6 +362,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredientPrefab: {fileID: 8426604763185070734, guid: a563db1cec7cd8a45b1955721b8e8ac2, type: 3}
+--- !u!1 &87414710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 87414711}
+  - component: {fileID: 87414712}
+  m_Layer: 5
+  m_Name: HUD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &87414711
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87414710}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1671076363}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &87414712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87414710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee5b53bb495a5c41b7b8d25c34b0316, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  money: {fileID: 0}
+  fame: {fileID: 0}
+  ingredientPanel: {fileID: 0}
+  ingredientSlotPrefab: {fileID: 2489690554385113346, guid: ff66a054db4e0aa418a080a1d22a2bdd, type: 3}
+  cookingState: {fileID: 0}
+  itemDataList: []
 --- !u!1 &91764906
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,6 +2336,7 @@ GameObject:
   - component: {fileID: 1671076366}
   - component: {fileID: 1671076365}
   - component: {fileID: 1671076364}
+  - component: {fileID: 1671076367}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2314,6 +2369,7 @@ RectTransform:
   - {fileID: 1253644624}
   - {fileID: 2069373843}
   - {fileID: 1739704145}
+  - {fileID: 87414711}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2384,6 +2440,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1671076367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671076362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4edf37959a446c449a59fd879ea2dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hud: {fileID: 0}
+  popupPanel: {fileID: 0}
+  popupMessage: {fileID: 0}
+  popupCloseButton: {fileID: 0}
 --- !u!1 &1678761536
 GameObject:
   m_ObjectHideFlags: 0
