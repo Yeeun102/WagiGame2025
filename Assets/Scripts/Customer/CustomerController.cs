@@ -7,9 +7,27 @@ public class CustomerController : MonoBehaviour
     public CustomerState State;
 
     [Header("주문 정보")]
-    public List<string> customerOrder = new List<string>(); // 손님이 원하는 토핑 리스트
+    public ToppingType orderedTopping; // 딱 하나만!
+    public SpreadType orderedSpread;   // 딱 하나만!
+
     public float moveSpeed = 3f;
     private Vector3 targetPosition;
+
+    [Header("만족도 설정")]
+    public float maxWaitTime = 20f; // 최대 대기 시간
+    private float currentWaitTime;
+    private PatienceGauge patienceGauge;
+    private bool isWaiting = false;
+
+    private void Start()
+    {
+        patienceGauge = GetComponentInChildren<PatienceGauge>();
+        currentWaitTime = maxWaitTime;
+        if (patienceGauge != null)
+        {
+            patienceGauge.gameObject.SetActive(false); // 처음엔 숨김
+        }
+    }
 
     public void Enter(Vector3 target)
     {
@@ -33,68 +51,128 @@ public class CustomerController : MonoBehaviour
     {
         State = CustomerState.Order;
 
-        // 랜덤 주문 생성 (예: 딸기, 바나나 중 1~2개 선택)
-        string[] possibleToppings = { "Strawberry", "Banana", "Chocolate" };
-        int count = Random.Range(1, 3);
-        for (int i = 0; i < count; i++)
-        {
-            customerOrder.Add(possibleToppings[Random.Range(0, possibleToppings.Length)]);
-        }
+        // 1. 스프레드 랜덤 결정 (None 제외)
+        // System.Enum.GetValues를 이용해 Enum 중 하나를 무작위로 뽑습니다.
+        int spreadCount = System.Enum.GetValues(typeof(SpreadType)).Length;
+        orderedSpread = (SpreadType)Random.Range(1, spreadCount);
 
-        Debug.Log(gameObject.name + " 주문 생성: " + string.Join(", ", customerOrder));
+        // 2. 토핑 랜덤 결정 (None 제외)
+        int toppingCount = System.Enum.GetValues(typeof(ToppingType)).Length;
+        orderedTopping = (ToppingType)Random.Range(1, toppingCount);
+
+        Debug.Log($"{gameObject.name} 주문: [{orderedSpread}]와 [{orderedTopping}] 크레페 주세요!");
+
         Waiting();
     }
 
     public void Waiting()
     {
         State = CustomerState.Waiting;
-        // TODO: 만족도 감소 처리
+        isWaiting = true;
+        if (patienceGauge != null)
+        {
+            patienceGauge.gameObject.SetActive(true);
+            // 게이지를 꽉 찬 상태(1.0)로 초기화해서 보여줍니다.
+            patienceGauge.UpdateGauge(1f);
+        }
+
+    }
+
+    void Update()
+    {
+        if (isWaiting && State == CustomerState.Waiting)
+        {
+            currentWaitTime -= Time.deltaTime;
+            float fillAmount = currentWaitTime / maxWaitTime;
+
+            // 게이지 업데이트
+            if (patienceGauge != null)
+                patienceGauge.UpdateGauge(fillAmount);
+
+            // 시간이 다 되면 화내며 퇴장
+            if (currentWaitTime <= 0)
+            {
+                isWaiting = false;
+                Debug.Log("너무 오래 기다렸어요! 손님이 그냥 나갑니다.");
+                // CustomerManager의 스폰 지점으로 퇴장
+                Leave(CustomerManager.Instance.spawnPoint.position);
+            }
+        }
     }
 
     // 조리된 음식을 받았을 때 호출할 함수
-    public bool ReceiveFood(List<string> deliveredToppings, FoodState cookedState)
+    public bool ReceiveFood(List<ToppingType> deliveredToppings, SpreadType spread, FoodState cookedState)
     {
         if (State != CustomerState.Waiting) return false;
 
-        // 1. 토핑이 맞는지 확인
-        bool isMatch = CheckOrderMatch(deliveredToppings);
-
-        // 2. 익힘 상태에 따라 돈 계산 등 추가 로직 가능
-        if (isMatch)
+        if (cookedState==FoodState.Burnt)
         {
-            Debug.Log("주문 일치! 감사합니다.");
+            Debug.Log("탄음식을 서빙했습니다");
+            return false;
+        }
+
+        // 1. 토핑이 맞는지 확인
+        bool isSpreadCorrect = (spread == orderedSpread);
+        bool isToppingCorrect = (deliveredToppings.Count == 3);
+        if (isToppingCorrect)
+        {
+            foreach (ToppingType t in deliveredToppings)
+            {
+                if (t != orderedTopping)
+                {
+                    isToppingCorrect = false; // 하나라도 다르면 실패
+                    break;
+                }
+            }
+        }
+
+
+        if (isSpreadCorrect && isToppingCorrect && cookedState==FoodState.Perfect)
+        {
+            Debug.Log("완벽한 주문");
             Served();
-            Leave();
             return true;
         }
         else
         {
-            Debug.Log("주문이 틀렸어요!");
+            Debug.Log("뭔가 부족함");
             return false;
         }
     }
 
-    private bool CheckOrderMatch(List<string> deliveredToppings)
+
+
+    public void Served()
     {
-        if (customerOrder.Count != deliveredToppings.Count) return false;
-
-        // 리스트 정렬 후 비교 (순서 상관 없이 내용물만 같으면 될 경우)
-        customerOrder.Sort();
-        deliveredToppings.Sort();
-
-        for (int i = 0; i < customerOrder.Count; i++)
-        {
-            if (customerOrder[i] != deliveredToppings[i]) return false;
-        }
-        return true;
+        State = CustomerState.Served;
+        isWaiting = false;
+        if (patienceGauge != null) patienceGauge.gameObject.SetActive(false);
     }
 
-    public void Served() => State = CustomerState.Served;
-
-    public void Leave()
+    public void Leave(Vector3 exitTarget)
     {
+        if (State == CustomerState.Leave) return;
         State = CustomerState.Leave;
-        // 나중에 퇴장 애니메이션 추가 가능
+        targetPosition = exitTarget;
+        isWaiting = false;
+        if (patienceGauge != null)
+        {
+            patienceGauge.gameObject.SetActive(false);
+        }
+
+        StopAllCoroutines();
+        StartCoroutine(MoveToExit());
+    }
+
+    private System.Collections.IEnumerator MoveToExit()
+    {
+        
+        while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+
         Destroy(gameObject);
     }
 

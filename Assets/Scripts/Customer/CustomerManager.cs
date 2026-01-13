@@ -10,7 +10,8 @@ public class CustomerManager : MonoBehaviour
     public GameObject[] customerPrefabs; // 여러 종류의 손님 프리팹
     public Transform spawnPoint;         // 손님이 나타날 위치
     public Transform orderPoint;         // 손님이 주문하러 서는 위치 (카운터 앞)
-    public float spawnInterval = 10f;    // 손님 생성 간격
+    public Transform exitPoint;
+    public float spawnInterval = 20f;    // 손님 생성 간격
 
     private void Awake()
     {

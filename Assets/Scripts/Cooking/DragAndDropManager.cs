@@ -113,7 +113,13 @@ public class DragAndDropManager : MonoBehaviour
                 DeliverToCustomer(hit.gameObject);
                 return true;
             }
-            
+
+            if (hit.CompareTag("TrashCan"))
+            {
+                DiscardDish();
+                return true;
+            }
+
         }
         return false;
     }
@@ -121,12 +127,37 @@ public class DragAndDropManager : MonoBehaviour
 
     private void DeliverToCustomer(GameObject customer)
     {
-        // 도마에 있는 토핑 리스트 등을 가져와서 최종 점수 계산 가능
-        Debug.Log("손님에게 배달! 상태: " + this.currentFoodState);
+        CustomerController cc = customer.GetComponent<CustomerController>();
+        if (cc != null)
+        {
+            CuttingBoard board = Object.FindAnyObjectByType<CuttingBoard>();
+            if (board != null)
+            {
+                // 수정된 매개변수: (토핑 리스트, 스프레드 타입, 조리 상태)
+                bool success = cc.ReceiveFood(board.addedToppings, board.currentSpread, this.currentFoodState);
 
-        // 돈 계산 로직 (예시)
-        // EconomyManager.Instance.AddMoney(currentFoodState, addedToppings);
+                DiscardDish();
 
-        Destroy(gameObject); // 배달 완료 후 파괴
+                // 결과에 따른 피드백 (성공/실패 로그는 CustomerController에서 출력됨)
+                // 퇴장 처리 (CustomerManager에 exitPoint가 있는지 확인하세요!)
+                Vector3 exitPos = CustomerManager.Instance.exitPoint.position;
+                cc.Leave(exitPos);
+            }
+        }
+
+    }
+
+    private void DiscardDish()
+    {
+        CuttingBoard board = GetComponentInParent<CuttingBoard>();
+        if (board != null)
+        {
+            board.ClearBoard(); // 도마 비우기 (이 안에서 Destroy(gameObject)가 호출됨)
+        }
+        else
+        {
+            // 도마 위에 있지 않은 상태(예: 팬에서 바로 버릴 때)라면 자기 자신만 파괴
+            Destroy(gameObject);
+        }
     }
 }

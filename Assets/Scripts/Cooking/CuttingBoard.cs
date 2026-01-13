@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public class CuttingBoard : MonoBehaviour
 {
@@ -14,10 +15,21 @@ public class CuttingBoard : MonoBehaviour
     public Transform toppingParent; // 토핑들이 생성될 부모 오브젝트
     public GameObject[] toppingPrefabs;
 
-    //public List<string> addedToppings = new List<string>();
 
     public List<ToppingType> addedToppings = new List<ToppingType>();
     public SpreadType currentSpread = SpreadType.None;
+
+    public Sprite[] finishedCrepeSprites;
+    public int completionToppingCount = 3;
+
+    [Header("토핑 배치 설정")]
+    // 토핑 4개가 놓일 고정 좌표 (도우 중심 기준)
+    private Vector3[] toppingPositions = new Vector3[]
+{
+    new Vector3(-0.6f,  0.6f, -0.1f), // 1번째: 왼쪽 위
+    new Vector3( 0f, 0.6f, -0.1f),
+    new Vector3( 0.6f,  0.6f, -0.1f) // 3번째: 오른쪽 위
+};
 
     public void PlaceDough(DragAndDropManager dough)
     {
@@ -36,6 +48,7 @@ public class CuttingBoard : MonoBehaviour
     public void ApplySpread(SpreadType type)
     {
         if (currentDough == null) return; // 도우가 없으면 못 바름
+        if (IsFinished()) return;
 
         // 이미 스프레드가 발라져 있다면 기존 것은 삭제 (중복 방지)
         if (currentSpreadObject != null)
@@ -70,12 +83,18 @@ public class CuttingBoard : MonoBehaviour
 
             Debug.Log($"스프레드 프리팹 적용 완료: {type}");
         }
+        CheckCompletion();
     }
 
     // 2. 토핑 얹기
     public void AddTopping(ToppingType type)
     {
         if (currentDough == null) return;
+
+        if (IsFinished()) return;
+
+        if (addedToppings.Count >= completionToppingCount) return;
+
         addedToppings.Add(type);
 
         int index = (int)type - 1;
@@ -84,12 +103,11 @@ public class CuttingBoard : MonoBehaviour
             // [수정] 부모를 도마(toppingParent)가 아닌 도우(currentDough)로 설정합니다.
             GameObject visualTopping = Instantiate(toppingPrefabs[index], currentDough.transform);
 
-            // 부모가 도우이므로 도우의 중심(0,0,0)을 기준으로 랜덤 위치 설정
-            visualTopping.transform.localPosition = new Vector3(
-                Random.Range(-0.4f, 0.4f),
-                Random.Range(-0.4f, 0.4f),
-                -0.1f // 도우보다 앞, 스프레드(-0.01)보다도 앞
-            );
+            int posIndex = addedToppings.Count - 1;
+            if (posIndex < toppingPositions.Length)
+            {
+                visualTopping.transform.localPosition = toppingPositions[posIndex];
+            }
 
             visualTopping.transform.localScale = new Vector3(1.4f,1.4f,1.4f);
 
@@ -101,7 +119,78 @@ public class CuttingBoard : MonoBehaviour
             SpriteRenderer sr = visualTopping.GetComponent<SpriteRenderer>();
             if (sr != null) sr.sortingOrder = 10;
 
-            Debug.Log($"토핑 {type}이 도우에 귀속되어 생성되었습니다.");
+            CheckCompletion();
         }
+    }
+
+    private void CheckCompletion()
+    {
+        // 조건: 스프레드가 발려 있고 && 토핑이 3개이며 && 모든 토핑이 같은 종류일 때
+        if (currentSpread != SpreadType.None &&
+            addedToppings.Count == completionToppingCount &&
+            CheckIfAllToppingsSame())
+        {
+            FinishCrepe(addedToppings[0]);
+        }
+    }
+
+    // 이미 완성되었는지 확인하는 도우미 함수
+    private bool IsFinished()
+    {
+        // 토핑 3개와 스프레드가 모두 있으면 이미 완성된 것으로 간주
+        return currentSpread != SpreadType.None && addedToppings.Count >= completionToppingCount;
+    }
+    private bool CheckIfAllToppingsSame()
+    {
+        if (addedToppings.Count == 0) return false;
+
+        ToppingType firstTopping = addedToppings[0];
+        foreach (ToppingType t in addedToppings)
+        {
+            if (t != firstTopping) return false;
+        }
+        return true;
+    }
+    private void FinishCrepe(ToppingType finalToppingType)
+    {
+        // 1. 도우의 SpriteRenderer를 가져와서 완성된 이미지로 교체
+        SpriteRenderer doughSR = currentDough.GetComponent<SpriteRenderer>();
+        int spriteIndex = (int)finalToppingType - 1;
+        Vector3 finishedScale = new Vector3(0.42f, 0.72f, 0.6f);
+ 
+
+        if (doughSR != null && spriteIndex >= 0 && spriteIndex < finishedCrepeSprites.Length)
+        {
+            // 1. 이미지 교체
+            currentDough.transform.localScale = finishedScale;
+            doughSR.sprite = finishedCrepeSprites[spriteIndex];
+
+            // 2. 기존 개별 토핑/스프레드 숨기기
+            foreach (Transform child in currentDough.transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+
+            // 3. [피드백] 완성 효과 (선택 사항)
+            Debug.Log($"{finalToppingType} 크레페 완성!");
+            // 여기에 반짝이는 이펙트나 소리를 추가하면 좋습니다.
+        }
+    }
+
+    public void ClearBoard()
+    {
+        // 1. 도마 위에 등록된 도우 데이터 제거
+        if (currentDough != null)
+        {
+            // 도우 오브젝트 자체를 파괴 (자식인 토핑, 스프레드도 함께 삭제됨)
+            Destroy(currentDough.gameObject);
+            currentDough = null;
+        }
+
+        // 2. 기록된 레시피 정보 초기화
+        currentSpread = SpreadType.None;
+        addedToppings.Clear();
+
+        Debug.Log("도마가 완전히 비워졌습니다. 다음 요리 준비 완료!");
     }
 }
