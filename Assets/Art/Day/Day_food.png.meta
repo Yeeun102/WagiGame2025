@@ -1,73 +1,75 @@
 fileFormatVersion: 2
-guid: 9971a87131789ce4ab4934f9eab2fce6
+
+guid: ce28f3ca79fe0d54b9e1419e43e4c600
+
 TextureImporter:
   internalIDToNameTable:
-  - first:
-      213: -2828792945217695351
-    second: Day_food_0
-  - first:
-      213: 6106567065526346979
-    second: Day_food_1
-  - first:
-      213: 1245129265412248803
-    second: Day_food_2
-  - first:
-      213: 2847255297579613229
-    second: Day_food_3
-  - first:
-      213: 399579892569031191
-    second: Day_food_4
-  - first:
-      213: -5828139135896742590
-    second: Day_food_5
-  - first:
-      213: -2178982798228782541
-    second: Day_food_6
-  - first:
-      213: -3990588580646719722
-    second: Day_food_7
-  - first:
-      213: -1336385014195167563
-    second: Day_food_8
-  - first:
-      213: -5363479308401653695
-    second: Day_food_9
-  - first:
-      213: 8420933850113433503
-    second: Day_food_10
-  - first:
-      213: -7923055391030566977
-    second: Day_food_11
-  - first:
-      213: 2345954998195044873
-    second: Day_food_12
-  - first:
-      213: -6693360482821228930
-    second: Day_food_13
-  - first:
-      213: 6463896382238754442
-    second: Day_food_14
-  - first:
-      213: 1664068494640126421
-    second: Day_food_15
-  - first:
-      213: 589876698931531965
-    second: Day_food_16
-  - first:
-      213: 3209923347518327392
-    second: Day_food_17
-  - first:
-      213: -6159778269886507304
-    second: Day_food_18
-  - first:
-      213: 2588046282868343707
-    second: Day_food_19
-  - first:
-      213: -1890793020933605702
-    second: Day_food_20
-  - first:
-      213: 1201969227005914378
-    second: Day_food_21
+    - first:
+        213: -2828792945217695351
+      second: Day_food_0
+    - first:
+        213: 6106567065526346979
+      second: Day_food_1
+    - first:
+        213: 1245129265412248803
+      second: Day_food_2
+    - first:
+        213: 2847255297579613229
+      second: Day_food_3
+    - first:
+        213: 399579892569031191
+      second: Day_food_4
+    - first:
+        213: -5828139135896742590
+      second: Day_food_5
+    - first:
+        213: -2178982798228782541
+      second: Day_food_6
+    - first:
+        213: -3990588580646719722
+      second: Day_food_7
+    - first:
+        213: -1336385014195167563
+      second: Day_food_8
+    - first:
+        213: -5363479308401653695
+      second: Day_food_9
+    - first:
+        213: 8420933850113433503
+      second: Day_food_10
+    - first:
+        213: -7923055391030566977
+      second: Day_food_11
+    - first:
+        213: 2345954998195044873
+      second: Day_food_12
+    - first:
+        213: -6693360482821228930
+      second: Day_food_13
+    - first:
+        213: 6463896382238754442
+      second: Day_food_14
+    - first:
+        213: 1664068494640126421
+      second: Day_food_15
+    - first:
+        213: 589876698931531965
+      second: Day_food_16
+    - first:
+        213: 3209923347518327392
+      second: Day_food_17
+    - first:
+        213: -6159778269886507304
+      second: Day_food_18
+    - first:
+        213: 2588046282868343707
+      second: Day_food_19
+    - first:
+        213: -1890793020933605702
+      second: Day_food_20
+    - first:
+        213: 1201969227005914378
+      second: Day_food_21
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +102,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,9 +115,9 @@ TextureImporter:
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  spritePivot: { x: 0.5, y: 0.5 }
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: { x: 0, y: 0, z: 0, w: 0 }
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -133,527 +135,540 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 0
   platformSettings:
-  - serializedVersion: 4
-    buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 4
+      buildTarget: DefaultTexturePlatform
+      maxTextureSize: 2048
+      resizeAlgorithm: 0
+      textureFormat: -1
+      textureCompression: 0
+      compressionQuality: 50
+      crunchedCompression: 0
+      allowsAlphaSplitting: 0
+      overridden: 0
+      ignorePlatformSupport: 0
+      androidETC2FallbackOverride: 0
+      forceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 4
+      buildTarget: Standalone
+      maxTextureSize: 2048
+      resizeAlgorithm: 0
+      textureFormat: -1
+      textureCompression: 1
+      compressionQuality: 50
+      crunchedCompression: 0
+      allowsAlphaSplitting: 0
+      overridden: 0
+      ignorePlatformSupport: 0
+      androidETC2FallbackOverride: 0
+      forceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 4
+      buildTarget: Android
+      maxTextureSize: 2048
+      resizeAlgorithm: 0
+      textureFormat: -1
+      textureCompression: 1
+      compressionQuality: 50
+      crunchedCompression: 0
+      allowsAlphaSplitting: 0
+      overridden: 0
+      ignorePlatformSupport: 0
+      androidETC2FallbackOverride: 0
+      forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
-    - serializedVersion: 2
-      name: Day_food_0
-      rect:
-        serializedVersion: 2
-        x: 59
-        y: 529
-        width: 122
-        height: 127
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9811b2dcdcb1eb8d0800000000000000
-      internalID: -2828792945217695351
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_1
-      rect:
-        serializedVersion: 2
-        x: 299
-        y: 529
-        width: 122
-        height: 127
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3e42cc16462eeb450800000000000000
-      internalID: 6106567065526346979
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_2
-      rect:
-        serializedVersion: 2
-        x: 539
-        y: 529
-        width: 122
-        height: 132
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3e4175c4876974110800000000000000
-      internalID: 1245129265412248803
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_3
-      rect:
-        serializedVersion: 2
-        x: 779
-        y: 529
-        width: 122
-        height: 127
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d2cf4159b9b738720800000000000000
-      internalID: 2847255297579613229
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_4
-      rect:
-        serializedVersion: 2
-        x: 1004
-        y: 614
-        width: 62
-        height: 47
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 71247f39bc79b8500800000000000000
-      internalID: 399579892569031191
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_5
-      rect:
-        serializedVersion: 2
-        x: 1104
-        y: 604
-        width: 52
-        height: 62
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 245925fa55a4e1fa0800000000000000
-      internalID: -5828139135896742590
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_6
-      rect:
-        serializedVersion: 2
-        x: 1009
-        y: 539
-        width: 52
-        height: 37
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 33203e390b2b2c1e0800000000000000
-      internalID: -2178982798228782541
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_7
-      rect:
-        serializedVersion: 2
-        x: 1099
-        y: 524
-        width: 52
-        height: 52
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 61f62d534d49e98c0800000000000000
-      internalID: -3990588580646719722
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_8
-      rect:
-        serializedVersion: 2
-        x: 29
-        y: 304
-        width: 182
-        height: 97
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5beddb9f8e4347de0800000000000000
-      internalID: -1336385014195167563
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_9
-      rect:
-        serializedVersion: 2
-        x: 269
-        y: 304
-        width: 182
-        height: 97
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 148cf866cf71195b0800000000000000
-      internalID: -5363479308401653695
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_10
-      rect:
-        serializedVersion: 2
-        x: 499
-        y: 304
-        width: 202
-        height: 97
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f9fd21d78ba2dd470800000000000000
-      internalID: 8420933850113433503
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_11
-      rect:
-        serializedVersion: 2
-        x: 749
-        y: 294
-        width: 182
-        height: 117
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fbf11e99917ab0290800000000000000
-      internalID: -7923055391030566977
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_12
-      rect:
-        serializedVersion: 2
-        x: 989
-        y: 294
-        width: 182
-        height: 117
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 902c77634a18e8020800000000000000
-      internalID: 2345954998195044873
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_13
-      rect:
-        serializedVersion: 2
-        x: 1214
-        y: 294
-        width: 217
-        height: 117
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e76bdc39a186c13a0800000000000000
-      internalID: -6693360482821228930
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_14
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 29
-        width: 137
-        height: 167
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a860640338f54b950800000000000000
-      internalID: 6463896382238754442
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_15
-      rect:
-        serializedVersion: 2
-        x: 264
-        y: 29
-        width: 192
-        height: 172
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5d991f0ba75f71710800000000000000
-      internalID: 1664068494640126421
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_16
-      rect:
-        serializedVersion: 2
-        x: 494
-        y: 24
-        width: 47
-        height: 167
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: db0181d7bb9af2800800000000000000
-      internalID: 589876698931531965
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_17
-      rect:
-        serializedVersion: 2
-        x: 579
-        y: 24
-        width: 52
-        height: 187
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 06a00151740fb8c20800000000000000
-      internalID: 3209923347518327392
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_18
-      rect:
-        serializedVersion: 2
-        x: 664
-        y: 24
-        width: 42
-        height: 172
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8d69e38ac42148aa0800000000000000
-      internalID: -6159778269886507304
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_19
-      rect:
-        serializedVersion: 2
-        x: 799
-        y: 44
-        width: 82
-        height: 152
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b9343a8d1669ae320800000000000000
-      internalID: 2588046282868343707
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_20
-      rect:
-        serializedVersion: 2
-        x: 1004
-        y: 29
-        width: 147
-        height: 172
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ab6f67be3cd82c5e0800000000000000
-      internalID: -1890793020933605702
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Day_food_21
-      rect:
-        serializedVersion: 2
-        x: 1234
-        y: 44
-        width: 177
-        height: 162
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a0d63a6c4a04ea010800000000000000
-      internalID: 1201969227005914378
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+      - serializedVersion: 2
+        name: Day_food_0
+        rect:
+          serializedVersion: 2
+          x: 59
+          y: 529
+          width: 122
+          height: 127
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 9811b2dcdcb1eb8d0800000000000000
+        internalID: -2828792945217695351
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_1
+        rect:
+          serializedVersion: 2
+          x: 299
+          y: 529
+          width: 122
+          height: 127
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 3e42cc16462eeb450800000000000000
+        internalID: 6106567065526346979
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_2
+        rect:
+          serializedVersion: 2
+          x: 539
+          y: 529
+          width: 122
+          height: 132
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 3e4175c4876974110800000000000000
+        internalID: 1245129265412248803
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_3
+        rect:
+          serializedVersion: 2
+          x: 779
+          y: 529
+          width: 122
+          height: 127
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: d2cf4159b9b738720800000000000000
+        internalID: 2847255297579613229
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_4
+        rect:
+          serializedVersion: 2
+          x: 1004
+          y: 614
+          width: 62
+          height: 47
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 71247f39bc79b8500800000000000000
+        internalID: 399579892569031191
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_5
+        rect:
+          serializedVersion: 2
+          x: 1104
+          y: 604
+          width: 52
+          height: 62
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 245925fa55a4e1fa0800000000000000
+        internalID: -5828139135896742590
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_6
+        rect:
+          serializedVersion: 2
+          x: 1009
+          y: 539
+          width: 52
+          height: 37
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 33203e390b2b2c1e0800000000000000
+        internalID: -2178982798228782541
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_7
+        rect:
+          serializedVersion: 2
+          x: 1099
+          y: 524
+          width: 52
+          height: 52
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 61f62d534d49e98c0800000000000000
+        internalID: -3990588580646719722
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_8
+        rect:
+          serializedVersion: 2
+          x: 29
+          y: 304
+          width: 182
+          height: 97
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 5beddb9f8e4347de0800000000000000
+        internalID: -1336385014195167563
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_9
+        rect:
+          serializedVersion: 2
+          x: 269
+          y: 304
+          width: 182
+          height: 97
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 148cf866cf71195b0800000000000000
+        internalID: -5363479308401653695
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_10
+        rect:
+          serializedVersion: 2
+          x: 499
+          y: 304
+          width: 202
+          height: 97
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: f9fd21d78ba2dd470800000000000000
+        internalID: 8420933850113433503
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_11
+        rect:
+          serializedVersion: 2
+          x: 749
+          y: 294
+          width: 182
+          height: 117
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: fbf11e99917ab0290800000000000000
+        internalID: -7923055391030566977
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_12
+        rect:
+          serializedVersion: 2
+          x: 989
+          y: 294
+          width: 182
+          height: 117
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 902c77634a18e8020800000000000000
+        internalID: 2345954998195044873
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_13
+        rect:
+          serializedVersion: 2
+          x: 1214
+          y: 294
+          width: 217
+          height: 117
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: e76bdc39a186c13a0800000000000000
+        internalID: -6693360482821228930
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_14
+        rect:
+          serializedVersion: 2
+          x: 49
+          y: 29
+          width: 137
+          height: 167
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: a860640338f54b950800000000000000
+        internalID: 6463896382238754442
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_15
+        rect:
+          serializedVersion: 2
+          x: 264
+          y: 29
+          width: 192
+          height: 172
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 5d991f0ba75f71710800000000000000
+        internalID: 1664068494640126421
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_16
+        rect:
+          serializedVersion: 2
+          x: 494
+          y: 24
+          width: 47
+          height: 167
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: db0181d7bb9af2800800000000000000
+        internalID: 589876698931531965
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_17
+        rect:
+          serializedVersion: 2
+          x: 579
+          y: 24
+          width: 52
+          height: 187
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 06a00151740fb8c20800000000000000
+        internalID: 3209923347518327392
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_18
+        rect:
+          serializedVersion: 2
+          x: 664
+          y: 24
+          width: 42
+          height: 172
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: 8d69e38ac42148aa0800000000000000
+        internalID: -6159778269886507304
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_19
+        rect:
+          serializedVersion: 2
+          x: 799
+          y: 44
+          width: 82
+          height: 152
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: b9343a8d1669ae320800000000000000
+        internalID: 2588046282868343707
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_20
+        rect:
+          serializedVersion: 2
+          x: 1004
+          y: 29
+          width: 147
+          height: 172
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: ab6f67be3cd82c5e0800000000000000
+        internalID: -1890793020933605702
+        vertices: []
+        indices:
+        edges: []
+        weights: []
+      - serializedVersion: 2
+        name: Day_food_21
+        rect:
+          serializedVersion: 2
+          x: 1234
+          y: 44
+          width: 177
+          height: 162
+        alignment: 0
+        pivot: { x: 0, y: 0 }
+        border: { x: 0, y: 0, z: 0, w: 0 }
+        customData:
+        outline: []
+        physicsShape: []
+        tessellationDetail: -1
+        bones: []
+        spriteID: a0d63a6c4a04ea010800000000000000
+        internalID: 1201969227005914378
+        vertices: []
+        indices:
+        edges: []
+        weights: []
     outline: []
-    customData: 
+    customData:
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID:
     internalID: 0
     vertices: []
-    indices: 
+    indices:
     edges: []
     weights: []
     secondaryTextures: []
@@ -682,8 +697,8 @@ TextureImporter:
       Day_food_7: -3990588580646719722
       Day_food_8: -1336385014195167563
       Day_food_9: -5363479308401653695
-  mipmapLimitGroupName: 
+  mipmapLimitGroupName:
   pSDRemoveMatte: 0
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+  userData:
+  assetBundleName:
+  assetBundleVariant:
