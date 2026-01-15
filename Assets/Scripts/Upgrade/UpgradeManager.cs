@@ -27,7 +27,7 @@ public class UpgradeManager : MonoBehaviour
             !ownedUpgradeIDs.Contains(data.선행업그레이드ID))
             return false;
 
-        if (GameStateManager.Instance.economyManager.Money < data.비용)
+        if (GameStateManager.Instance.economyManager.GetCurrentMoney() < data.비용)
             return false;
 
         // 평판 조건 (나중에 FameManager 붙이면 됨)
@@ -46,7 +46,7 @@ public class UpgradeManager : MonoBehaviour
         }
 
         // 돈 차감
-        GameStateManager.Instance.economyManager.TrySpend(data.비용);
+        GameStateManager.Instance.economyManager.TrySpendMoney(data.비용);
 
         // 보유 처리
         ownedUpgradeIDs.Add(data.ID);
