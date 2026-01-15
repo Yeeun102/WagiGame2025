@@ -5,7 +5,11 @@ public class UpgradeManager : MonoBehaviour
 {
     public static UpgradeManager Instance;
 
-    public List<string> OwnedUpgrades = new();
+    [Header("º¸À¯ ¾÷±×·¹ÀÌµå")]
+    public List<string> ownedUpgradeIDs = new();
+
+    [Header("ÀüÃ¼ ¾÷±×·¹ÀÌµå DB")]
+    public List<UpgradeData> allUpgrades;
 
     private void Awake()
     {
@@ -13,9 +17,79 @@ public class UpgradeManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void ApplyUpgrade(string upgradeID)
+    // ±¸¸Å °¡´É ¿©ºÎ Ã¼Å©
+    public bool CanBuy(UpgradeData data)
     {
-        OwnedUpgrades.Add(upgradeID);
-        // TODO: ì—…ê·¸ë ˆì´ë“œ íš¨ê³¼ ì ìš©
+
+        if (ownedUpgradeIDs.Contains(data.ID))
+            return false;
+
+        if (!string.IsNullOrEmpty(data.¼±Çà¾÷±×·¹ÀÌµåID) &&
+            !ownedUpgradeIDs.Contains(data.¼±Çà¾÷±×·¹ÀÌµåID))
+            return false;
+
+        if (GameStateManager.Instance.economyManager.Money < data.ºñ¿ë)
+            return false;
+
+        // ÆòÆÇ Á¶°Ç (³ªÁß¿¡ FameManager ºÙÀÌ¸é µÊ)
+        // if (GameStateManager.Instance.fame < data.ÇÊ¿äÆòÆÇ) return false;
+
+        return true;
+    }
+
+    // ¾÷±×·¹ÀÌµå ±¸¸Å
+    public void BuyUpgrade(UpgradeData data)
+    {
+        if (!CanBuy(data))
+        {
+            Debug.Log("¾÷±×·¹ÀÌµå ±¸¸Å ºÒ°¡: " + data.ID);
+            return;
+        }
+
+        // µ· Â÷°¨
+        GameStateManager.Instance.economyManager.TrySpend(data.ºñ¿ë);
+
+        // º¸À¯ Ã³¸®
+        ownedUpgradeIDs.Add(data.ID);
+
+        // È¿°ú Àû¿ë
+        ApplyUpgradeEffect(data);
+
+        Debug.Log("¾÷±×·¹ÀÌµå ±¸¸Å: " + data.¾÷±×·¹ÀÌµå¸í);
+    }
+
+    // ½ÇÁ¦ È¿°ú Àû¿ë (¿©±â¼­¸¸ GameState °Çµå¸²)
+    void ApplyUpgradeEffect(UpgradeData data)
+    {
+        // Àç°í
+        if (data.ÃÖ´ëÀç°íÁõ°¡ > 0)
+        {
+            // InventorySystem¿¡ ³ªÁß¿¡ MaxCapacity º¯¼ö ºÙÀÌ¸é µÊ
+            Debug.Log("Àç°í Áõ°¡ +" + data.ÃÖ´ëÀç°íÁõ°¡);
+        }
+
+        // Á¶¸® °ü·Ã
+        if (data.Á¶¸®´ëÁõ°¡ > 0)
+        {
+            Debug.Log("Á¶¸®´ë +" + data.Á¶¸®´ëÁõ°¡);
+        }
+
+        if (data.Á¶¸®¼ÓµµÁõ°¡ÆÛ¼¾Æ® > 0)
+        {
+            Debug.Log("Á¶¸® ¼Óµµ +" + data.Á¶¸®¼ÓµµÁõ°¡ÆÛ¼¾Æ®);
+        }
+
+        // Á÷¿ø
+        if (data.Á÷¿ø¼öÁõ°¡ > 0)
+        {
+            Debug.Log("Á÷¿ø ¼ö +" + data.Á÷¿ø¼öÁõ°¡);
+        }
+
+        // ¸¸Á·µµ
+        if (data.±âº»¸¸Á·µµº¸Á¤ > 0)
+        {
+            Debug.Log("±âº» ¸¸Á·µµ +" + data.±âº»¸¸Á·µµº¸Á¤);
+        }
+
     }
 }

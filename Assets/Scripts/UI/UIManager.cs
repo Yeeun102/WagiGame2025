@@ -26,14 +26,24 @@ public class UIManager : MonoBehaviour
         popupCloseButton.onClick.AddListener(HidePopup);
     }
 
-    //HUD 업데이트
-    public void UpdateHUD(int money, int fame, Dictionary<string, int> ingredients, string cookingState)
+
+    //HUD ������Ʈ
+    public void UpdateHUD()
+
     {
-        if (hud != null)
-        {
-            hud.Refresh(money, fame, ingredients, cookingState);
-        }
+        if (hud == null) return;
+
+        var economy = GameStateManager.Instance.economyManager;
+        var inventory = GameStateManager.Instance.inventorySystem;
+
+        int money = economy.Money;
+        int fame = 0; // ���� FameManager ������ 0
+        Dictionary<string, int> ingredients = inventory.inventory;
+        string cookingState = "";
+
+        hud.Refresh(money, fame, ingredients, cookingState);
     }
+
 
     public void ShowPopup(string popupMassage)
     {

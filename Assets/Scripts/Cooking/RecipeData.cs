@@ -7,19 +7,26 @@ public class RecipeData : ScriptableObject
     public string ID;
     public string 메뉴명;
 
-    [Header("조리 정보")]
-    public float 조리시간;
-    public int 가격;
 
-    [Header("필요 재료")]
-    public List<string> 필요한재료IDs;
+    [Header("�⺻ ����")]
+    public string recipeID;
+    public string recipeName;
 
-    [Header("기타")]
-    public int 평판보너스;
+    [Header("����")]
+    public float cookTime;
+    public int price;
+
+    [Header("���")]
+    public List<string> requiredItemIDs;
+
+    [Header("����")]
+    public int fameBonus;
+
 }
 
 public enum FoodState
 {
+    OnPan,
     Raw,
     Undercooked,
     Perfect,
@@ -28,10 +35,16 @@ public enum FoodState
 
 public enum ToppingType
 {
+    None,
     Strawberry,
     Blueberry,
-    Chocolate,
-    CreamCheese,
-    Cream // 추가 필요한 경우 추후 수정
 
+    Banana,
+    Mango// �߰� �ʿ��� ��� ���� ����
+
+
+}
+public enum SpreadType
+{
+    None, WhippedCream, CheeseCream, Chocolate
 }

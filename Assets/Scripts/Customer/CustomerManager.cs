@@ -1,32 +1,17 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
     public static CustomerManager Instance;
 
-    [Header("Spawn")]
-    public GameObject customerPrefab;
-    public Transform spawnPoint;
-    public float spawnInterval = 3f;
-
-    [Header("Day")]
-    [Range(1, 5)] public int currentDay = 1;     // DAY1~5
-    public int customersPerDay = 5;              // 하루 5명
-
-    [Header("Customer Types")]
-    public List<CustomerTypeData> possibleCustomerTypes = new List<CustomerTypeData>();
-
-    [Header("Menus by Day (누적 풀)")]
-    public List<RecipeData> day1Menus = new List<RecipeData>();
-    public List<RecipeData> day2Menus = new List<RecipeData>();
-    public List<RecipeData> day3Menus = new List<RecipeData>();
-    public List<RecipeData> day4Menus = new List<RecipeData>();
-    public List<RecipeData> day5Menus = new List<RecipeData>();
-
-    // 내부 카운트
-    private int spawnedCount = 0;
+    [Header("설정")]
+    public GameObject[] customerPrefabs; // 여러 종류의 손님 프리팹
+    public Transform spawnPoint;         // 손님이 나타날 위치
+    public Transform orderPoint;         // 손님이 주문하러 서는 위치 (카운터 앞)
+    public Transform exitPoint;
+    public float spawnInterval = 20f;    // 손님 생성 간격
 
     private void Awake()
     {
@@ -34,83 +19,39 @@ public class CustomerManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void SpawnCustomer()
+    private void Start()
     {
-        // TODO: 손님 프리팹 스폰
-        if (customerPrefab == null || spawnPoint == null)
-        {
-            Debug.LogWarning("[CustomerManager] customerPrefab 또는 spawnPoint 미설정");
-            return;
-        }
-
-        GameObject obj = Instantiate(customerPrefab, spawnPoint.position, spawnPoint.rotation);
-        CustomerController controller = obj.GetComponent<CustomerController>();
-
-        if (controller == null)
-        {
-            Debug.LogWarning("[CustomerManager] CustomerPrefab에 CustomerController가 없습니다.");
-            Destroy(obj);
-            return;
-        }
-
-        // 1) 손님 타입 랜덤
-        CustomerTypeData randomType = null;
-        if (possibleCustomerTypes != null && possibleCustomerTypes.Count > 0)
-        {
-            int tIdx = Random.Range(0, possibleCustomerTypes.Count);
-            randomType = possibleCustomerTypes[tIdx];
-        }
-
-        // 2) DAY 누적 메뉴 풀 구성
-        List<RecipeData> pool = new List<RecipeData>();
-        if (currentDay >= 1) pool.AddRange(day1Menus);
-        if (currentDay >= 2) pool.AddRange(day2Menus);
-        if (currentDay >= 3) pool.AddRange(day3Menus);
-        if (currentDay >= 4) pool.AddRange(day4Menus);
-        if (currentDay >= 5) pool.AddRange(day5Menus);
-
-        // 3) 오늘 주문 레시피 랜덤
-        RecipeData randomRecipe = null;
-        if (pool.Count > 0)
-        {
-            int rIdx = Random.Range(0, pool.Count);
-            randomRecipe = pool[rIdx];
-        }
-
-        // 4) CustomerController 필드 세팅 (함수 추가 없이 필드로만 연결)
-        controller.주문레시피ID = (randomRecipe != null) ? randomRecipe.ID : "";
-        controller.대기인내도 = (randomType != null) ? randomType.대기인내도 : controller.대기인내도;
-
-        // 토핑은 CustomerController 쪽에서 CheckOrderMatch가 필드로 비교하니까
-        // 여기서는 "레시피ID에서 토핑 추정"을 아주 간단히 세팅(원하면 나중에 바꿔도 됨)
-        controller.주문토핑.Clear();
-        string id = controller.주문레시피ID.ToLowerInvariant();
-        if (id.Contains("strawberry") || id.Contains("딸기")) controller.주문토핑.Add(ToppingType.Strawberry);
-        if (id.Contains("blueberry") || id.Contains("블루베리")) controller.주문토핑.Add(ToppingType.Blueberry);
-        if (id.Contains("choco") || id.Contains("chocolate") || id.Contains("초코")) controller.주문토핑.Add(ToppingType.Chocolate);
-        if (id.Contains("creamcheese") || id.Contains("크림치즈")) controller.주문토핑.Add(ToppingType.CreamCheese);
-        if (id.Contains("cream") || id.Contains("생크림")) controller.주문토핑.Add(ToppingType.Cream);
-
-        controller.Enter();
+        StartCustomerFlow();
     }
 
     public void StartCustomerFlow()
     {
-        // TODO: 손님 생성 루프 시작
-        StopAllCoroutines();
-        spawnedCount = 0;
+        // TODO: 손님 프리팹 스폰
+        StartCoroutine(SpawnRoutine());
+    }
 
-        // 함수 추가 없이: 로컬 코루틴 사용
-        IEnumerator SpawnLoop()
+    IEnumerator SpawnRoutine()
+    {
+        while (true)
         {
-            while (spawnedCount < customersPerDay)
-            {
-                SpawnCustomer();
-                spawnedCount++;
-                yield return new WaitForSeconds(spawnInterval);
-            }
+            SpawnCustomer();
+            yield return new WaitForSeconds(spawnInterval);
         }
+    }
 
-        StartCoroutine(SpawnLoop());
+    public void SpawnCustomer()
+    {
+        if (customerPrefabs.Length == 0) return;
+
+        // 랜덤하게 손님 선택 및 생성
+        int randomIndex = Random.Range(0, customerPrefabs.Length);
+        GameObject customerObj = Instantiate(customerPrefabs[randomIndex], spawnPoint.position, Quaternion.identity);
+
+        // 생성된 손님에게 목표 지점 전달 및 이동 명령
+        CustomerController controller = customerObj.GetComponent<CustomerController>();
+        if (controller != null)
+        {
+            controller.Enter(orderPoint.position);
+        }
     }
 }

@@ -13,13 +13,14 @@ public class CookingSystem : MonoBehaviour
     // 조리 씬의 팬 SpriteRenderer 2개를 순서대로 연결하세요.
     //[SerializeField] private SpriteRenderer[] panRenderers;
 
-    private FoodState[] panStates = new FoodState[2];
-    private Coroutine[] cookingCoroutines = new Coroutine[2];
+    private FoodState[] panStates = new FoodState[1];
+    private Coroutine[] cookingCoroutines = new Coroutine[1];
 
     [Header("Dependencies")]
     public InventorySystem inventorySystem;
 
     [Header("Visual References")]
+    public Sprite onPanSprite;
     public Sprite rawSprite;
     public Sprite undercookedSprite;
     public Sprite perfectSprite;
@@ -32,11 +33,14 @@ public class CookingSystem : MonoBehaviour
     private Dictionary<string, RecipeData> recipeDictionary = new Dictionary<string, RecipeData>();
 
     [Header("Cooking Timers")]
-    [SerializeField] private float undercookedTime = 2.0f; // 설익음 도달 시간 [cite: 49]
-    [SerializeField] private float perfectTime = 2.0f;    // 설익음 이후 완성까지 시간 [cite: 50]
-    [SerializeField] private float burntTime = 2.0f;      // 완성 이후 타기까지 시간 [cite: 50]
 
-    private DragAndDropManager[] activeDoughs = new DragAndDropManager[2];
+    [SerializeField] private float onPanTime = 1.0f;
+    [SerializeField] private float undercookedTime = 2.0f; // ������ ���� �ð� [cite: 49]
+    [SerializeField] private float perfectTime = 2.0f;    // ������ ���� �ϼ����� �ð� [cite: 50]
+    [SerializeField] private float burntTime = 2.0f;      // �ϼ� ���� Ÿ����� �ð� [cite: 50]
+
+
+    private DragAndDropManager[] activeDoughs = new DragAndDropManager[1];
 
     private void Awake()
     {
@@ -55,7 +59,7 @@ public class CookingSystem : MonoBehaviour
         // 팬 상태 초기화
         for (int i = 0; i < panStates.Length; i++)
         {
-            panStates[i] = FoodState.Raw;
+            panStates[i] = FoodState.OnPan;
         }
 
         foreach (RecipeData recipe in recipeList)
@@ -80,7 +84,10 @@ public class CookingSystem : MonoBehaviour
         // 이미 해당 팬이 조리 중인지 체크
         if (cookingCoroutines[panIndex] != null)
         {
-            Debug.Log($"{panIndex}번 팬은 이미 조리 중입니다.");
+
+            StopCoroutine(cookingCoroutines[panIndex]);
+            Debug.Log($"{panIndex}�� ���� �̹� ���� ���Դϴ�.");
+
             return;
         }
 
@@ -88,8 +95,9 @@ public class CookingSystem : MonoBehaviour
         if (recipeDictionary.TryGetValue(recipeID, out RecipeData recipe))
         {
             timerBars[panIndex].gameObject.SetActive(true);
-            // [수정] 이제 panRenderers 대신 activeDoughs의 이미지를 바꿉니다.
-            UpdateDoughVisual(panIndex, FoodState.Raw);
+
+            // [����] ���� panRenderers ��� activeDoughs�� �̹����� �ٲߴϴ�.
+
             cookingCoroutines[panIndex] = StartCoroutine(CookFoodRoutine(panIndex, recipe));
         }
         else
@@ -101,14 +109,18 @@ public class CookingSystem : MonoBehaviour
     {
         if (activeDoughs[panIndex] == null) return;
 
+        activeDoughs[panIndex].currentFoodState = newState;
+
         SpriteRenderer sr = activeDoughs[panIndex].GetComponent<SpriteRenderer>();
         switch (newState)
         {
+            case FoodState.OnPan: sr.sprite = onPanSprite; break;
             case FoodState.Raw: sr.sprite = rawSprite; break;
             case FoodState.Undercooked: sr.sprite = undercookedSprite; break;
             case FoodState.Perfect: sr.sprite = perfectSprite; break;
             case FoodState.Burnt: sr.sprite = burntSprite; break;
         }
+        Debug.Log($"{panIndex}�� �� ���� ���� ����: {newState}");
     }
 
     /// <summary>
@@ -117,10 +129,21 @@ public class CookingSystem : MonoBehaviour
     private IEnumerator CookFoodRoutine(int panIndex, RecipeData recipe)
     {
         float elapsedTime = 0f;
-        float totalPerfectTime = undercookedTime + perfectTime;
+        float totalPerfectTime = onPanTime + undercookedTime + perfectTime;
 
-        // 1단계: Raw -> Undercooked (설익음) [cite: 49]
-        while (elapsedTime < undercookedTime)
+        while (elapsedTime < onPanTime)
+        {
+            elapsedTime += Time.deltaTime;
+            timerBars[panIndex].value = elapsedTime / totalPerfectTime;
+
+            yield return null;
+        }
+        UpdatePanState(panIndex, FoodState.Raw);
+
+
+        // 1�ܰ�: Raw -> Undercooked (������) [cite: 49]
+        while (elapsedTime < onPanTime + undercookedTime)
+
         {
             elapsedTime += Time.deltaTime;
             timerBars[panIndex].value = elapsedTime / totalPerfectTime;
@@ -148,6 +171,7 @@ public class CookingSystem : MonoBehaviour
         // 4단계: 타버림 처리 [cite: 26, 50]
         UpdatePanState(panIndex, FoodState.Burnt);
         FailCooking(panIndex);
+        cookingCoroutines[panIndex] = null;
     }
 
     /// <summary>
@@ -156,31 +180,47 @@ public class CookingSystem : MonoBehaviour
     private void UpdatePanState(int panIndex, FoodState newState)
     {
         panStates[panIndex] = newState;
-        UpdatePanVisual(panIndex, newState);
+        UpdateFoodState(panIndex, newState, activeDoughs[panIndex]);
     }
+
+    public void StopCookingVisual(int panIndex)
+    {
+        if (cookingCoroutines[panIndex] != null)
+        {
+            StopCoroutine(cookingCoroutines[panIndex]);
+            cookingCoroutines[panIndex] = null;
+            Debug.Log($"{panIndex}�� �� ���� �ߴ� (������ ����)");
+        }
+    }
+
 
     /// <summary>
     /// 실제 팬 오브젝트의 SpriteRenderer를 변경합니다.
     /// </summary>
-    public void UpdatePanVisual(int panIndex, FoodState newState)
+    private void UpdateFoodState(int panIndex, FoodState newState, DragAndDropManager dough)
     {
+        if (dough == null) dough = activeDoughs[panIndex];
         if (activeDoughs[panIndex] == null) return;
 
-        // 해당 도우의 SpriteRenderer를 가져와서 이미지 교체
+
+        dough.currentFoodState = newState;
+
+        // �ش� ������ SpriteRenderer�� �����ͼ� �̹��� ��ü
+
         SpriteRenderer sr = activeDoughs[panIndex].GetComponent<SpriteRenderer>();
 
         switch (newState)
         {
+            case FoodState.OnPan: sr.sprite = onPanSprite; break;
             case FoodState.Raw: sr.sprite = rawSprite; break;
             case FoodState.Undercooked: sr.sprite = undercookedSprite; break;
             case FoodState.Perfect: sr.sprite = perfectSprite; break;
             case FoodState.Burnt: sr.sprite = burntSprite; break;
         }
+        Debug.Log($"�� {panIndex} ���� ������ ����: {newState}");
     }
 
-    /// <summary>
-    /// 요리가 타버렸을 때 호출됩니다. [cite: 26]
-    /// </summary>
+
     public void FailCooking(int panIndex)
     {
         if (cookingCoroutines[panIndex] != null)
@@ -214,11 +254,12 @@ public class CookingSystem : MonoBehaviour
             cookingCoroutines[panIndex] = null;
         }
 
-        // 타이머 바 숨기기
-        timerBars[panIndex].gameObject.SetActive(false);
 
-        // 팬 상태를 다시 Raw나 초기 상태로 변경 (필요 시)
-        panStates[panIndex] = FoodState.Raw;
+        // Ÿ�̸� �� �����
+        //timerBars[panIndex].gameObject.SetActive(false);
+
+        // �� ���¸� �ٽ� Raw�� �ʱ� ���·� ���� (�ʿ� ��)
+        panStates[panIndex] = FoodState.OnPan;
 
         Debug.Log($"{panIndex + 1}번 팬에서 음식을 집어 올렸습니다. 조리 중단!");
     }

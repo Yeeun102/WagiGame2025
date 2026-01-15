@@ -5,51 +5,63 @@ using System.Collections.Generic;
 public class HUDController : MonoBehaviour
 {
     [Header("HUD UI Elements")]
-    public TMPro.TextMeshProUGUI money;
-    public TMPro.TextMeshProUGUI fame;
+    public TextMeshProUGUI money;
+    public TextMeshProUGUI fame;
     public Transform ingredientPanel;
     public GameObject ingredientSlotPrefab;
-    public TMPro.TextMeshProUGUI cookingState;
+    public TextMeshProUGUI cookingState;
 
-    private int _money;
-    private int _fame;
-    private Dictionary<string, int> _ingredients;
-    private string _cookingState;
+    [Header("Item Data")]
+    [Tooltip("모든 ItemData 에셋을 여기에 등록하세요")]
+    public List<ItemData> itemDataList = new();
+
+    private Dictionary<string, ItemData> itemDataDict = new();
+
+    private void Awake()
+    {
+        // ID → ItemData 매핑 생성
+        itemDataDict.Clear();
+        foreach (var data in itemDataList)
+        {
+            if (data != null && !itemDataDict.ContainsKey(data.ID))
+            {
+                itemDataDict.Add(data.ID, data);
+            }
+        }
+    }
 
     // HUD UI 갱신
-    public void Refresh(int getMoney, int getFame, Dictionary<string, int> ingredientDict, string getCookingState)
+    public void Refresh(
+        int getMoney,
+        int getFame,
+        Dictionary<string, int> ingredientDict,
+        string getCookingState)
     {
-        _money = getMoney;
-        _fame = getFame;
-        _ingredients = ingredientDict;
-        _cookingState = getCookingState;
 
-        if (money != null) money.text = _money.ToString();
-        if (fame != null) fame.text = _fame.ToString();
-        if (cookingState != null) cookingState.text = _cookingState;
-
-        // 재료 슬롯 초기화
-        foreach (Transform child in ingredientPanel)
-            Destroy(child.gameObject);
+        if (money != null) money.text = getMoney.ToString();
+        if (fame != null) fame.text = getFame.ToString();
+        if (cookingState != null) cookingState.text = getCookingState;
 
         // 재료 슬롯 생성
-        foreach (var pair in _ingredients)
+        foreach (var pair in ingredientDict)
         {
-            string id = pair.Key;
+            string itemID = pair.Key;
             int amount = pair.Value;
 
-            // IngredientDB에서 이름/아이콘 가져오기
-            //var data = IngredientDatabase.Instance.Get(id);
+            if (!itemDataDict.TryGetValue(itemID, out ItemData itemData))
+                continue;
 
-            var slot = Instantiate(ingredientSlotPrefab, ingredientPanel);
+            GameObject slot = Instantiate(ingredientSlotPrefab, ingredientPanel);
 
-            /*
-            slot.GetComponent<IngredientSlot>().SetData(
-                data.이름,
-                amount,
-                data.아이콘
-            );
-            */
+            IngredientSlot ingredientSlot = slot.GetComponent<IngredientSlot>();
+            if (ingredientSlot != null)
+            {
+                ingredientSlot.SetData(
+                    itemData.재료명,
+                    amount,
+                    itemData.최대보관수량
+                );
+            }
         }
     }
 }

@@ -1,17 +1,36 @@
 using UnityEngine;
 
+public enum UpgradeCategory
+{
+    Truck,
+    Kitchen,
+    Staff,
+    Marketing
+}
+
 [CreateAssetMenu(menuName = "Data/Upgrade")]
 public class UpgradeData : ScriptableObject
 {
     public string ID;
-    public string ì—…ê·¸ë ˆì´ë“œëª…;
-    public string ì„¤ëª…;
 
-    [Header("ê°€ê²©")]
-    public int ë¹„ìš©;
+    public string ¾÷±×·¹ÀÌµå¸í;
+    public UpgradeCategory Ä«Å×°í¸®;
 
-    [Header("íš¨ê³¼")]
-    public int ì¡°ë¦¬ëŒ€ì¦ê°€;
-    public float ì¡°ë¦¬ì†ë„ì¦ê°€í¼ì„¼íŠ¸;
-    public int ìµœëŒ€ì¬ê³ ì¦ê°€;
+    [TextArea]
+    public string ¼³¸í;
+
+    [Header("ºñ¿ë")]
+    public int ºñ¿ë;
+    public int ÇÊ¿äÆòÆÇ; // ¾øÀ¸¸é 0
+
+    [Header("È¿°ú")]
+    public int Á¶¸®´ëÁõ°¡;
+    public float Á¶¸®¼ÓµµÁõ°¡ÆÛ¼¾Æ®;
+    public int ÃÖ´ëÀç°íÁõ°¡;
+    public int Á÷¿ø¼öÁõ°¡;
+    public int ±âº»¸¸Á·µµº¸Á¤;
+
+    [Header("¼±Çà ¾÷±×·¹ÀÌµå")]
+    public string ¼±Çà¾÷±×·¹ÀÌµåID; // ¾øÀ¸¸é ""
+
 }

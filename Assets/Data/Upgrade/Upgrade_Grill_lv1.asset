@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca376afeb2c4f154eaa351a4e5138b44, type: 3}
+  m_Name: Upgrade_Grill_lv1
+  m_EditorClassIdentifier: 
+  ID: 
+  "\uC5C5\uADF8\uB808\uC774\uB4DC\uBA85": 
+  "\uCE74\uD14C\uACE0\uB9AC": 0
+  "\uC124\uBA85": 
+  "\uBE44\uC6A9": 0
+  "\uD544\uC694\uD3C9\uD310": 0
+  "\uC870\uB9AC\uB300\uC99D\uAC00": 0
+  "\uC870\uB9AC\uC18D\uB3C4\uC99D\uAC00\uD37C\uC13C\uD2B8": 0
+  "\uCD5C\uB300\uC7AC\uACE0\uC99D\uAC00": 0
+  "\uC9C1\uC6D0\uC218\uC99D\uAC00": 0
+  "\uAE30\uBCF8\uB9CC\uC871\uB3C4\uBCF4\uC815": 0
+  "\uC120\uD589\uC5C5\uADF8\uB808\uC774\uB4DCID": 
