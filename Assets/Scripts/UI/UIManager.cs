@@ -13,31 +13,34 @@ public class UIManager : MonoBehaviour
     public GameObject popupPanel;
     public Text popupMessage;
     public Button popupCloseButton;
-
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        // 팝업 기본 비활성화
-        popupPanel.SetActive(false);
+        // [수정] 팝업 패널이 있을 때만 끄기 (없으면 무시)
+        if (popupPanel != null)
+        {
+            popupPanel.SetActive(false);
+        }
 
-        // 닫기 버튼 연결
-        popupCloseButton.onClick.AddListener(HidePopup);
+        // [수정] 닫기 버튼이 있을 때만 연결 (없으면 무시)
+        if (popupCloseButton != null)
+        {
+            popupCloseButton.onClick.AddListener(HidePopup);
+        }
     }
 
-
-    //HUD ������Ʈ
+    //HUD 업데이트
     public void UpdateHUD()
-
     {
         if (hud == null) return;
 
         var economy = GameStateManager.Instance.economyManager;
         var inventory = GameStateManager.Instance.inventorySystem;
 
-        int money = economy.Money;
-        int fame = 0; // ���� FameManager ������ 0
+        int money = economy.GetCurrentMoney();
+        int fame = 0; // 아직 FameManager 없으면 0
         Dictionary<string, int> ingredients = inventory.inventory;
         string cookingState = "";
 
