@@ -6,18 +6,18 @@ public class CustomerController : MonoBehaviour
     public enum CustomerState { Enter, Order, Waiting, Served, Leave }
     public CustomerState State;
 
-    [Header("�ֹ� ����")]
-    public ToppingType orderedTopping; // �� �ϳ���!
-    public SpreadType orderedSpread;   // �� �ϳ���!
+    [Header("주문 정보")]
+    public ToppingType orderedTopping; // 딱 하나만!
+    public SpreadType orderedSpread;   // 딱 하나만!
 
-    public float moveSpeed = 3f;
-    private Vector3 targetPosition;
+    public float moveSpeed = 3f; // 이동속도
+    private Vector3 targetPosition; //이동 목표 좌표
 
-    [Header("������ ����")]
-    public float maxWaitTime = 20f; // �ִ� ��� �ð�
-    private float currentWaitTime;
-    private PatienceGauge patienceGauge;
-    private bool isWaiting = false;
+    [Header("만족도 설정")]
+    public float maxWaitTime = 30f; // 최대 대기 시간
+    private float currentWaitTime; //남은 대기 시간
+    private PatienceGauge patienceGauge; //게이지 UI
+    private bool isWaiting = false; // 현재 로직을 돌릴지 말지
 
     private void Start()
     {
@@ -25,31 +25,42 @@ public class CustomerController : MonoBehaviour
         currentWaitTime = maxWaitTime;
         if (patienceGauge != null)
         {
-            patienceGauge.gameObject.SetActive(false); // ó���� ����
+            patienceGauge.gameObject.SetActive(false); // 처음엔 숨김
         }
     }
 
-    public void Enter(Vector3 target)
+    public void Enter(Vector3 target)//손님 입장 호출 함수
     {
-        State = CustomerState.Enter;
-        targetPosition = target;
+        State = CustomerState.Enter;//상태: 입장
+        targetPosition = target; // 목표 위치 설정
         StartCoroutine(MoveToCounter());
     }
 
     private System.Collections.IEnumerator MoveToCounter()
     {
-        // ��ǥ ����(ī����)���� �̵�
+        // 목표 지점(카운터)까지 이동
         while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
 
-        Order(); // �����ϸ� �ֹ� ����
+        Order(); // 도착하면 주문 시작
     }
     public void Order()
     {
         State = CustomerState.Order;
+
+        // 1. 스프레드 랜덤 결정 (None 제외)
+        // System.Enum.GetValues를 이용해 Enum 중 하나를 무작위로 뽑습니다.
+        int spreadCount = System.Enum.GetValues(typeof(SpreadType)).Length;
+        orderedSpread = (SpreadType)Random.Range(1, spreadCount);
+
+        // 2. 토핑 랜덤 결정 (None 제외)
+        int toppingCount = System.Enum.GetValues(typeof(ToppingType)).Length;
+        orderedTopping = (ToppingType)Random.Range(1, toppingCount);
+
+        Debug.Log($"{gameObject.name} 주문: [{orderedSpread}]와 [{orderedTopping}] 크레페 주세요!");
 
         Waiting();
     }
@@ -57,12 +68,11 @@ public class CustomerController : MonoBehaviour
     public void Waiting()
     {
         State = CustomerState.Waiting;
-
         isWaiting = true;
         if (patienceGauge != null)
         {
             patienceGauge.gameObject.SetActive(true);
-            // �������� �� �� ����(1.0)�� �ʱ�ȭ�ؼ� �����ݴϴ�.
+            // 게이지를 꽉 찬 상태(1.0)로 초기화해서 보여줍니다.
             patienceGauge.UpdateGauge(1f);
         }
 
@@ -75,33 +85,33 @@ public class CustomerController : MonoBehaviour
             currentWaitTime -= Time.deltaTime;
             float fillAmount = currentWaitTime / maxWaitTime;
 
-            // ������ ������Ʈ
+            // 게이지 업데이트
             if (patienceGauge != null)
                 patienceGauge.UpdateGauge(fillAmount);
 
-            // �ð��� �� �Ǹ� ȭ���� ����
+            // 시간이 다 되면 화내며 퇴장
             if (currentWaitTime <= 0)
             {
                 isWaiting = false;
-                Debug.Log("�ʹ� ���� ��ٷȾ��! �մ��� �׳� �����ϴ�.");
-                // CustomerManager�� ���� �������� ����
+                Debug.Log("너무 오래 기다렸어요! 손님이 그냥 나갑니다.");
+                // CustomerManager의 스폰 지점으로 퇴장
                 Leave(CustomerManager.Instance.spawnPoint.position);
             }
         }
     }
 
-    // ������ ������ �޾��� �� ȣ���� �Լ�
+    // 조리된 음식을 받았을 때 호출할 함수
     public bool ReceiveFood(List<ToppingType> deliveredToppings, SpreadType spread, FoodState cookedState)
     {
         if (State != CustomerState.Waiting) return false;
 
         if (cookedState == FoodState.Burnt)
         {
-            Debug.Log("ź������ �����߽��ϴ�");
+            Debug.Log("탄음식을 서빙했습니다");
             return false;
         }
 
-        // 1. ������ �´��� Ȯ��
+        // 1. 토핑이 맞는지 확인
         bool isSpreadCorrect = (spread == orderedSpread);
         bool isToppingCorrect = (deliveredToppings.Count == 3);
         if (isToppingCorrect)
@@ -110,7 +120,7 @@ public class CustomerController : MonoBehaviour
             {
                 if (t != orderedTopping)
                 {
-                    isToppingCorrect = false; // �ϳ��� �ٸ��� ����
+                    isToppingCorrect = false; // 하나라도 다르면 실패
                     break;
                 }
             }
@@ -119,13 +129,13 @@ public class CustomerController : MonoBehaviour
 
         if (isSpreadCorrect && isToppingCorrect && cookedState == FoodState.Perfect)
         {
-            Debug.Log("�Ϻ��� �ֹ�");
+            Debug.Log("완벽한 주문");
             Served();
             return true;
         }
         else
         {
-            Debug.Log("���� ������");
+            Debug.Log("뭔가 부족함");
             return false;
         }
     }
@@ -135,7 +145,6 @@ public class CustomerController : MonoBehaviour
     public void Served()
     {
         State = CustomerState.Served;
-
         isWaiting = false;
         if (patienceGauge != null) patienceGauge.gameObject.SetActive(false);
     }
