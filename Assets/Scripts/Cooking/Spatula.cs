@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class Spatula : MonoBehaviour
 {
-    public SpreadType spatulaType; // ÀÌ ½ºÆĞÃô¶ó°¡ ´ã´çÇÏ´Â ½ºÇÁ·¹µå Á¾·ù
+    public SpreadType spatulaType; // ì´ ìŠ¤íŒ¨ì¸Œë¼ê°€ ë‹´ë‹¹í•˜ëŠ” ìŠ¤í”„ë ˆë“œ ì¢…ë¥˜
     private Vector3 originalPosition;
     private bool isDragging = false;
     private Vector3 offset;
 
-    [Header("½Ã°¢ È¿°ú")]
-    public GameObject spreadEffectPrefab; // Ä¥ÇÒ ¶§ ³ª¿Ã ÀÌÆåÆ® (¼±ÅÃ»çÇ×)
+    [Header("ì‹œê° íš¨ê³¼")]
+    public GameObject spreadEffectPrefab; // ì¹ í•  ë•Œ ë‚˜ì˜¬ ì´í™íŠ¸ (ì„ íƒì‚¬í•­)
 
     void Start() => originalPosition = transform.position;
 
@@ -27,25 +27,25 @@ public class Spatula : MonoBehaviour
     {
         isDragging = false;
         CheckSpreadApply();
-        transform.position = originalPosition; // »ç¿ë ÈÄ Á¦ÀÚ¸®·Î
+        transform.position = originalPosition; // ì‚¬ìš© í›„ ì œìë¦¬ë¡œ
     }
 
     private void CheckSpreadApply()
     {
-        // ¹İÁö¸§ 0.5 ÀÌ³»¿¡ ¹«¾ùÀÌ ÀÖ´ÂÁö È®ÀÎ
+        // ë°˜ì§€ë¦„ 0.5 ì´ë‚´ì— ë¬´ì—‡ì´ ìˆëŠ”ì§€ í™•ì¸
         Collider2D hit = Physics2D.OverlapCircle(transform.position, 0.5f);
 
         if (hit != null)
         {
-            // µµ¿ì ¶Ç´Â µµ¸¶ È®ÀÎ
+            // ë„ìš° ë˜ëŠ” ë„ë§ˆ í™•ì¸
             CuttingBoard board = hit.GetComponent<CuttingBoard>();
             if (board == null) board = hit.GetComponentInParent<CuttingBoard>();
 
             if (board != null && board.currentDough != null)
             {
-                // µµ¸¶¿¡ ½ºÇÁ·¹µå Àû¿ë ¸í·É!
+                // ë„ë§ˆì— ìŠ¤í”„ë ˆë“œ ì ìš© ëª…ë ¹!
                 board.ApplySpread(spatulaType);
-                Debug.Log($"{spatulaType} ½ºÇÁ·¹µå¸¦ ¹ß¶ú½À´Ï´Ù.");
+                Debug.Log($"{spatulaType} ìŠ¤í”„ë ˆë“œë¥¼ ë°œëìŠµë‹ˆë‹¤.");
             }
         }
     }

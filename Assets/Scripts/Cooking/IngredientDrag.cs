@@ -9,11 +9,11 @@ public class IngredientDrag : MonoBehaviour
     private bool isDragging = false;
     private Vector3 offset;
 
-    // »óÀÚ¿¡¼­ »ı¼ºµÇÀÚ¸¶ÀÚ È£ÃâµÉ ÇÔ¼ö
+    // ìƒìì—ì„œ ìƒì„±ë˜ìë§ˆì í˜¸ì¶œë  í•¨ìˆ˜
     public void StartDraggingDirectly()
     {
         isDragging = true;
-        // »ı¼º ½ÃÁ¡ÀÇ ¸¶¿ì½º ¿ÀÇÁ¼Â °è»ê
+        // ìƒì„± ì‹œì ì˜ ë§ˆìš°ìŠ¤ ì˜¤í”„ì…‹ ê³„ì‚°
         offset = transform.position - GetMouseWorldPos();
     }
 
@@ -23,21 +23,21 @@ public class IngredientDrag : MonoBehaviour
         {
             transform.position = GetMouseWorldPos() + offset;
 
-            // ¸¶¿ì½º¸¦ ¶¼¸é µå·Ó ÆÇÁ¤ ÈÄ ÆÄ±«
+            // ë§ˆìš°ìŠ¤ë¥¼ ë–¼ë©´ ë“œë¡­ íŒì • í›„ íŒŒê´´
             if (Input.GetMouseButtonUp(0))
             {
                 CheckDrop();
-                Destroy(gameObject); // µµ¸¶¿¡ Á¤º¸¸¦ ³Ñ°åÀ¸´Ï ÀÌ ¿ÀºêÁ§Æ®´Â »èÁ¦
+                Destroy(gameObject); // ë„ë§ˆì— ì •ë³´ë¥¼ ë„˜ê²¼ìœ¼ë‹ˆ ì´ ì˜¤ë¸Œì íŠ¸ëŠ” ì‚­ì œ
             }
         }
     }
 
     private void CheckDrop()
     {
-        Collider2D hit = Physics2D.OverlapCircle(transform.position,0.5f);
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, 0.5f);
         if (hit != null)
         {
-            Debug.Log($"ÅäÇÎÀÌ ´êÀº ¿ÀºêÁ§Æ®: {hit.name}");
+            Debug.Log($"í† í•‘ì´ ë‹¿ì€ ì˜¤ë¸Œì íŠ¸: {hit.name}");
             CuttingBoard board = hit.GetComponent<CuttingBoard>();
             if (board == null)
             {
@@ -47,10 +47,11 @@ public class IngredientDrag : MonoBehaviour
             {
                 if (isTopping) board.AddTopping(toppingType);
                 else board.ApplySpread(spreadType);
-                Debug.Log("µµ¸¶(¶Ç´Â µµ¿ì À§)¿¡ ¼º°øÀûÀ¸·Î Àç·á¸¦ Àü´ŞÇß½À´Ï´Ù.");
-            } else
+                Debug.Log("ë„ë§ˆ(ë˜ëŠ” ë„ìš° ìœ„)ì— ì„±ê³µì ìœ¼ë¡œ ì¬ë£Œë¥¼ ì „ë‹¬í–ˆìŠµë‹ˆë‹¤.");
+            }
+            else
             {
-                Debug.Log($"°¨ÁöµÈ {hit.name}Àº µµ¸¶¿Í ¿¬°áµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.");
+                Debug.Log($"ê°ì§€ëœ {hit.name}ì€ ë„ë§ˆì™€ ì—°ê²°ë˜ì–´ ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
             }
         }
     }

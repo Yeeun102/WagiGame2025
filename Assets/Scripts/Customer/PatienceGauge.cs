@@ -12,7 +12,7 @@ public class PatienceGauge : MonoBehaviour
     {
         fillImage.fillAmount = fillAmount;
 
-        // ½Ã°£¿¡ µû¶ó »ö»ó º¯°æ (ÃÊ·Ï -> ³ë¶û -> »¡°­)
+        // ì‹œê°„ì— ë”°ë¼ ìƒ‰ìƒ ë³€ê²½ (ì´ˆë¡ -> ë…¸ëž‘ -> ë¹¨ê°•)
         if (fillAmount > 0.5f)
         {
             fillImage.color = Color.Lerp(yellowColor, greenColor, (fillAmount - 0.5f) * 2f);

@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class IngredientSpawner : MonoBehaviour
 {
-    public GameObject ingredientPrefab; // º¹»çÇØ¼­ ²¨³¾ ÅäÇÎ ÇÁ¸®ÆÕ
+    public GameObject ingredientPrefab; // ë³µì‚¬í•´ì„œ êº¼ë‚¼ í† í•‘ í”„ë¦¬íŒ¹
 
     private void OnMouseDown()
     {
-        // 1. ¸¶¿ì½º À§Ä¡¿¡ ÅäÇÎ »ı¼º
+        // 1. ë§ˆìš°ìŠ¤ ìœ„ì¹˜ì— í† í•‘ ìƒì„±
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
         GameObject newIngredient = Instantiate(ingredientPrefab, mousePos, Quaternion.identity);
 
-        // 2. »ı¼ºµÈ ÅäÇÎÀÇ µå·¡±× ½ºÅ©¸³Æ®¸¦ Ã£¾Æ Áï½Ã µå·¡±× »óÅÂ·Î ¸¸µê
+        // 2. ìƒì„±ëœ í† í•‘ì˜ ë“œë˜ê·¸ ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì°¾ì•„ ì¦‰ì‹œ ë“œë˜ê·¸ ìƒíƒœë¡œ ë§Œë“¦
         IngredientDrag dragScript = newIngredient.GetComponent<IngredientDrag>();
         if (dragScript != null)
         {

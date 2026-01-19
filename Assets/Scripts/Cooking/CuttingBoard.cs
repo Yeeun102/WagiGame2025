@@ -4,15 +4,15 @@ using System.Runtime.CompilerServices;
 
 public class CuttingBoard : MonoBehaviour
 {
-    public Transform anchorPoint; // µµ¿ì°¡ ºÙÀ» Áß½ÉÁ¡
+    public Transform anchorPoint; // ë„ìš°ê°€ ë¶™ì„ ì¤‘ì‹¬ì 
     public DragAndDropManager currentDough;
 
-    [Header("½ºÇÁ·¹µå ¼³Á¤")]
+    [Header("ìŠ¤í”„ë ˆë“œ ì„¤ì •")]
     public GameObject[] spreadPrefabs;
-    private GameObject currentSpreadObject; // 0: »ıÅ©¸², 1: Ä¡ÁîÅ©¸², 2: ÃÊÄİ¸´
+    private GameObject currentSpreadObject; // 0: ìƒí¬ë¦¼, 1: ì¹˜ì¦ˆí¬ë¦¼, 2: ì´ˆì½œë¦¿
 
-    [Header("ÅäÇÎ ¼³Á¤")]
-    public Transform toppingParent; // ÅäÇÎµéÀÌ »ı¼ºµÉ ºÎ¸ğ ¿ÀºêÁ§Æ®
+    [Header("í† í•‘ ì„¤ì •")]
+    public Transform toppingParent; // í† í•‘ë“¤ì´ ìƒì„±ë  ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸
     public GameObject[] toppingPrefabs;
 
 
@@ -22,35 +22,35 @@ public class CuttingBoard : MonoBehaviour
     public Sprite[] finishedCrepeSprites;
     public int completionToppingCount = 3;
 
-    [Header("ÅäÇÎ ¹èÄ¡ ¼³Á¤")]
-    // ÅäÇÎ 4°³°¡ ³õÀÏ °íÁ¤ ÁÂÇ¥ (µµ¿ì Áß½É ±âÁØ)
+    [Header("í† í•‘ ë°°ì¹˜ ì„¤ì •")]
+    // í† í•‘ 4ê°œê°€ ë†“ì¼ ê³ ì • ì¢Œí‘œ (ë„ìš° ì¤‘ì‹¬ ê¸°ì¤€)
     private Vector3[] toppingPositions = new Vector3[]
 {
-    new Vector3(-0.6f,  0.6f, -0.1f), // 1¹øÂ°: ¿ŞÂÊ À§
+    new Vector3(-0.6f,  0.6f, -0.1f), // 1ë²ˆì§¸: ì™¼ìª½ ìœ„
     new Vector3( 0f, 0.6f, -0.1f),
-    new Vector3( 0.6f,  0.6f, -0.1f) // 3¹øÂ°: ¿À¸¥ÂÊ À§
+    new Vector3( 0.6f,  0.6f, -0.1f) // 3ë²ˆì§¸: ì˜¤ë¥¸ìª½ ìœ„
 };
 
     public void PlaceDough(DragAndDropManager dough)
     {
         currentDough = dough;
 
-        // 2. ºÎ¸ğ ¼³Á¤ ¹× ÁÂÇ¥ °­Á¦ °íÁ¤
+        // 2. ë¶€ëª¨ ì„¤ì • ë° ì¢Œí‘œ ê°•ì œ ê³ ì •
         dough.transform.SetParent(this.transform, false);
         dough.transform.localPosition = new Vector3(0, 0, -0.1f);
 
-        Debug.Log("°íÁ¤ ¿Ï·á.");
+        Debug.Log("ê³ ì • ì™„ë£Œ.");
     }
 
 
 
-    // 1. ½ºÇÁ·¹µå ¹Ù¸£±â
+    // 1. ìŠ¤í”„ë ˆë“œ ë°”ë¥´ê¸°
     public void ApplySpread(SpreadType type)
     {
-        if (currentDough == null) return; // µµ¿ì°¡ ¾øÀ¸¸é ¸ø ¹Ù¸§
+        if (currentDough == null) return; // ë„ìš°ê°€ ì—†ìœ¼ë©´ ëª» ë°”ë¦„
         if (IsFinished()) return;
 
-        // ÀÌ¹Ì ½ºÇÁ·¹µå°¡ ¹ß¶óÁ® ÀÖ´Ù¸é ±âÁ¸ °ÍÀº »èÁ¦ (Áßº¹ ¹æÁö)
+        // ì´ë¯¸ ìŠ¤í”„ë ˆë“œê°€ ë°œë¼ì ¸ ìˆë‹¤ë©´ ê¸°ì¡´ ê²ƒì€ ì‚­ì œ (ì¤‘ë³µ ë°©ì§€)
         if (currentSpreadObject != null)
         {
             Destroy(currentSpreadObject);
@@ -58,35 +58,35 @@ public class CuttingBoard : MonoBehaviour
 
         currentSpread = type;
 
-        // Enum ¼ø¼­¿¡ ¸ÂÃç ÇÁ¸®ÆÕ »ı¼º (NoneÀÌ 0ÀÌ¹Ç·Î type-1)
+        // Enum ìˆœì„œì— ë§ì¶° í”„ë¦¬íŒ¹ ìƒì„± (Noneì´ 0ì´ë¯€ë¡œ type-1)
         int index = (int)type - 1;
 
         if (index >= 0 && index < spreadPrefabs.Length)
         {
-            // 1. ½ºÇÁ·¹µå ÇÁ¸®ÆÕ »ı¼º (µµ¿ìÀÇ ÀÚ½ÄÀ¸·Î ³ÖÀ¸¸é µµ¿ì¿Í ÇÔ²² ¿òÁ÷ÀÔ´Ï´Ù)
+            // 1. ìŠ¤í”„ë ˆë“œ í”„ë¦¬íŒ¹ ìƒì„± (ë„ìš°ì˜ ìì‹ìœ¼ë¡œ ë„£ìœ¼ë©´ ë„ìš°ì™€ í•¨ê»˜ ì›€ì§ì…ë‹ˆë‹¤)
             currentSpreadObject = Instantiate(spreadPrefabs[index], currentDough.transform);
 
-            // 2. À§Ä¡ ¹× Å©±â ÃÊ±âÈ­
-            currentSpreadObject.transform.localPosition = new Vector3(0, 0, -0.01f); // µµ¿ìº¸´Ù »ìÂ¦ ¾Õ
+            // 2. ìœ„ì¹˜ ë° í¬ê¸° ì´ˆê¸°í™”
+            currentSpreadObject.transform.localPosition = new Vector3(0, 0, -0.01f); // ë„ìš°ë³´ë‹¤ ì‚´ì§ ì•
             currentSpreadObject.transform.localScale = Vector3.one;
 
-            // 3. ·¹ÀÌ¾î ¼³Á¤ (µµ¿ìº¸´Ù ³ô°í ÅäÇÎº¸´Ù ³·°Ô)
+            // 3. ë ˆì´ì–´ ì„¤ì • (ë„ìš°ë³´ë‹¤ ë†’ê³  í† í•‘ë³´ë‹¤ ë‚®ê²Œ)
             SpriteRenderer sr = currentSpreadObject.GetComponent<SpriteRenderer>();
             if (sr != null)
             {
                 sr.sortingOrder = 5;
             }
 
-            // 4. ½ºÆĞÃô¶ó·Î ¹Ù¸¥ °ÍÀÌ¹Ç·Î Å¬¸¯ ¹æÇØ ¾È µÇ°Ô Äİ¶óÀÌ´õ Á¦°Å
+            // 4. ìŠ¤íŒ¨ì¸Œë¼ë¡œ ë°”ë¥¸ ê²ƒì´ë¯€ë¡œ í´ë¦­ ë°©í•´ ì•ˆ ë˜ê²Œ ì½œë¼ì´ë” ì œê±°
             Collider2D col = currentSpreadObject.GetComponent<Collider2D>();
             if (col != null) col.enabled = false;
 
-            Debug.Log($"½ºÇÁ·¹µå ÇÁ¸®ÆÕ Àû¿ë ¿Ï·á: {type}");
+            Debug.Log($"ìŠ¤í”„ë ˆë“œ í”„ë¦¬íŒ¹ ì ìš© ì™„ë£Œ: {type}");
         }
         CheckCompletion();
     }
 
-    // 2. ÅäÇÎ ¾ñ±â
+    // 2. í† í•‘ ì–¹ê¸°
     public void AddTopping(ToppingType type)
     {
         if (currentDough == null) return;
@@ -100,7 +100,7 @@ public class CuttingBoard : MonoBehaviour
         int index = (int)type - 1;
         if (index >= 0 && index < toppingPrefabs.Length)
         {
-            // [¼öÁ¤] ºÎ¸ğ¸¦ µµ¸¶(toppingParent)°¡ ¾Æ´Ñ µµ¿ì(currentDough)·Î ¼³Á¤ÇÕ´Ï´Ù.
+            // [ìˆ˜ì •] ë¶€ëª¨ë¥¼ ë„ë§ˆ(toppingParent)ê°€ ì•„ë‹Œ ë„ìš°(currentDough)ë¡œ ì„¤ì •í•©ë‹ˆë‹¤.
             GameObject visualTopping = Instantiate(toppingPrefabs[index], currentDough.transform);
 
             int posIndex = addedToppings.Count - 1;
@@ -109,13 +109,13 @@ public class CuttingBoard : MonoBehaviour
                 visualTopping.transform.localPosition = toppingPositions[posIndex];
             }
 
-            visualTopping.transform.localScale = new Vector3(1.4f,1.4f,1.4f);
+            visualTopping.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
 
-            // µå·¡±× ¹æÇØ ¿ä¼Ò Á¦°Å
+            // ë“œë˜ê·¸ ë°©í•´ ìš”ì†Œ ì œê±°
             Destroy(visualTopping.GetComponent<Collider2D>());
             Destroy(visualTopping.GetComponent<IngredientDrag>());
 
-            // ·¹ÀÌ¾î ¼³Á¤
+            // ë ˆì´ì–´ ì„¤ì •
             SpriteRenderer sr = visualTopping.GetComponent<SpriteRenderer>();
             if (sr != null) sr.sortingOrder = 10;
 
@@ -125,7 +125,7 @@ public class CuttingBoard : MonoBehaviour
 
     private void CheckCompletion()
     {
-        // Á¶°Ç: ½ºÇÁ·¹µå°¡ ¹ß·Á ÀÖ°í && ÅäÇÎÀÌ 3°³ÀÌ¸ç && ¸ğµç ÅäÇÎÀÌ °°Àº Á¾·ùÀÏ ¶§
+        // ì¡°ê±´: ìŠ¤í”„ë ˆë“œê°€ ë°œë ¤ ìˆê³  && í† í•‘ì´ 3ê°œì´ë©° && ëª¨ë“  í† í•‘ì´ ê°™ì€ ì¢…ë¥˜ì¼ ë•Œ
         if (currentSpread != SpreadType.None &&
             addedToppings.Count == completionToppingCount &&
             CheckIfAllToppingsSame())
@@ -134,10 +134,10 @@ public class CuttingBoard : MonoBehaviour
         }
     }
 
-    // ÀÌ¹Ì ¿Ï¼ºµÇ¾ú´ÂÁö È®ÀÎÇÏ´Â µµ¿ì¹Ì ÇÔ¼ö
+    // ì´ë¯¸ ì™„ì„±ë˜ì—ˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ë„ìš°ë¯¸ í•¨ìˆ˜
     private bool IsFinished()
     {
-        // ÅäÇÎ 3°³¿Í ½ºÇÁ·¹µå°¡ ¸ğµÎ ÀÖÀ¸¸é ÀÌ¹Ì ¿Ï¼ºµÈ °ÍÀ¸·Î °£ÁÖ
+        // í† í•‘ 3ê°œì™€ ìŠ¤í”„ë ˆë“œê°€ ëª¨ë‘ ìˆìœ¼ë©´ ì´ë¯¸ ì™„ì„±ëœ ê²ƒìœ¼ë¡œ ê°„ì£¼
         return currentSpread != SpreadType.None && addedToppings.Count >= completionToppingCount;
     }
     private bool CheckIfAllToppingsSame()
@@ -153,44 +153,44 @@ public class CuttingBoard : MonoBehaviour
     }
     private void FinishCrepe(ToppingType finalToppingType)
     {
-        // 1. µµ¿ìÀÇ SpriteRenderer¸¦ °¡Á®¿Í¼­ ¿Ï¼ºµÈ ÀÌ¹ÌÁö·Î ±³Ã¼
+        // 1. ë„ìš°ì˜ SpriteRendererë¥¼ ê°€ì ¸ì™€ì„œ ì™„ì„±ëœ ì´ë¯¸ì§€ë¡œ êµì²´
         SpriteRenderer doughSR = currentDough.GetComponent<SpriteRenderer>();
         int spriteIndex = (int)finalToppingType - 1;
         Vector3 finishedScale = new Vector3(0.42f, 0.72f, 0.6f);
- 
+
 
         if (doughSR != null && spriteIndex >= 0 && spriteIndex < finishedCrepeSprites.Length)
         {
-            // 1. ÀÌ¹ÌÁö ±³Ã¼
+            // 1. ì´ë¯¸ì§€ êµì²´
             currentDough.transform.localScale = finishedScale;
             doughSR.sprite = finishedCrepeSprites[spriteIndex];
 
-            // 2. ±âÁ¸ °³º° ÅäÇÎ/½ºÇÁ·¹µå ¼û±â±â
+            // 2. ê¸°ì¡´ ê°œë³„ í† í•‘/ìŠ¤í”„ë ˆë“œ ìˆ¨ê¸°ê¸°
             foreach (Transform child in currentDough.transform)
             {
                 child.gameObject.SetActive(false);
             }
 
-            // 3. [ÇÇµå¹é] ¿Ï¼º È¿°ú (¼±ÅÃ »çÇ×)
-            Debug.Log($"{finalToppingType} Å©·¹Æä ¿Ï¼º!");
-            // ¿©±â¿¡ ¹İÂ¦ÀÌ´Â ÀÌÆåÆ®³ª ¼Ò¸®¸¦ Ãß°¡ÇÏ¸é ÁÁ½À´Ï´Ù.
+            // 3. [í”¼ë“œë°±] ì™„ì„± íš¨ê³¼ (ì„ íƒ ì‚¬í•­)
+            Debug.Log($"{finalToppingType} í¬ë ˆí˜ ì™„ì„±!");
+            // ì—¬ê¸°ì— ë°˜ì§ì´ëŠ” ì´í™íŠ¸ë‚˜ ì†Œë¦¬ë¥¼ ì¶”ê°€í•˜ë©´ ì¢‹ìŠµë‹ˆë‹¤.
         }
     }
 
     public void ClearBoard()
     {
-        // 1. µµ¸¶ À§¿¡ µî·ÏµÈ µµ¿ì µ¥ÀÌÅÍ Á¦°Å
+        // 1. ë„ë§ˆ ìœ„ì— ë“±ë¡ëœ ë„ìš° ë°ì´í„° ì œê±°
         if (currentDough != null)
         {
-            // µµ¿ì ¿ÀºêÁ§Æ® ÀÚÃ¼¸¦ ÆÄ±« (ÀÚ½ÄÀÎ ÅäÇÎ, ½ºÇÁ·¹µåµµ ÇÔ²² »èÁ¦µÊ)
+            // ë„ìš° ì˜¤ë¸Œì íŠ¸ ìì²´ë¥¼ íŒŒê´´ (ìì‹ì¸ í† í•‘, ìŠ¤í”„ë ˆë“œë„ í•¨ê»˜ ì‚­ì œë¨)
             Destroy(currentDough.gameObject);
             currentDough = null;
         }
 
-        // 2. ±â·ÏµÈ ·¹½ÃÇÇ Á¤º¸ ÃÊ±âÈ­
+        // 2. ê¸°ë¡ëœ ë ˆì‹œí”¼ ì •ë³´ ì´ˆê¸°í™”
         currentSpread = SpreadType.None;
         addedToppings.Clear();
 
-        Debug.Log("µµ¸¶°¡ ¿ÏÀüÈ÷ ºñ¿öÁ³½À´Ï´Ù. ´ÙÀ½ ¿ä¸® ÁØºñ ¿Ï·á!");
+        Debug.Log("ë„ë§ˆê°€ ì™„ì „íˆ ë¹„ì›Œì¡ŒìŠµë‹ˆë‹¤. ë‹¤ìŒ ìš”ë¦¬ ì¤€ë¹„ ì™„ë£Œ!");
     }
 }

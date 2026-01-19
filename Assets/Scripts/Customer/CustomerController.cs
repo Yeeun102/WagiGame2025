@@ -14,10 +14,12 @@ public class CustomerController : MonoBehaviour
     private Vector3 targetPosition; //이동 목표 좌표
 
     [Header("만족도 설정")]
-    public float maxWaitTime = 30f; // 최대 대기 시간
+    public float maxWaitTime = 20f; // 최대 대기 시간
     private float currentWaitTime; //남은 대기 시간
     private PatienceGauge patienceGauge; //게이지 UI
     private bool isWaiting = false; // 현재 로직을 돌릴지 말지
+
+    private OrderBubbleUI orderBubble;//말풍선
 
     private void Start()
     {
@@ -27,6 +29,10 @@ public class CustomerController : MonoBehaviour
         {
             patienceGauge.gameObject.SetActive(false); // 처음엔 숨김
         }
+        //말풍선
+        orderBubble = GetComponentInChildren<OrderBubbleUI>(true); // 비활성 오브젝트도 찾기
+        if (orderBubble != null)
+            orderBubble.Hide();
     }
 
     public void Enter(Vector3 target)//손님 입장 호출 함수
@@ -61,7 +67,9 @@ public class CustomerController : MonoBehaviour
         orderedTopping = (ToppingType)Random.Range(1, toppingCount);
 
         Debug.Log($"{gameObject.name} 주문: [{orderedSpread}]와 [{orderedTopping}] 크레페 주세요!");
-
+        string msg = $"[{orderedSpread}] + [{orderedTopping}] 주세요!";
+        if (orderBubble != null)
+            orderBubble.Show(msg, 5f);
         Waiting();
     }
 
@@ -144,6 +152,7 @@ public class CustomerController : MonoBehaviour
 
     public void Served()
     {
+        if (orderBubble != null) orderBubble.Hide();//말풍선
         State = CustomerState.Served;
         isWaiting = false;
         if (patienceGauge != null) patienceGauge.gameObject.SetActive(false);
@@ -151,6 +160,7 @@ public class CustomerController : MonoBehaviour
 
     public void Leave(Vector3 exitTarget)
     {
+        if (orderBubble != null) orderBubble.Hide();//말풍선
         if (State == CustomerState.Leave) return;
         State = CustomerState.Leave;
         targetPosition = exitTarget;

@@ -6,12 +6,12 @@ public class EconomyManager : MonoBehaviour
 {
     public static EconomyManager Instance;
 
-    [Header("°æÁ¦ »óÅÂ")]
+    [Header("ê²½ì œ ìƒíƒœ")]
     [SerializeField] private int currentMoney = 0;
 
     private void Awake()
     {
-        // ½Ì±ÛÅæ ÆĞÅÏ: ¾îµğ¼­µç EconomyManager.Instance·Î Á¢±Ù °¡´É
+        // ì‹±ê¸€í†¤ íŒ¨í„´: ì–´ë””ì„œë“  EconomyManager.Instanceë¡œ ì ‘ê·¼ ê°€ëŠ¥
         if (Instance == null)
         {
             Instance = this;
@@ -25,20 +25,20 @@ public class EconomyManager : MonoBehaviour
 
     private void Start()
     {
-        // CookingSystemÀÌ Á¸ÀçÇÑ´Ù¸é Á¶¸® ¿Ï·á ÀÌº¥Æ®¸¦ ±¸µ¶(¿¬°á)ÇÕ´Ï´Ù.
+        // CookingSystemì´ ì¡´ì¬í•œë‹¤ë©´ ì¡°ë¦¬ ì™„ë£Œ ì´ë²¤íŠ¸ë¥¼ êµ¬ë…(ì—°ê²°)í•©ë‹ˆë‹¤.
         if (CookingSystem.Instance != null)
         {
             CookingSystem.Instance.OnCookingCompleted += CalculateRevenue;
         }
         else
         {
-            Debug.LogWarning("EconomyManager: CookingSystemÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("EconomyManager: CookingSystemì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
     }
 
     private void OnDestroy()
     {
-        // ¸Å´ÏÀú°¡ ÆÄ±«µÉ ¶§ ±¸µ¶À» ÇØÁöÇØ¾ß ¿¡·¯¸¦ ¹æÁöÇÒ ¼ö ÀÖ½À´Ï´Ù.
+        // ë§¤ë‹ˆì €ê°€ íŒŒê´´ë  ë•Œ êµ¬ë…ì„ í•´ì§€í•´ì•¼ ì—ëŸ¬ë¥¼ ë°©ì§€í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
         if (CookingSystem.Instance != null)
         {
             CookingSystem.Instance.OnCookingCompleted -= CalculateRevenue;
@@ -46,43 +46,43 @@ public class EconomyManager : MonoBehaviour
     }
 
     /// <summary>
-    /// CookingSystem¿¡¼­ Á¶¸®°¡ ³¡³¯ ¶§¸¶´Ù ÀÚµ¿À¸·Î È£ÃâµÇ´Â ÇÔ¼öÀÔ´Ï´Ù.
+    /// CookingSystemì—ì„œ ì¡°ë¦¬ê°€ ëë‚  ë•Œë§ˆë‹¤ ìë™ìœ¼ë¡œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
     /// </summary>
     private void CalculateRevenue(int panIndex, FoodState state, string recipeID)
     {
         int earnedMoney = 0;
 
-        // TODO: ³ªÁß¿¡´Â recipeID¸¦ ÅëÇØ RecipeData¿¡¼­ ±âº» °¡°İÀ» °¡Á®¿À¼¼¿ä.
+        // TODO: ë‚˜ì¤‘ì—ëŠ” recipeIDë¥¼ í†µí•´ RecipeDataì—ì„œ ê¸°ë³¸ ê°€ê²©ì„ ê°€ì ¸ì˜¤ì„¸ìš”.
         int basePrice = 1000;
 
         switch (state)
         {
             case FoodState.Perfect:
-                // ¿Ïº®ÇÔ: 1.5¹è °¡°İ
+                // ì™„ë²½í•¨: 1.5ë°° ê°€ê²©
                 earnedMoney = (int)(basePrice * 1.5f);
-                Debug.Log($"[Á¤»ê] ¿Ïº®ÇÑ Á¶¸®! (+{earnedMoney}¿ø)");
+                Debug.Log($"[ì •ì‚°] ì™„ë²½í•œ ì¡°ë¦¬! (+{earnedMoney}ì›)");
                 break;
 
             case FoodState.Undercooked:
-                // ¼³ÀÍÀ½: 50% °¡°İ
+                // ì„¤ìµìŒ: 50% ê°€ê²©
                 earnedMoney = (int)(basePrice * 0.5f);
-                Debug.Log($"[Á¤»ê] ¼³ÀÍ¾ú½À´Ï´Ù. (+{earnedMoney}¿ø)");
+                Debug.Log($"[ì •ì‚°] ì„¤ìµì—ˆìŠµë‹ˆë‹¤. (+{earnedMoney}ì›)");
                 break;
 
             case FoodState.Burnt:
-                // ÅÀÀ½: 0¿ø
+                // íƒ”ìŒ: 0ì›
                 earnedMoney = 0;
-                Debug.Log($"[Á¤»ê] À½½ÄÀÌ ÅÀ½À´Ï´Ù. (0¿ø)");
+                Debug.Log($"[ì •ì‚°] ìŒì‹ì´ íƒ”ìŠµë‹ˆë‹¤. (0ì›)");
                 break;
 
             case FoodState.Raw:
-                // »ıÀç·á: 0¿ø
+                // ìƒì¬ë£Œ: 0ì›
                 earnedMoney = 0;
-                Debug.Log($"[Á¤»ê] »ıÀç·á »óÅÂÀÔ´Ï´Ù. (0¿ø)");
+                Debug.Log($"[ì •ì‚°] ìƒì¬ë£Œ ìƒíƒœì…ë‹ˆë‹¤. (0ì›)");
                 break;
 
             default:
-                Debug.Log("[Á¤»ê] ¾Ë ¼ö ¾ø´Â »óÅÂÀÔ´Ï´Ù.");
+                Debug.Log("[ì •ì‚°] ì•Œ ìˆ˜ ì—†ëŠ” ìƒíƒœì…ë‹ˆë‹¤.");
                 break;
         }
 
@@ -93,42 +93,42 @@ public class EconomyManager : MonoBehaviour
     }
 
     /// <summary>
-    /// µ·À» Ãß°¡ÇÏ°í ·Î±×¸¦ Ãâ·ÂÇÕ´Ï´Ù.
+    /// ëˆì„ ì¶”ê°€í•˜ê³  ë¡œê·¸ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
     /// </summary>
     public void AddMoney(int amount)
     {
         currentMoney += amount;
 
-        // TODO: ¿©±â¼­ UI ¾÷µ¥ÀÌÆ® ÇÔ¼ö È£Ãâ (¿¹: UIManager.Instance.UpdateMoneyUI)
-        Debug.Log($"[System] Á¤»ê ¿Ï·á! ÇöÀç ¼ÒÁö±İ: {currentMoney}¿ø");
+        // TODO: ì—¬ê¸°ì„œ UI ì—…ë°ì´íŠ¸ í•¨ìˆ˜ í˜¸ì¶œ (ì˜ˆ: UIManager.Instance.UpdateMoneyUI)
+        Debug.Log($"[System] ì •ì‚° ì™„ë£Œ! í˜„ì¬ ì†Œì§€ê¸ˆ: {currentMoney}ì›");
     }
 
     /// <summary>
-    /// µ·À» »ç¿ëÇÏ·Á°í ½ÃµµÇÕ´Ï´Ù. ÀÜ¾×ÀÌ ÃæºĞÇÏ¸é Â÷°¨ÇÏ°í true¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+    /// ëˆì„ ì‚¬ìš©í•˜ë ¤ê³  ì‹œë„í•©ë‹ˆë‹¤. ì”ì•¡ì´ ì¶©ë¶„í•˜ë©´ ì°¨ê°í•˜ê³  trueë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="amount">»ç¿ëÇÒ ±İ¾×</param>
-    /// <returns>¼º°ø ½Ã true, ½ÇÆĞ ½Ã false</returns>
+    /// <param name="amount">ì‚¬ìš©í•  ê¸ˆì•¡</param>
+    /// <returns>ì„±ê³µ ì‹œ true, ì‹¤íŒ¨ ì‹œ false</returns>
     public bool TrySpendMoney(int amount)
     {
         if (currentMoney >= amount)
         {
             currentMoney -= amount;
-            Debug.Log($"[ÁöÃâ] {amount}¿ø »ç¿ëÇß½À´Ï´Ù. (³²Àº µ·: {currentMoney}¿ø)");
+            Debug.Log($"[ì§€ì¶œ] {amount}ì› ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤. (ë‚¨ì€ ëˆ: {currentMoney}ì›)");
 
-            // TODO: ¿©±â¼­µµ UI °»½Å ÇÔ¼ö¸¦ È£ÃâÇØ¾ß ÇÕ´Ï´Ù.
+            // TODO: ì—¬ê¸°ì„œë„ UI ê°±ì‹  í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•´ì•¼ í•©ë‹ˆë‹¤.
             // UIManager.Instance.UpdateMoneyUI(currentMoney);
 
-            return true; // ±¸¸Å ¼º°ø
+            return true; // êµ¬ë§¤ ì„±ê³µ
         }
         else
         {
-            Debug.Log($"[ÁöÃâ ½ÇÆĞ] ÀÜ¾×ÀÌ ºÎÁ·ÇÕ´Ï´Ù. (ÇÊ¿ä: {amount}¿ø, º¸À¯: {currentMoney}¿ø)");
-            return false; // ±¸¸Å ½ÇÆĞ
+            Debug.Log($"[ì§€ì¶œ ì‹¤íŒ¨] ì”ì•¡ì´ ë¶€ì¡±í•©ë‹ˆë‹¤. (í•„ìš”: {amount}ì›, ë³´ìœ : {currentMoney}ì›)");
+            return false; // êµ¬ë§¤ ì‹¤íŒ¨
         }
     }
 
     /// <summary>
-    /// ÇöÀç ¼ÒÁö±İÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+    /// í˜„ì¬ ì†Œì§€ê¸ˆì„ ë°˜í™˜í•©ë‹ˆë‹¤.
     /// </summary>
     public int GetCurrentMoney()
     {
