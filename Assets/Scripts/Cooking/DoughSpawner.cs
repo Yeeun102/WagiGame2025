@@ -21,6 +21,25 @@ public class DoughSpawner : MonoBehaviour
         originalPosition = transform.position;
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                Debug.Log($"[클릭 성공] 마우스 아래에 있는 것: {hit.collider.gameObject.name}");
+            }
+            else
+            {
+                Debug.LogWarning("[클릭 실패] 아무것도 감지되지 않음. 카메라 태그나 Z축을 확인하세요.");
+            }
+        }
+        // 기존 코드...
+    }
+
     void OnMouseDown()
     {
         isDragging = true;

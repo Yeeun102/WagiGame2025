@@ -17,19 +17,20 @@ public class DragAndDropManager : MonoBehaviour
 
     public FoodState currentFoodState;
 
+
+
     void OnMouseDown()
     {
         isDragging = true;
         offset = (Vector2)transform.position - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        // 만약 팬 위에서 다시 집어 올리는 거라면
+        // ?? ? ??? ?? ?? ??? ???
         if (isOnPan)
         {
-            // 1. �ش� ���� ������ �Ͻ� �ߴ��ϰų� �ʱ�ȭ�ؾ� ��
+            // 1. ?? ?? ??? ?? ????? ????? ?
             //CookingSystem.Instance.StopCookingManually(currentPanIndex);
 
-
-            // 2. 팬과의 부모 관계 해제 (다시 자유로운 몸)
+            // 2. ??? ?? ?? ?? (?? ???? ?)
             transform.SetParent(null);
             isOnPan = false;
 
@@ -66,14 +67,21 @@ public class DragAndDropManager : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
-    private Vector3 GetMouseWorldPosition()
+    /*private Vector3 GetMouseWorldPosition()
     {
 
         Vector3 mouseScreenPosition = Input.mousePosition;
-        mouseScreenPosition.z = Camera.main.nearClipPlane;
+        mouseScreenPosition.z = Camera.main.nearClipPlane; 
+        return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+    }*/
+    private Vector3 GetMouseWorldPosition()
+    {
+        Vector3 mouseScreenPosition = Input.mousePosition;
+        // UI ????? ????? ??? ????? ?? ?? ?????.
+        // ???? -10, ????? 0??? ??? 10???.
+        mouseScreenPosition.z = Mathf.Abs(Camera.main.transform.position.z);
         return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
     }
-
 
     private bool HandleDropInteraction()
     {
@@ -89,7 +97,7 @@ public class DragAndDropManager : MonoBehaviour
                 transform.position = hit.transform.position;
                 transform.SetParent(hit.transform);
 
-                // [수정] 세 번째 인자로 'this'를 보냅니다.
+                // [??] ? ?? ??? 'this'? ????.
                 CookingSystem.Instance.StartCooking(fryingPan.panIndex, currentRecipe, this);
 
                 isOnPan = true;
@@ -97,18 +105,18 @@ public class DragAndDropManager : MonoBehaviour
                 return true;
             }
 
-            // 1. ������ �ø���
+            // 1. ??? ???
             CuttingBoard board = hit.GetComponent<CuttingBoard>();
             if (board != null)
             {
                 transform.position = hit.transform.position;
                 transform.SetParent(hit.transform);
                 board.PlaceDough(this);
-                isOnPan = false; // �ҿ��� ���
+                isOnPan = false; // ??? ???
                 return true;
             }
 
-            // 2. �մԿ��� �����ϱ� (�±� ���)
+            // 2. ???? ???? (?? ??)
             if (hit.CompareTag("Customer"))
             {
                 DeliverToCustomer(hit.gameObject);
@@ -128,20 +136,19 @@ public class DragAndDropManager : MonoBehaviour
 
     private void DeliverToCustomer(GameObject customer)
     {
-
         CustomerController cc = customer.GetComponent<CustomerController>();
         if (cc != null)
         {
             CuttingBoard board = Object.FindAnyObjectByType<CuttingBoard>();
             if (board != null)
             {
-                // ������ �Ű�����: (���� ����Ʈ, �������� Ÿ��, ���� ����)
+                // ??? ????: (?? ???, ???? ??, ?? ??)
                 bool success = cc.ReceiveFood(board.addedToppings, board.currentSpread, this.currentFoodState);
 
                 DiscardDish();
 
-                // ����� ���� �ǵ�� (����/���� �α״� CustomerController���� ��µ�)
-                // ���� ó�� (CustomerManager�� exitPoint�� �ִ��� Ȯ���ϼ���!)
+                // ??? ?? ??? (??/?? ??? CustomerController?? ???)
+                // ?? ?? (CustomerManager? exitPoint? ??? ?????!)
                 Vector3 exitPos = CustomerManager.Instance.exitPoint.position;
                 cc.Leave(exitPos);
             }
@@ -154,11 +161,11 @@ public class DragAndDropManager : MonoBehaviour
         CuttingBoard board = GetComponentInParent<CuttingBoard>();
         if (board != null)
         {
-            board.ClearBoard(); // ���� ���� (�� �ȿ��� Destroy(gameObject)�� ȣ���)
+            board.ClearBoard(); // ?? ??? (? ??? Destroy(gameObject)? ???)
         }
         else
         {
-            // ���� ���� ���� ���� ����(��: �ҿ��� �ٷ� ���� ��)��� �ڱ� �ڽŸ� �ı�
+            // ?? ?? ?? ?? ??(?: ??? ?? ?? ?)?? ?? ??? ??
             Destroy(gameObject);
         }
     }
