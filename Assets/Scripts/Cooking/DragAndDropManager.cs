@@ -17,6 +17,8 @@ public class DragAndDropManager : MonoBehaviour
 
     public FoodState currentFoodState;
 
+   
+
     void OnMouseDown()
     {
         isDragging = true;
@@ -65,14 +67,21 @@ public class DragAndDropManager : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
-    private Vector3 GetMouseWorldPosition()
+    /*private Vector3 GetMouseWorldPosition()
     {
 
         Vector3 mouseScreenPosition = Input.mousePosition;
         mouseScreenPosition.z = Camera.main.nearClipPlane; 
         return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+    }*/
+    private Vector3 GetMouseWorldPosition()
+    {
+        Vector3 mouseScreenPosition = Input.mousePosition;
+        // UI 환경에서는 카메라와의 거리를 명시적으로 주는 것이 안전합니다.
+        // 카메라가 -10, 오브젝트가 0이라면 거리는 10입니다.
+        mouseScreenPosition.z = Mathf.Abs(Camera.main.transform.position.z);
+        return Camera.main.ScreenToWorldPoint(mouseScreenPosition);
     }
-    
 
     private bool HandleDropInteraction()
     {
