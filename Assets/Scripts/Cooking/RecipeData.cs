@@ -7,21 +7,19 @@ public class RecipeData : ScriptableObject
     public string ID;
     public string 메뉴명;
 
-
-    [Header("�⺻ ����")]
+    [Header("기본 정보")]
     public string recipeID;
     public string recipeName;
 
-    [Header("����")]
+    [Header("조리")]
     public float cookTime;
     public int price;
 
-    [Header("���")]
+    [Header("재료")]
     public List<string> requiredItemIDs;
 
-    [Header("����")]
+    [Header("보상")]
     public int fameBonus;
-
 }
 
 public enum FoodState
@@ -38,10 +36,8 @@ public enum ToppingType
     None,
     Strawberry,
     Blueberry,
-
     Banana,
-    Mango// �߰� �ʿ��� ��� ���� ����
-
+    Mango// 추가 필요한 경우 추후 수정
 
 }
 public enum SpreadType
