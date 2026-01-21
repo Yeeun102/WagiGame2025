@@ -156,7 +156,8 @@ public class CuttingBoard : MonoBehaviour
         // 1. 도우의 SpriteRenderer를 가져와서 완성된 이미지로 교체
         SpriteRenderer doughSR = currentDough.GetComponent<SpriteRenderer>();
         int spriteIndex = (int)finalToppingType - 1;
-        Vector3 finishedScale = new Vector3(0.42f, 0.72f, 0.6f);
+
+        Vector3 finishedScale = new Vector3(1.2f, 1.2f, 1.2f);
 
 
         if (doughSR != null && spriteIndex >= 0 && spriteIndex < finishedCrepeSprites.Length)
