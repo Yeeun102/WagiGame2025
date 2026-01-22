@@ -1,4 +1,3 @@
-using System; // Action 이벤트를 사용하기 위해 필수
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,19 +7,17 @@ public class CookingSystem : MonoBehaviour
 {
     public static CookingSystem Instance;
 
-    // 정의: 외부로 보낼 이벤트 (매개변수: 팬 번호, 음식 상태, 레시피ID)
-    // EconomyManager 등 다른 시스템이 이 신호를 듣고 돈을 계산합니다.
-    public event Action<int, FoodState, string> OnCookingCompleted;
+    // [삭제함] 더 이상 쓰지 않는 이벤트라 지웠습니다. (경고 해결)
+    // public event Action<int, FoodState, string> OnCookingCompleted;
 
     [Header("멀티 팬 설정")]
-    // 조리 씬의 Slider들을 순서대로 연결하세요.
     [SerializeField] private Slider[] timerBars;
 
     // 팬 상태 관리를 위한 배열들
     private FoodState[] panStates;
     private Coroutine[] cookingCoroutines;
-    private RecipeData[] activeRecipes; // 현재 팬에서 요리 중인 레시피 정보 저장
-    private DragAndDropManager[] activeDoughs; // 현재 팬 위에 있는 도우 객체
+    private RecipeData[] activeRecipes;
+    private DragAndDropManager[] activeDoughs;
 
     [Header("Dependencies")]
     public InventorySystem inventorySystem;
@@ -33,36 +30,19 @@ public class CookingSystem : MonoBehaviour
     public Sprite burntSprite;
 
     [Header("레시피 설정")]
-    // 인스펙터에서 만든 RecipeData 파일들을 여기에 드래그해서 넣으세요.
     public List<RecipeData> recipeList = new List<RecipeData>();
-
     private Dictionary<string, RecipeData> recipeDictionary = new Dictionary<string, RecipeData>();
 
     [Header("Cooking Timers")]
     [SerializeField] private float onPanTime = 1.0f;
-    [SerializeField] private float undercookedTime = 2.0f; // 설익음 도달 시간
-    [SerializeField] private float perfectTime = 2.0f;    // 설익음 이후 완성까지 시간
-    [SerializeField] private float burntTime = 2.0f;      // 완성 이후 타기까지 시간
+    [SerializeField] private float undercookedTime = 2.0f;
+    [SerializeField] private float perfectTime = 2.0f;
+    [SerializeField] private float burntTime = 2.0f;
 
     private void Awake()
     {
-        /*
-        // 싱글톤 설정: Managers 프리팹이 씬 전환 시에도 유지되도록 함
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-        */
         Instance = this;
 
-        // 배열 크기 초기화 (인스펙터에 연결된 TimerBar 개수에 맞춰서 동적으로 할당)
-        // 이렇게 하면 팬이 1개든 3개든 코드를 수정할 필요가 없습니다.
         int panCount = timerBars != null ? timerBars.Length : 0;
 
         panStates = new FoodState[panCount];
@@ -84,28 +64,20 @@ public class CookingSystem : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 외부(DragAndDropManager 등)에서 조리를 시작할 때 호출합니다.
-    /// </summary>
-    /// <param name="panIndex">팬 번호 (0부터 시작)</param>
-    /// <param name="recipeID">레시피 데이터 ID</param>
     public void StartCooking(int panIndex, string recipeID, DragAndDropManager dough)
     {
         if (panIndex < 0 || panIndex >= timerBars.Length) return;
 
         activeDoughs[panIndex] = dough;
 
-        // 이미 해당 팬이 조리 중인지 체크
         if (cookingCoroutines[panIndex] != null)
         {
             StopCoroutine(cookingCoroutines[panIndex]);
             Debug.Log($"{panIndex}번 팬은 이미 조리 중입니다. 기존 조리를 중단하고 새로 시작합니다.");
         }
 
-        // 레시피 데이터 확인
         if (recipeDictionary.TryGetValue(recipeID, out RecipeData recipe))
         {
-            // [중요] 현재 팬에서 어떤 레시피를 요리하는지 저장
             activeRecipes[panIndex] = recipe;
 
             timerBars[panIndex].gameObject.SetActive(true);
@@ -137,19 +109,14 @@ public class CookingSystem : MonoBehaviour
                 case FoodState.Burnt: sr.sprite = burntSprite; break;
             }
         }
-        // 디버그 로그가 너무 많으면 주석 처리 하셔도 됩니다.
-        // Debug.Log($"{panIndex}번 팬 음식 상태 변경: {newState}");
     }
 
-    /// <summary>
-    /// 조리 과정을 단계별로 관리하는 코루틴입니다.
-    /// </summary>
     private IEnumerator CookFoodRoutine(int panIndex, RecipeData recipe)
     {
         float elapsedTime = 0f;
         float totalPerfectTime = onPanTime + undercookedTime + perfectTime;
 
-        // 0단계: OnPan -> Raw (초기 가열)
+        // 0단계: OnPan -> Raw 
         while (elapsedTime < onPanTime)
         {
             elapsedTime += Time.deltaTime;
@@ -158,7 +125,7 @@ public class CookingSystem : MonoBehaviour
         }
         UpdatePanState(panIndex, FoodState.Raw);
 
-        // 1단계: Raw -> Undercooked (설익음)
+        // 1단계: Raw -> Undercooked 
         while (elapsedTime < onPanTime + undercookedTime)
         {
             elapsedTime += Time.deltaTime;
@@ -167,7 +134,7 @@ public class CookingSystem : MonoBehaviour
         }
         UpdatePanState(panIndex, FoodState.Undercooked);
 
-        // 2단계: Undercooked -> Perfect (잘 익음)
+        // 2단계: Undercooked -> Perfect 
         while (elapsedTime < totalPerfectTime)
         {
             elapsedTime += Time.deltaTime;
@@ -176,8 +143,7 @@ public class CookingSystem : MonoBehaviour
         }
         UpdatePanState(panIndex, FoodState.Perfect);
 
-        // 3단계: Perfect -> Burnt (탐) - 대기 시간
-        // 이 구간에서는 게이지가 꽉 찬 상태 유지 혹은 별도 처리가 가능
+        // 3단계: Perfect -> Burnt 
         float timeSpentBurning = 0f;
         while (timeSpentBurning < burntTime)
         {
@@ -190,13 +156,10 @@ public class CookingSystem : MonoBehaviour
         FailCooking(panIndex);
     }
 
-    /// <summary>
-    /// 팬의 상태 값을 변경하고 비주얼 업데이트를 호출합니다.
-    /// </summary>
     private void UpdatePanState(int panIndex, FoodState newState)
     {
         panStates[panIndex] = newState;
-        UpdateDoughVisual(panIndex, newState); // activeDoughs[panIndex]는 내부에서 사용
+        UpdateDoughVisual(panIndex, newState);
     }
 
     public void StopCookingVisual(int panIndex)
@@ -220,10 +183,13 @@ public class CookingSystem : MonoBehaviour
             cookingCoroutines[panIndex] = null;
         }
 
-        // [이벤트 발송] Burnt 상태를 EconomyManager 등에 알림 (돈 0원 처리 등을 위해)
+        // EconomyManager를 직접 호출하여 처리 (Burnt 상태 전달 -> 0원 처리)
         if (activeRecipes[panIndex] != null)
         {
-            OnCookingCompleted?.Invoke(panIndex, FoodState.Burnt, activeRecipes[panIndex].ID);
+            if (EconomyManager.Instance != null)
+            {
+                EconomyManager.Instance.CalculateRevenue(panIndex, FoodState.Burnt, activeRecipes[panIndex].ID);
+            }
         }
 
         Debug.Log($"{panIndex + 1}번 팬의 요리가 타버렸습니다! [가격: 0원]");
@@ -243,12 +209,29 @@ public class CookingSystem : MonoBehaviour
         // 타이머 바 숨기기
         timerBars[panIndex].gameObject.SetActive(false);
 
-        // [핵심 로직 연결] 현재 상태와 레시피 정보를 EconomyManager에 방송합니다.
+        // [핵심 로직 연결] EconomyManager 직접 호출
         if (activeRecipes[panIndex] != null)
         {
-            // 현재 팬의 상태(Perfect, Undercooked 등)를 보냅니다.
-            OnCookingCompleted?.Invoke(panIndex, panStates[panIndex], activeRecipes[panIndex].ID);
-            Debug.Log($"[CookingSystem] 조리 완료 신호 보냄: {panStates[panIndex]}");
+            // 1. 매니저가 있는지 확인하고 직접 호출
+            if (EconomyManager.Instance != null)
+            {
+                EconomyManager.Instance.CalculateRevenue(panIndex, panStates[panIndex], activeRecipes[panIndex].ID);
+                Debug.Log($"[CookingSystem] 매니저에게 정산 요청 보냄 (상태: {panStates[panIndex]})");
+            }
+            else
+            {
+                // 2. 만약 Instance가 없다면 비상 연락망으로 찾아서 호출
+                var ecoManager = FindAnyObjectByType<EconomyManager>();
+                if (ecoManager != null)
+                {
+                    ecoManager.CalculateRevenue(panIndex, panStates[panIndex], activeRecipes[panIndex].ID);
+                    Debug.Log($"[CookingSystem] 매니저(Find)에게 정산 요청 보냄 (상태: {panStates[panIndex]})");
+                }
+                else
+                {
+                    Debug.LogError("[CookingSystem] EconomyManager가 씬에 없습니다! 정산 불가!");
+                }
+            }
         }
         else
         {
@@ -264,9 +247,7 @@ public class CookingSystem : MonoBehaviour
             cookingCoroutines[panIndex] = null;
         }
 
-        // 팬 상태를 다시 초기 상태로 변경 (필요 시)
         panStates[panIndex] = FoodState.OnPan;
-
         Debug.Log($"{panIndex + 1}번 팬에서 음식을 집어 올렸습니다. 조리 중단!");
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EconomyManager : MonoBehaviour
 {
@@ -9,9 +10,12 @@ public class EconomyManager : MonoBehaviour
     [Header("경제 상태")]
     [SerializeField] private int currentMoney = 0;
 
+    [Header("UI 연결")]
+    public TMP_Text moneyText;
+
     private void Awake()
     {
-        // 싱글톤 패턴: 어디서든 EconomyManager.Instance로 접근 가능
+        // 싱글톤 패턴 설정
         if (Instance == null)
         {
             Instance = this;
@@ -25,64 +29,37 @@ public class EconomyManager : MonoBehaviour
 
     private void Start()
     {
-        // CookingSystem이 존재한다면 조리 완료 이벤트를 구독(연결)합니다.
-        if (CookingSystem.Instance != null)
-        {
-            CookingSystem.Instance.OnCookingCompleted += CalculateRevenue;
-        }
-        else
-        {
-            Debug.LogWarning("EconomyManager: CookingSystem을 찾을 수 없습니다.");
-        }
+        // [중요] 이제 여기서 이벤트를 구독(+=)하지 않습니다.
+        // 그냥 시작하자마자 UI 한 번 갱신해줍니다.
+        UpdateMoneyUI();
+
+        Debug.Log("EconomyManager 준비 완료! 요리사가 직접 호출해주길 기다리는 중...");
     }
 
-    private void OnDestroy()
-    {
-        // 매니저가 파괴될 때 구독을 해지해야 에러를 방지할 수 있습니다.
-        if (CookingSystem.Instance != null)
-        {
-            CookingSystem.Instance.OnCookingCompleted -= CalculateRevenue;
-        }
-    }
+    // OnDestroy도 이제 구독 해지할 게 없으니 필요 없습니다. 지워도 됩니다.
 
     /// <summary>
-    /// CookingSystem에서 조리가 끝날 때마다 자동으로 호출되는 함수입니다.
+    /// CookingSystem이 직접 호출하는 함수입니다. 반드시 public이어야 합니다.
     /// </summary>
-    private void CalculateRevenue(int panIndex, FoodState state, string recipeID)
+    public void CalculateRevenue(int panIndex, FoodState state, string recipeID)
     {
         int earnedMoney = 0;
-
-        // TODO: 나중에는 recipeID를 통해 RecipeData에서 기본 가격을 가져오세요.
-        int basePrice = 1000;
 
         switch (state)
         {
             case FoodState.Perfect:
-                // 완벽함: 1.5배 가격
-                earnedMoney = (int)(basePrice * 1.5f);
-                Debug.Log($"[정산] 완벽한 조리! (+{earnedMoney}원)");
+                earnedMoney = 6000;
+                Debug.Log($"정산: 완벽 (+{earnedMoney})");
                 break;
 
             case FoodState.Undercooked:
-                // 설익음: 50% 가격
-                earnedMoney = (int)(basePrice * 0.5f);
-                Debug.Log($"[정산] 설익었습니다. (+{earnedMoney}원)");
+                earnedMoney = 3000;
+                Debug.Log($"정산: 설익음 (+{earnedMoney})");
                 break;
 
-            case FoodState.Burnt:
-                // 탔음: 0원
-                earnedMoney = 0;
-                Debug.Log($"[정산] 음식이 탔습니다. (0원)");
-                break;
-
-            case FoodState.Raw:
-                // 생재료: 0원
-                earnedMoney = 0;
-                Debug.Log($"[정산] 생재료 상태입니다. (0원)");
-                break;
-
+            // Burnt, Raw 등은 0원이므로 처리 안 함
             default:
-                Debug.Log("[정산] 알 수 없는 상태입니다.");
+                Debug.Log($"정산: 판매 불가 상태 {state} (0)");
                 break;
         }
 
@@ -92,44 +69,43 @@ public class EconomyManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 돈을 추가하고 로그를 출력합니다.
-    /// </summary>
     public void AddMoney(int amount)
     {
         currentMoney += amount;
-
-        // TODO: 여기서 UI 업데이트 함수 호출 (예: UIManager.Instance.UpdateMoneyUI)
-        Debug.Log($"[System] 정산 완료! 현재 소지금: {currentMoney}원");
+        UpdateMoneyUI();
     }
 
-    /// <summary>
-    /// 돈을 사용하려고 시도합니다. 잔액이 충분하면 차감하고 true를 반환합니다.
-    /// </summary>
-    /// <param name="amount">사용할 금액</param>
-    /// <returns>성공 시 true, 실패 시 false</returns>
     public bool TrySpendMoney(int amount)
     {
         if (currentMoney >= amount)
         {
             currentMoney -= amount;
-            Debug.Log($"[지출] {amount}원 사용했습니다. (남은 돈: {currentMoney}원)");
-
-            // TODO: 여기서도 UI 갱신 함수를 호출해야 합니다.
-            // UIManager.Instance.UpdateMoneyUI(currentMoney);
-
-            return true; // 구매 성공
+            UpdateMoneyUI();
+            return true;
         }
-        else
+        return false;
+    }
+
+    // MoneyLinker가 부를 수 있게 public으로 유지
+    public void UpdateMoneyUI()
+    {
+        // 1. 만약 연결이 끊겼다면 이름으로 찾기 시도
+        if (moneyText == null)
         {
-            Debug.Log($"[지출 실패] 잔액이 부족합니다. (필요: {amount}원, 보유: {currentMoney}원)");
-            return false; // 구매 실패
+            GameObject foundObj = GameObject.Find("Money"); // 아까 이름을 Money로 하셨다고 했죠?
+            if (foundObj != null)
+            {
+                moneyText = foundObj.GetComponent<TMP_Text>();
+            }
+        }
+
+        // 2. 텍스트 갱신
+        if (moneyText != null)
+        {
+            moneyText.text = $"{currentMoney}";
         }
     }
 
-    /// <summary>
-    /// 현재 소지금을 반환합니다.
-    /// </summary>
     public int GetCurrentMoney()
     {
         return currentMoney;
