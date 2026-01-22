@@ -112,6 +112,7 @@ public class CustomerController : MonoBehaviour
         if (cookedState==FoodState.Burnt)
         {
             Debug.Log("탄음식을 서빙했습니다");
+            GameStateManager.Instance.burntOrders++;
             return false;
         }
         if (cookedState==FoodState.OnPan)
@@ -149,12 +150,15 @@ public class CustomerController : MonoBehaviour
         if (isSpreadCorrect && isToppingCorrect && cookedState==FoodState.Perfect)
         {
             Debug.Log("완벽한 주문");
+            GameStateManager.Instance.perfectOrders++;
+            //GameStateManager.Instance.totalEarnings += 100;
             Served();
             return true;
         }
         else
         {
             Debug.Log("뭔가 부족함");
+            GameStateManager.Instance.sosoOrders++;
             return false;
         }
     }

@@ -5,6 +5,12 @@ public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
 
+    // 영업 실적 데이터
+    public int perfectOrders = 0;
+    public int sosoOrders = 0;
+    public int burntOrders = 0;
+    public int totalEarnings = 0;
+
     [Header("참조 매니저들")]
     public RegionManager regionManager;
     public InventorySystem inventorySystem;
@@ -42,6 +48,15 @@ public class GameStateManager : MonoBehaviour
     {
         CurrentMode = GameMode.Title;
         Time.timeScale = 1.0f;
+    }
+
+    // 데이터를 초기화하는 함수 (새로운 날 시작 시 호출)
+    public void ResetResults()
+    {
+        perfectOrders = 0;
+        sosoOrders = 0;
+        burntOrders = 0;
+        totalEarnings = 0;
     }
 
     // 1. 메인 메뉴의 [Game Start] 버튼에 연결할 함수
@@ -85,7 +100,7 @@ public class GameStateManager : MonoBehaviour
         SceneManager.LoadScene("NightScene");
 
         // 테스트용: 5초 뒤에 다음 날로 이동 (나중에 버튼 클릭으로 변경하세요!)
-        Invoke(nameof(StartNextDay), 5f);
+        //Invoke(nameof(StartNextDay), 5f);
     }
 
     // 5. 다음 날로 넘어가기
@@ -115,5 +130,15 @@ public class GameStateManager : MonoBehaviour
 
             Debug.Log("RealDayScene의 매니저 참조 재연결 완료!");
         }
+    }
+
+    public void ResetResultsForNextDay()
+    {
+        perfectOrders = 0;
+        sosoOrders = 0;
+        burntOrders = 0;
+        totalEarnings = 0;
+        currentDay++; // 다음 날로 날짜 증가
+        Debug.Log($"데이터 초기화 완료. 현재 {currentDay}일차 영업 준비 중!");
     }
 }
