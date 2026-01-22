@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/NightScene.unity
     guid: db1b1ed147426e34992717528beb5d0f
   - enabled: 1
+    path: Assets/Scenes/RealDayScene.unity
+    guid: 2bdd8b90aa1556f428296095c37245e0
+  - enabled: 1
     path: Assets/Scenes/DayScene.unity
     guid: ca080b2e6468bd2448a05a397a7bf9ce
   m_configObjects:
