@@ -103,6 +103,10 @@ public class CustomerController : MonoBehaviour
     // 조리된 음식을 받았을 때 호출할 함수
     public bool ReceiveFood(List<ToppingType> deliveredToppings, SpreadType spread, FoodState cookedState)
     {
+        // [디버깅 로그 추가] 이 로그들이 콘솔창에 찍히는 수치를 확인하세요!
+        Debug.Log($"[검사 시작] 받은 토핑 개수: {deliveredToppings.Count}, 주문한 토핑: {orderedTopping}");
+        Debug.Log($"[검사 시작] 받은 스프레드: {spread}, 주문한 스프레드: {orderedSpread}");
+        Debug.Log($"[검사 시작] 받은 조리 상태: {cookedState}, 목표 상태: Perfect");
         if (State != CustomerState.Waiting) return false;
 
         if (cookedState==FoodState.Burnt)
@@ -110,6 +114,21 @@ public class CustomerController : MonoBehaviour
             Debug.Log("탄음식을 서빙했습니다");
             return false;
         }
+        if (cookedState==FoodState.OnPan)
+        {
+            Debug.Log("반죽을 서빙하면 안됨");
+            return false;
+        }
+        if (cookedState == FoodState.Raw) {
+            Debug.Log("너무 덜 익음");
+            return false;
+        }
+        if (cookedState==FoodState.Undercooked)
+        {
+            Debug.Log("조금 덜 익음");
+            return false;
+        }
+
 
         // 1. 토핑이 맞는지 확인
         bool isSpreadCorrect = (spread == orderedSpread);

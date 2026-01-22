@@ -46,6 +46,7 @@ public class CookingSystem : MonoBehaviour
 
     private void Awake()
     {
+        /*
         // 싱글톤 설정: Managers 프리팹이 씬 전환 시에도 유지되도록 함
         if (Instance == null)
         {
@@ -57,6 +58,8 @@ public class CookingSystem : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        */
+        Instance = this;
 
         // 배열 크기 초기화 (인스펙터에 연결된 TimerBar 개수에 맞춰서 동적으로 할당)
         // 이렇게 하면 팬이 1개든 3개든 코드를 수정할 필요가 없습니다.

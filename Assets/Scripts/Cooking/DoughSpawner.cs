@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class DoughSpawner : MonoBehaviour
 {
@@ -22,19 +23,26 @@ public class DoughSpawner : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            // [중요] 마우스가 UI 요소(버튼, 패널 등) 위에 있다면 아래 로직을 아예 실행 안 함
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
             if (hit.collider != null)
             {
                 Debug.Log($"[클릭 성공] 마우스 아래에 있는 것: {hit.collider.gameObject.name}");
+                // 여기서 도우 생성 로직 실행...
             }
             else
             {
-                Debug.LogWarning("[클릭 실패] 아무것도 감지되지 않음. 카메라 태그나 Z축을 확인하세요.");
+                // UI가 아닌 허공을 클릭했을 때만 이 로그가 찍힘
+                Debug.LogWarning("[클릭 실패] 아무것도 감지되지 않음.");
             }
         }
-        // 기존 코드...
     }
 
     void OnMouseDown()
