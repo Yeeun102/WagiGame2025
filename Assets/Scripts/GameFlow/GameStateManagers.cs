@@ -9,8 +9,8 @@ public class GameStateManager : MonoBehaviour
     public RegionManager regionManager;
     public InventorySystem inventorySystem;
     public EconomyManager economyManager;
-    public CookingSystem cookingSystem;
-    public CustomerManager customerManager;
+    //public CookingSystem cookingSystem;
+    //public CustomerManager customerManager;
     public EventManager eventManager;
     public UpgradeManager upgradeManager;
 
@@ -41,6 +41,7 @@ public class GameStateManager : MonoBehaviour
     private void Start()
     {
         CurrentMode = GameMode.Title;
+        Time.timeScale = 1.0f;
     }
 
     // 1. 메인 메뉴의 [Game Start] 버튼에 연결할 함수
@@ -54,12 +55,13 @@ public class GameStateManager : MonoBehaviour
     public void StartDay()
     {
         CurrentMode = GameMode.Day;
+        Time.timeScale = 1f;
         Debug.Log($"[Day {currentDay}] 시작! (씬 로드: RealDayScene)");
 
         SceneManager.LoadScene("RealDayScene");
 
         // 테스트용: 5초 뒤에 자동으로 영업 종료 (나중에 지우세요!)
-        Invoke(nameof(EndDay), 5f);
+        //Invoke(nameof(EndDay), 5f);
     }
 
     // 3. Day 종료 로직
@@ -91,5 +93,27 @@ public class GameStateManager : MonoBehaviour
     {
         currentDay++; // 날짜 하루 증가
         StartDay();   // 다시 낮 시작
+    }
+
+
+    private void OnEnable() { SceneManager.sceneLoaded += OnSceneLoaded; }
+    private void OnDisable() { SceneManager.sceneLoaded -= OnSceneLoaded; }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "RealDayScene")
+        {
+            // 씬에 있는 매니저들을 다시 찾아서 연결합니다.
+            //cookingSystem = FindFirstObjectByType<CookingSystem>();
+            //customerManager = FindFirstObjectByType<CustomerManager>();
+            inventorySystem = FindFirstObjectByType<InventorySystem>();
+            economyManager = FindFirstObjectByType<EconomyManager>();
+            regionManager = FindFirstObjectByType<RegionManager>();
+            eventManager = FindFirstObjectByType<EventManager>();
+            upgradeManager = FindFirstObjectByType<UpgradeManager>();
+            // ... 다른 매니저들도 동일하게
+
+            Debug.Log("RealDayScene의 매니저 참조 재연결 완료!");
+        }
     }
 }

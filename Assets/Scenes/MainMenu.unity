@@ -738,7 +738,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3476103213973180669}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1646278664
 GameObject:
@@ -867,9 +867,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e68cc3000693cd840aa438fb0d12dc31, type: 2}
     - target: {fileID: 2345359224161912915, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
+      propertyPath: cookingSystem
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345359224161912915, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
       propertyPath: upgradeManager
       value: 
       objectReference: {fileID: 3476103213973180668}
+    - target: {fileID: 2345359224161912915, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
+      propertyPath: customerManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2863502756931711571, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -918,12 +926,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1701509941185286673, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
+    - {fileID: 2109454677139601035, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 6660539173408198330, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1625400675}
+    m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2863502756931711571, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
       insertIndex: -1
@@ -967,11 +974,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownedUpgradeIDs: []
   allUpgrades: []
---- !u!4 &3476103213973180669 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6660539173408198330, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
-  m_PrefabInstance: {fileID: 3476103213973180665}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3476103213973180673 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2345359224161912915, guid: 53a3909cf2d99fc4cab689b2e408dcf3, type: 3}
@@ -988,6 +990,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 793227843}
+  - {fileID: 1625400675}
   - {fileID: 3476103213973180665}
   - {fileID: 315322009}
   - {fileID: 1646278668}
