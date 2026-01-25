@@ -41,6 +41,8 @@ public class EconomyManager : MonoBehaviour
     /// <summary>
     /// CookingSystem이 직접 호출하는 함수입니다. 반드시 public이어야 합니다.
     /// </summary>
+    /// 
+    /*
     public void CalculateRevenue(int panIndex, FoodState state, string recipeID)
     {
         int earnedMoney = 0;
@@ -66,6 +68,36 @@ public class EconomyManager : MonoBehaviour
         if (earnedMoney > 0)
         {
             AddMoney(earnedMoney);
+        }
+    }*/
+    // 팀원의 코드 수정 (매개변수 하나 추가)
+    public void CalculateRevenue(int panIndex, FoodState state, string recipeID, int finalPrice = -1)
+    {
+        int earnedMoney = 0;
+
+        // 만약 인자로 금액(finalPrice)이 들어왔다면 switch문을 건너뜁니다.
+        if (finalPrice != -1)
+        {
+            earnedMoney = finalPrice;
+            Debug.Log($"[전달받은 금액으로 정산] 금액: {earnedMoney}");
+        }
+        else
+        {
+            // 기존 팀원의 switch문 로직 (예외 상황 대비용)
+            switch (state)
+            {
+                case FoodState.Perfect: earnedMoney = 6000; break;
+                case FoodState.Undercooked: earnedMoney = 3000; break;
+                default: earnedMoney = 0; break;
+            }
+        }
+
+        // 실제 돈을 추가하는 로직
+        if (earnedMoney > 0)
+        {
+            AddMoney(earnedMoney);
+            // 여기서 GameStateManager에 누적 수익을 더해줍니다.
+            GameStateManager.Instance.totalEarnings += earnedMoney;
         }
     }
 

@@ -172,8 +172,8 @@ public class CuttingBoard : MonoBehaviour
             // 3. [핵심 수정] 여기서 돈을 지급합니다! (6000원)
             if (EconomyManager.Instance != null)
             {
-                EconomyManager.Instance.AddMoney(6000);
-                Debug.Log($"[정산 완료] {finalToppingType} 크레페 완성! (+6000원)");
+                //EconomyManager.Instance.AddMoney(6000);
+                Debug.Log($"[정산 완료] {finalToppingType} 크레페 완성!");
             }
             else
             {
