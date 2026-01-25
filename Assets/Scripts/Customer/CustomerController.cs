@@ -20,6 +20,8 @@ public class CustomerController : MonoBehaviour
     private bool isWaiting = false;
 
     private OrderBubbleUI orderBubble;//말풍선
+
+
     private void Start()
     {
         patienceGauge = GetComponentInChildren<PatienceGauge>();
@@ -171,15 +173,18 @@ public class CustomerController : MonoBehaviour
         if (cookedState == FoodState.OnPan)
         {
             Debug.Log("반죽을 서빙하면 안됨");
+            GameStateManager.Instance.sosoOrders++;
             return false;
         }
         if (cookedState == FoodState.Raw)
         {
             Debug.Log("너무 덜 익음");
+            GameStateManager.Instance.sosoOrders++;
             return false;
         }
         if (cookedState == FoodState.Undercooked)
         {
+            GameStateManager.Instance.sosoOrders++;
             Debug.Log("조금 덜 익음");
             return false;
         }
@@ -205,7 +210,8 @@ public class CustomerController : MonoBehaviour
         {
             Debug.Log("완벽한 주문");
             GameStateManager.Instance.perfectOrders++;
-            //GameStateManager.Instance.totalEarnings += 100;
+            //GameStateManager.Instance.totalEarnings += 6000;
+            EconomyManager.Instance.CalculateRevenue(0, cookedState, "Recipe_ID", 6000);
             Served();
             return true;
         }
@@ -213,6 +219,8 @@ public class CustomerController : MonoBehaviour
         {
             Debug.Log("뭔가 부족함");
             GameStateManager.Instance.sosoOrders++;
+            //GameStateManager.Instance.totalEarnings += 3000;
+            EconomyManager.Instance.CalculateRevenue(0, cookedState, "Recipe_ID", 3000);
             return false;
         }
     }
