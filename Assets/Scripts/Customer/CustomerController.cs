@@ -6,27 +6,32 @@ public class CustomerController : MonoBehaviour
     public enum CustomerState { Enter, Order, Waiting, Served, Leave }
     public CustomerState State;
 
-    [Header("ÁÖ¹® Á¤º¸")]
-    public ToppingType orderedTopping; // µü ÇÏ³ª¸¸!
-    public SpreadType orderedSpread;   // µü ÇÏ³ª¸¸!
+    [Header("ì£¼ë¬¸ ì •ë³´")]
+    public ToppingType orderedTopping; // ë”± í•˜ë‚˜ë§Œ!
+    public SpreadType orderedSpread;   // ë”± í•˜ë‚˜ë§Œ!
 
     public float moveSpeed = 3f;
     private Vector3 targetPosition;
 
-    [Header("¸¸Á·µµ ¼³Á¤")]
-    public float maxWaitTime = 20f; // ÃÖ´ë ´ë±â ½Ã°£
+    [Header("ë§Œì¡±ë„ ì„¤ì •")]
+    public float maxWaitTime = 20f; // ìµœëŒ€ ëŒ€ê¸° ì‹œê°„
     private float currentWaitTime;
     private PatienceGauge patienceGauge;
     private bool isWaiting = false;
 
+    private OrderBubbleUI orderBubble;//ë§í’ì„ 
     private void Start()
     {
         patienceGauge = GetComponentInChildren<PatienceGauge>();
         currentWaitTime = maxWaitTime;
         if (patienceGauge != null)
         {
-            patienceGauge.gameObject.SetActive(false); // Ã³À½¿£ ¼û±è
+            patienceGauge.gameObject.SetActive(false); // ì²˜ìŒì—” ìˆ¨ê¹€
         }
+        //ë§í’ì„ 
+        orderBubble = GetComponentInChildren<OrderBubbleUI>(true); // ë¹„í™œì„± ì˜¤ë¸Œì íŠ¸ë„ ì°¾ê¸°
+        if (orderBubble != null)
+            orderBubble.Hide();
     }
 
     public void Enter(Vector3 target)
@@ -38,29 +43,77 @@ public class CustomerController : MonoBehaviour
 
     private System.Collections.IEnumerator MoveToCounter()
     {
-        // ¸ñÇ¥ ÁöÁ¡(Ä«¿îÅÍ)±îÁö ÀÌµ¿
+        // ëª©í‘œ ì§€ì (ì¹´ìš´í„°)ê¹Œì§€ ì´ë™
         while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
 
-        Order(); // µµÂøÇÏ¸é ÁÖ¹® ½ÃÀÛ
+        Order(); // ë„ì°©í•˜ë©´ ì£¼ë¬¸ ì‹œì‘
     }
+    // âœ… enum â†’ í•œê¸€ í‘œì‹œëª… ë³€í™˜
+    private string GetToppingKorean(ToppingType t)
+    {
+        return t switch
+        {
+            ToppingType.Strawberry => "ë”¸ê¸°",
+            ToppingType.Blueberry => "ë¸”ë£¨ë² ë¦¬",
+            ToppingType.Banana => "ë°”ë‚˜ë‚˜",
+            ToppingType.Mango => "ë§ê³ ",
+            _ => "í† í•‘"
+        };
+    }
+    private string GetSpreadKorean(SpreadType s)
+    {
+        return s switch
+        {
+            SpreadType.WhippedCream => "íœ˜í•‘í¬ë¦¼",
+            SpreadType.CheeseCream => "ì¹˜ì¦ˆí¬ë¦¼",
+            SpreadType.Chocolate => "ì´ˆì½”í¬ë¦¼",
+            _ => "í¬ë¦¼"
+        };
+    }
+    // âœ… ì£¼ë¬¸ ë¬¸ì¥ í…œí”Œë¦¿(ì›í•˜ëŠ” ë§Œí¼ ì¶”ê°€ ê°€ëŠ¥)
+    // {0} = í† í•‘, {1} = ìŠ¤í”„ë ˆë“œ
+    private static readonly string[] OrderTemplates =
+    {
+    "{0} {1} í¬ë ˆí˜ ì£¼ì„¸ìš”!",
+    "{1}ì— ì„ì¸ {0}ë¥¼ ë¨¹ê³ ì‹¶êµ°ìš”!",
+    "ì‹ ì„ í•œ {0}ì— {1}ë¥¼ ë°œë¼ì£¼ë©´ ì¢‹ê² ì–´ìš”...",
+    "{0} ì–¹ì€ {1} ì£¼ì„¸ìš¥...",
+    "{1} ë“¬ë¿ + {0} ì¶”ê°€ë¡œ ë¶€íƒí•´ìš”!",
+    "{0} ë“¤ì–´ê°„ {1} í¬ë ˆí˜â€¦ ë‹¹ì¥!",
+};
+    private string BuildOrderMessage()
+    {
+        string toppingKo = GetToppingKorean(orderedTopping);
+        string spreadKo = GetSpreadKorean(orderedSpread);
+
+        // í…œí”Œë¦¿ ëœë¤ ì„ íƒ
+        string template = OrderTemplates[Random.Range(0, OrderTemplates.Length)];
+
+        // í…œí”Œë¦¿ì— í† í•‘/ìŠ¤í”„ë ˆë“œ ë¼ì›Œë„£ê¸°
+        return string.Format(template, toppingKo, spreadKo);
+    }
+
     public void Order()
     {
         State = CustomerState.Order;
 
-        // 1. ½ºÇÁ·¹µå ·£´ı °áÁ¤ (None Á¦¿Ü)
-        // System.Enum.GetValues¸¦ ÀÌ¿ëÇØ Enum Áß ÇÏ³ª¸¦ ¹«ÀÛÀ§·Î »Ì½À´Ï´Ù.
+        // 1. ìŠ¤í”„ë ˆë“œ ëœë¤ ê²°ì • (None ì œì™¸)
+        // System.Enum.GetValuesë¥¼ ì´ìš©í•´ Enum ì¤‘ í•˜ë‚˜ë¥¼ ë¬´ì‘ìœ„ë¡œ ë½‘ìŠµë‹ˆë‹¤.
         int spreadCount = System.Enum.GetValues(typeof(SpreadType)).Length;
         orderedSpread = (SpreadType)Random.Range(1, spreadCount);
 
-        // 2. ÅäÇÎ ·£´ı °áÁ¤ (None Á¦¿Ü)
+        // 2. í† í•‘ ëœë¤ ê²°ì • (None ì œì™¸)
         int toppingCount = System.Enum.GetValues(typeof(ToppingType)).Length;
         orderedTopping = (ToppingType)Random.Range(1, toppingCount);
 
-        Debug.Log($"{gameObject.name} ÁÖ¹®: [{orderedSpread}]¿Í [{orderedTopping}] Å©·¹Æä ÁÖ¼¼¿ä!");
+        Debug.Log($"{gameObject.name} ì£¼ë¬¸: [{orderedSpread}]ì™€ [{orderedTopping}] í¬ë ˆí˜ ì£¼ì„¸ìš”!");
+        string msg = BuildOrderMessage();
+        if (orderBubble != null)
+            orderBubble.Show(msg, 5f);
 
         Waiting();
     }
@@ -72,7 +125,7 @@ public class CustomerController : MonoBehaviour
         if (patienceGauge != null)
         {
             patienceGauge.gameObject.SetActive(true);
-            // °ÔÀÌÁö¸¦ ²Ë Âù »óÅÂ(1.0)·Î ÃÊ±âÈ­ÇØ¼­ º¸¿©Áİ´Ï´Ù.
+            // ê²Œì´ì§€ë¥¼ ê½‰ ì°¬ ìƒíƒœ(1.0)ë¡œ ì´ˆê¸°í™”í•´ì„œ ë³´ì—¬ì¤ë‹ˆë‹¤.
             patienceGauge.UpdateGauge(1f);
         }
 
@@ -85,53 +138,54 @@ public class CustomerController : MonoBehaviour
             currentWaitTime -= Time.deltaTime;
             float fillAmount = currentWaitTime / maxWaitTime;
 
-            // °ÔÀÌÁö ¾÷µ¥ÀÌÆ®
+            // ê²Œì´ì§€ ì—…ë°ì´íŠ¸
             if (patienceGauge != null)
                 patienceGauge.UpdateGauge(fillAmount);
 
-            // ½Ã°£ÀÌ ´Ù µÇ¸é È­³»¸ç ÅğÀå
+            // ì‹œê°„ì´ ë‹¤ ë˜ë©´ í™”ë‚´ë©° í‡´ì¥
             if (currentWaitTime <= 0)
             {
                 isWaiting = false;
-                Debug.Log("³Ê¹« ¿À·¡ ±â´Ù·È¾î¿ä! ¼Õ´ÔÀÌ ±×³É ³ª°©´Ï´Ù.");
-                // CustomerManagerÀÇ ½ºÆù ÁöÁ¡À¸·Î ÅğÀå
+                Debug.Log("ë„ˆë¬´ ì˜¤ë˜ ê¸°ë‹¤ë ¸ì–´ìš”! ì†ë‹˜ì´ ê·¸ëƒ¥ ë‚˜ê°‘ë‹ˆë‹¤.");
+                // CustomerManagerì˜ ìŠ¤í° ì§€ì ìœ¼ë¡œ í‡´ì¥
                 Leave(CustomerManager.Instance.spawnPoint.position);
             }
         }
     }
 
-    // Á¶¸®µÈ À½½ÄÀ» ¹Ş¾ÒÀ» ¶§ È£ÃâÇÒ ÇÔ¼ö
+    // ì¡°ë¦¬ëœ ìŒì‹ì„ ë°›ì•˜ì„ ë•Œ í˜¸ì¶œí•  í•¨ìˆ˜
     public bool ReceiveFood(List<ToppingType> deliveredToppings, SpreadType spread, FoodState cookedState)
     {
-        // [µğ¹ö±ë ·Î±× Ãß°¡] ÀÌ ·Î±×µéÀÌ ÄÜ¼ÖÃ¢¿¡ ÂïÈ÷´Â ¼öÄ¡¸¦ È®ÀÎÇÏ¼¼¿ä!
-        Debug.Log($"[°Ë»ç ½ÃÀÛ] ¹ŞÀº ÅäÇÎ °³¼ö: {deliveredToppings.Count}, ÁÖ¹®ÇÑ ÅäÇÎ: {orderedTopping}");
-        Debug.Log($"[°Ë»ç ½ÃÀÛ] ¹ŞÀº ½ºÇÁ·¹µå: {spread}, ÁÖ¹®ÇÑ ½ºÇÁ·¹µå: {orderedSpread}");
-        Debug.Log($"[°Ë»ç ½ÃÀÛ] ¹ŞÀº Á¶¸® »óÅÂ: {cookedState}, ¸ñÇ¥ »óÅÂ: Perfect");
+        // [ë””ë²„ê¹… ë¡œê·¸ ì¶”ê°€] ì´ ë¡œê·¸ë“¤ì´ ì½˜ì†”ì°½ì— ì°íˆëŠ” ìˆ˜ì¹˜ë¥¼ í™•ì¸í•˜ì„¸ìš”!
+        Debug.Log($"[ê²€ì‚¬ ì‹œì‘] ë°›ì€ í† í•‘ ê°œìˆ˜: {deliveredToppings.Count}, ì£¼ë¬¸í•œ í† í•‘: {orderedTopping}");
+        Debug.Log($"[ê²€ì‚¬ ì‹œì‘] ë°›ì€ ìŠ¤í”„ë ˆë“œ: {spread}, ì£¼ë¬¸í•œ ìŠ¤í”„ë ˆë“œ: {orderedSpread}");
+        Debug.Log($"[ê²€ì‚¬ ì‹œì‘] ë°›ì€ ì¡°ë¦¬ ìƒíƒœ: {cookedState}, ëª©í‘œ ìƒíƒœ: Perfect");
         if (State != CustomerState.Waiting) return false;
 
-        if (cookedState==FoodState.Burnt)
+        if (cookedState == FoodState.Burnt)
         {
-            Debug.Log("ÅºÀ½½ÄÀ» ¼­ºùÇß½À´Ï´Ù");
+            Debug.Log("íƒ„ìŒì‹ì„ ì„œë¹™í–ˆìŠµë‹ˆë‹¤");
             GameStateManager.Instance.burntOrders++;
             return false;
         }
-        if (cookedState==FoodState.OnPan)
+        if (cookedState == FoodState.OnPan)
         {
-            Debug.Log("¹İÁ×À» ¼­ºùÇÏ¸é ¾ÈµÊ");
+            Debug.Log("ë°˜ì£½ì„ ì„œë¹™í•˜ë©´ ì•ˆë¨");
             return false;
         }
-        if (cookedState == FoodState.Raw) {
-            Debug.Log("³Ê¹« ´ú ÀÍÀ½");
+        if (cookedState == FoodState.Raw)
+        {
+            Debug.Log("ë„ˆë¬´ ëœ ìµìŒ");
             return false;
         }
-        if (cookedState==FoodState.Undercooked)
+        if (cookedState == FoodState.Undercooked)
         {
-            Debug.Log("Á¶±İ ´ú ÀÍÀ½");
+            Debug.Log("ì¡°ê¸ˆ ëœ ìµìŒ");
             return false;
         }
 
 
-        // 1. ÅäÇÎÀÌ ¸Â´ÂÁö È®ÀÎ
+        // 1. í† í•‘ì´ ë§ëŠ”ì§€ í™•ì¸
         bool isSpreadCorrect = (spread == orderedSpread);
         bool isToppingCorrect = (deliveredToppings.Count == 3);
         if (isToppingCorrect)
@@ -140,16 +194,16 @@ public class CustomerController : MonoBehaviour
             {
                 if (t != orderedTopping)
                 {
-                    isToppingCorrect = false; // ÇÏ³ª¶óµµ ´Ù¸£¸é ½ÇÆĞ
+                    isToppingCorrect = false; // í•˜ë‚˜ë¼ë„ ë‹¤ë¥´ë©´ ì‹¤íŒ¨
                     break;
                 }
             }
         }
 
 
-        if (isSpreadCorrect && isToppingCorrect && cookedState==FoodState.Perfect)
+        if (isSpreadCorrect && isToppingCorrect && cookedState == FoodState.Perfect)
         {
-            Debug.Log("¿Ïº®ÇÑ ÁÖ¹®");
+            Debug.Log("ì™„ë²½í•œ ì£¼ë¬¸");
             GameStateManager.Instance.perfectOrders++;
             //GameStateManager.Instance.totalEarnings += 100;
             Served();
@@ -157,7 +211,7 @@ public class CustomerController : MonoBehaviour
         }
         else
         {
-            Debug.Log("¹º°¡ ºÎÁ·ÇÔ");
+            Debug.Log("ë­”ê°€ ë¶€ì¡±í•¨");
             GameStateManager.Instance.sosoOrders++;
             return false;
         }
@@ -167,6 +221,7 @@ public class CustomerController : MonoBehaviour
 
     public void Served()
     {
+        if (orderBubble != null) orderBubble.Hide();//ë§í’ì„ 
         State = CustomerState.Served;
         isWaiting = false;
         if (patienceGauge != null) patienceGauge.gameObject.SetActive(false);
@@ -174,6 +229,7 @@ public class CustomerController : MonoBehaviour
 
     public void Leave(Vector3 exitTarget)
     {
+        if (orderBubble != null) orderBubble.Hide();//ë§í’ì„ 
         if (State == CustomerState.Leave) return;
         State = CustomerState.Leave;
         targetPosition = exitTarget;
@@ -189,7 +245,7 @@ public class CustomerController : MonoBehaviour
 
     private System.Collections.IEnumerator MoveToExit()
     {
-        
+
         while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
