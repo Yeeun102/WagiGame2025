@@ -19,6 +19,7 @@ public class CustomerController : MonoBehaviour
     private PatienceGauge patienceGauge;
     private bool isWaiting = false;
 
+    private OrderBubbleUI orderBubble;//말풍선
     private void Start()
     {
         patienceGauge = GetComponentInChildren<PatienceGauge>();
@@ -27,6 +28,10 @@ public class CustomerController : MonoBehaviour
         {
             patienceGauge.gameObject.SetActive(false); // 처음엔 숨김
         }
+        //말풍선
+        orderBubble = GetComponentInChildren<OrderBubbleUI>(true); // 비활성 오브젝트도 찾기
+        if (orderBubble != null)
+            orderBubble.Hide();
     }
 
     public void Enter(Vector3 target)
@@ -47,6 +52,51 @@ public class CustomerController : MonoBehaviour
 
         Order(); // 도착하면 주문 시작
     }
+    // ✅ enum → 한글 표시명 변환
+    private string GetToppingKorean(ToppingType t)
+    {
+        return t switch
+        {
+            ToppingType.Strawberry => "딸기",
+            ToppingType.Blueberry => "블루베리",
+            ToppingType.Banana => "바나나",
+            ToppingType.Mango => "망고",
+            _ => "토핑"
+        };
+    }
+    private string GetSpreadKorean(SpreadType s)
+    {
+        return s switch
+        {
+            SpreadType.WhippedCream => "휘핑크림",
+            SpreadType.CheeseCream => "치즈크림",
+            SpreadType.Chocolate => "초코크림",
+            _ => "크림"
+        };
+    }
+    // ✅ 주문 문장 템플릿(원하는 만큼 추가 가능)
+    // {0} = 토핑, {1} = 스프레드
+    private static readonly string[] OrderTemplates =
+    {
+    "{0} {1} 크레페 주세요!",
+    "{1}에 섞인 {0}를 먹고싶군요!",
+    "신선한 {0}에 {1}를 발라주면 좋겠어요...",
+    "{0} 얹은 {1} 주세욥...",
+    "{1} 듬뿍 + {0} 추가로 부탁해요!",
+    "{0} 들어간 {1} 크레페… 당장!",
+};
+    private string BuildOrderMessage()
+    {
+        string toppingKo = GetToppingKorean(orderedTopping);
+        string spreadKo = GetSpreadKorean(orderedSpread);
+
+        // 템플릿 랜덤 선택
+        string template = OrderTemplates[Random.Range(0, OrderTemplates.Length)];
+
+        // 템플릿에 토핑/스프레드 끼워넣기
+        return string.Format(template, toppingKo, spreadKo);
+    }
+
     public void Order()
     {
         State = CustomerState.Order;
@@ -61,6 +111,9 @@ public class CustomerController : MonoBehaviour
         orderedTopping = (ToppingType)Random.Range(1, toppingCount);
 
         Debug.Log($"{gameObject.name} 주문: [{orderedSpread}]와 [{orderedTopping}] 크레페 주세요!");
+        string msg = BuildOrderMessage();
+        if (orderBubble != null)
+            orderBubble.Show(msg, 5f);
 
         Waiting();
     }
@@ -168,6 +221,7 @@ public class CustomerController : MonoBehaviour
 
     public void Served()
     {
+        if (orderBubble != null) orderBubble.Hide();//말풍선
         State = CustomerState.Served;
         isWaiting = false;
         if (patienceGauge != null) patienceGauge.gameObject.SetActive(false);
@@ -175,6 +229,7 @@ public class CustomerController : MonoBehaviour
 
     public void Leave(Vector3 exitTarget)
     {
+        if (orderBubble != null) orderBubble.Hide();//말풍선
         if (State == CustomerState.Leave) return;
         State = CustomerState.Leave;
         targetPosition = exitTarget;
