@@ -15,7 +15,6 @@ public class CuttingBoard : MonoBehaviour
     public Transform toppingParent; // 토핑들이 생성될 부모 오브젝트
     public GameObject[] toppingPrefabs;
 
-
     public List<ToppingType> addedToppings = new List<ToppingType>();
     public SpreadType currentSpread = SpreadType.None;
 
@@ -25,11 +24,11 @@ public class CuttingBoard : MonoBehaviour
     [Header("토핑 배치 설정")]
     // 토핑 4개가 놓일 고정 좌표 (도우 중심 기준)
     private Vector3[] toppingPositions = new Vector3[]
-{
-    new Vector3(-0.6f,  0.6f, -0.1f), // 1번째: 왼쪽 위
-    new Vector3( 0f, 0.6f, -0.1f),
-    new Vector3( 0.6f,  0.6f, -0.1f) // 3번째: 오른쪽 위
-};
+    {
+        new Vector3(-0.6f,  0.6f, -0.1f), // 1번째: 왼쪽 위
+        new Vector3( 0f, 0.6f, -0.1f),
+        new Vector3( 0.6f,  0.6f, -0.1f) // 3번째: 오른쪽 위
+    };
 
     public void PlaceDough(DragAndDropManager dough)
     {
@@ -41,8 +40,6 @@ public class CuttingBoard : MonoBehaviour
 
         Debug.Log("고정 완료.");
     }
-
-
 
     // 1. 스프레드 바르기
     public void ApplySpread(SpreadType type)
@@ -140,6 +137,7 @@ public class CuttingBoard : MonoBehaviour
         // 토핑 3개와 스프레드가 모두 있으면 이미 완성된 것으로 간주
         return currentSpread != SpreadType.None && addedToppings.Count >= completionToppingCount;
     }
+
     private bool CheckIfAllToppingsSame()
     {
         if (addedToppings.Count == 0) return false;
@@ -151,14 +149,13 @@ public class CuttingBoard : MonoBehaviour
         }
         return true;
     }
+
     private void FinishCrepe(ToppingType finalToppingType)
     {
         // 1. 도우의 SpriteRenderer를 가져와서 완성된 이미지로 교체
         SpriteRenderer doughSR = currentDough.GetComponent<SpriteRenderer>();
         int spriteIndex = (int)finalToppingType - 1;
-
         Vector3 finishedScale = new Vector3(1.2f, 1.2f, 1.2f);
-
 
         if (doughSR != null && spriteIndex >= 0 && spriteIndex < finishedCrepeSprites.Length)
         {
@@ -172,9 +169,16 @@ public class CuttingBoard : MonoBehaviour
                 child.gameObject.SetActive(false);
             }
 
-            // 3. [피드백] 완성 효과 (선택 사항)
-            Debug.Log($"{finalToppingType} 크레페 완성!");
-            // 여기에 반짝이는 이펙트나 소리를 추가하면 좋습니다.
+            // 3. [핵심 수정] 여기서 돈을 지급합니다! (6000원)
+            if (EconomyManager.Instance != null)
+            {
+                EconomyManager.Instance.AddMoney(6000);
+                Debug.Log($"[정산 완료] {finalToppingType} 크레페 완성! (+6000원)");
+            }
+            else
+            {
+                Debug.LogWarning("EconomyManager가 없어서 돈을 줄 수 없습니다!");
+            }
         }
     }
 

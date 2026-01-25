@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EconomyManager : MonoBehaviour
 {
     public static EconomyManager Instance;
 
-    [Header("ê²½ì œ ìƒíƒœ")]
+    [Header("°æÁ¦ »óÅÂ")]
     [SerializeField] private int currentMoney = 0;
+
+    [Header("UI ¿¬°á")]
+    public TMP_Text moneyText;
 
     private void Awake()
     {
-        // ì‹±ê¸€í†¤ íŒ¨í„´: ì–´ë””ì„œë“  EconomyManager.Instanceë¡œ ì ‘ê·¼ ê°€ëŠ¥
+        // ½Ì±ÛÅæ ÆĞÅÏ ¼³Á¤
         if (Instance == null)
         {
             Instance = this;
@@ -25,64 +29,37 @@ public class EconomyManager : MonoBehaviour
 
     private void Start()
     {
-        // CookingSystemì´ ì¡´ì¬í•œë‹¤ë©´ ì¡°ë¦¬ ì™„ë£Œ ì´ë²¤íŠ¸ë¥¼ êµ¬ë…(ì—°ê²°)í•©ë‹ˆë‹¤.
-        if (CookingSystem.Instance != null)
-        {
-            CookingSystem.Instance.OnCookingCompleted += CalculateRevenue;
-        }
-        else
-        {
-            Debug.LogWarning("EconomyManager: CookingSystemì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
-        }
+        // [Áß¿ä] ÀÌÁ¦ ¿©±â¼­ ÀÌº¥Æ®¸¦ ±¸µ¶(+=)ÇÏÁö ¾Ê½À´Ï´Ù.
+        // ±×³É ½ÃÀÛÇÏÀÚ¸¶ÀÚ UI ÇÑ ¹ø °»½ÅÇØÁİ´Ï´Ù.
+        UpdateMoneyUI();
+
+        Debug.Log("EconomyManager ÁØºñ ¿Ï·á! ¿ä¸®»ç°¡ Á÷Á¢ È£ÃâÇØÁÖ±æ ±â´Ù¸®´Â Áß...");
     }
 
-    private void OnDestroy()
-    {
-        // ë§¤ë‹ˆì €ê°€ íŒŒê´´ë  ë•Œ êµ¬ë…ì„ í•´ì§€í•´ì•¼ ì—ëŸ¬ë¥¼ ë°©ì§€í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.
-        if (CookingSystem.Instance != null)
-        {
-            CookingSystem.Instance.OnCookingCompleted -= CalculateRevenue;
-        }
-    }
+    // OnDestroyµµ ÀÌÁ¦ ±¸µ¶ ÇØÁöÇÒ °Ô ¾øÀ¸´Ï ÇÊ¿ä ¾ø½À´Ï´Ù. Áö¿öµµ µË´Ï´Ù.
 
     /// <summary>
-    /// CookingSystemì—ì„œ ì¡°ë¦¬ê°€ ëë‚  ë•Œë§ˆë‹¤ ìë™ìœ¼ë¡œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
+    /// CookingSystemÀÌ Á÷Á¢ È£ÃâÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù. ¹İµå½Ã publicÀÌ¾î¾ß ÇÕ´Ï´Ù.
     /// </summary>
-    private void CalculateRevenue(int panIndex, FoodState state, string recipeID)
+    public void CalculateRevenue(int panIndex, FoodState state, string recipeID)
     {
         int earnedMoney = 0;
-
-        // TODO: ë‚˜ì¤‘ì—ëŠ” recipeIDë¥¼ í†µí•´ RecipeDataì—ì„œ ê¸°ë³¸ ê°€ê²©ì„ ê°€ì ¸ì˜¤ì„¸ìš”.
-        int basePrice = 1000;
 
         switch (state)
         {
             case FoodState.Perfect:
-                // ì™„ë²½í•¨: 1.5ë°° ê°€ê²©
-                earnedMoney = (int)(basePrice * 1.5f);
-                Debug.Log($"[ì •ì‚°] ì™„ë²½í•œ ì¡°ë¦¬! (+{earnedMoney}ì›)");
+                earnedMoney = 6000;
+                Debug.Log($"Á¤»ê: ¿Ïº® (+{earnedMoney})");
                 break;
 
             case FoodState.Undercooked:
-                // ì„¤ìµìŒ: 50% ê°€ê²©
-                earnedMoney = (int)(basePrice * 0.5f);
-                Debug.Log($"[ì •ì‚°] ì„¤ìµì—ˆìŠµë‹ˆë‹¤. (+{earnedMoney}ì›)");
+                earnedMoney = 3000;
+                Debug.Log($"Á¤»ê: ¼³ÀÍÀ½ (+{earnedMoney})");
                 break;
 
-            case FoodState.Burnt:
-                // íƒ”ìŒ: 0ì›
-                earnedMoney = 0;
-                Debug.Log($"[ì •ì‚°] ìŒì‹ì´ íƒ”ìŠµë‹ˆë‹¤. (0ì›)");
-                break;
-
-            case FoodState.Raw:
-                // ìƒì¬ë£Œ: 0ì›
-                earnedMoney = 0;
-                Debug.Log($"[ì •ì‚°] ìƒì¬ë£Œ ìƒíƒœì…ë‹ˆë‹¤. (0ì›)");
-                break;
-
+            // Burnt, Raw µîÀº 0¿øÀÌ¹Ç·Î Ã³¸® ¾È ÇÔ
             default:
-                Debug.Log("[ì •ì‚°] ì•Œ ìˆ˜ ì—†ëŠ” ìƒíƒœì…ë‹ˆë‹¤.");
+                Debug.Log($"Á¤»ê: ÆÇ¸Å ºÒ°¡ »óÅÂ {state} (0)");
                 break;
         }
 
@@ -92,44 +69,43 @@ public class EconomyManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ëˆì„ ì¶”ê°€í•˜ê³  ë¡œê·¸ë¥¼ ì¶œë ¥í•©ë‹ˆë‹¤.
-    /// </summary>
     public void AddMoney(int amount)
     {
         currentMoney += amount;
-
-        // TODO: ì—¬ê¸°ì„œ UI ì—…ë°ì´íŠ¸ í•¨ìˆ˜ í˜¸ì¶œ (ì˜ˆ: UIManager.Instance.UpdateMoneyUI)
-        Debug.Log($"[System] ì •ì‚° ì™„ë£Œ! í˜„ì¬ ì†Œì§€ê¸ˆ: {currentMoney}ì›");
+        UpdateMoneyUI();
     }
 
-    /// <summary>
-    /// ëˆì„ ì‚¬ìš©í•˜ë ¤ê³  ì‹œë„í•©ë‹ˆë‹¤. ì”ì•¡ì´ ì¶©ë¶„í•˜ë©´ ì°¨ê°í•˜ê³  trueë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
-    /// </summary>
-    /// <param name="amount">ì‚¬ìš©í•  ê¸ˆì•¡</param>
-    /// <returns>ì„±ê³µ ì‹œ true, ì‹¤íŒ¨ ì‹œ false</returns>
     public bool TrySpendMoney(int amount)
     {
         if (currentMoney >= amount)
         {
             currentMoney -= amount;
-            Debug.Log($"[ì§€ì¶œ] {amount}ì› ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤. (ë‚¨ì€ ëˆ: {currentMoney}ì›)");
-
-            // TODO: ì—¬ê¸°ì„œë„ UI ê°±ì‹  í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•´ì•¼ í•©ë‹ˆë‹¤.
-            // UIManager.Instance.UpdateMoneyUI(currentMoney);
-
-            return true; // êµ¬ë§¤ ì„±ê³µ
+            UpdateMoneyUI();
+            return true;
         }
-        else
+        return false;
+    }
+
+    // MoneyLinker°¡ ºÎ¸¦ ¼ö ÀÖ°Ô publicÀ¸·Î À¯Áö
+    public void UpdateMoneyUI()
+    {
+        // 1. ¸¸¾à ¿¬°áÀÌ ²÷°å´Ù¸é ÀÌ¸§À¸·Î Ã£±â ½Ãµµ
+        if (moneyText == null)
         {
-            Debug.Log($"[ì§€ì¶œ ì‹¤íŒ¨] ì”ì•¡ì´ ë¶€ì¡±í•©ë‹ˆë‹¤. (í•„ìš”: {amount}ì›, ë³´ìœ : {currentMoney}ì›)");
-            return false; // êµ¬ë§¤ ì‹¤íŒ¨
+            GameObject foundObj = GameObject.Find("Money"); // ¾Æ±î ÀÌ¸§À» Money·Î ÇÏ¼Ì´Ù°í ÇßÁÒ?
+            if (foundObj != null)
+            {
+                moneyText = foundObj.GetComponent<TMP_Text>();
+            }
+        }
+
+        // 2. ÅØ½ºÆ® °»½Å
+        if (moneyText != null)
+        {
+            moneyText.text = $"{currentMoney}";
         }
     }
 
-    /// <summary>
-    /// í˜„ì¬ ì†Œì§€ê¸ˆì„ ë°˜í™˜í•©ë‹ˆë‹¤.
-    /// </summary>
     public int GetCurrentMoney()
     {
         return currentMoney;

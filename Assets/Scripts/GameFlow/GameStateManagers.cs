@@ -1,32 +1,38 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // ì”¬ ì „í™˜ í•„ìˆ˜
+using UnityEngine.SceneManagement; // ¾À ÀüÈ¯ ÇÊ¼ö
 
 public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance;
 
-    [Header("ì°¸ì¡° ë§¤ë‹ˆì €ë“¤")]
+    // ¿µ¾÷ ½ÇÀû µ¥ÀÌÅÍ
+    public int perfectOrders = 0;
+    public int sosoOrders = 0;
+    public int burntOrders = 0;
+    public int totalEarnings = 0;
+
+    [Header("ÂüÁ¶ ¸Å´ÏÀúµé")]
     public RegionManager regionManager;
     public InventorySystem inventorySystem;
     public EconomyManager economyManager;
-    public CookingSystem cookingSystem;
-    public CustomerManager customerManager;
+    //public CookingSystem cookingSystem;
+    //public CustomerManager customerManager;
     public EventManager eventManager;
     public UpgradeManager upgradeManager;
 
-    // [ìˆ˜ì • í¬ì¸íŠ¸] HeaderëŠ” enum ì •ì˜ ìœ„ì— ë¶™ì´ë©´ ì•ˆ ë©ë‹ˆë‹¤.
+    // [¼öÁ¤ Æ÷ÀÎÆ®] Header´Â enum Á¤ÀÇ À§¿¡ ºÙÀÌ¸é ¾È µË´Ï´Ù.
     public enum GameMode { Title, Day, Night }
 
-    [Header("ê²Œì„ ìƒíƒœ")] // <-- ì—¬ê¸°ë¡œ ìœ„ì¹˜ë¥¼ ì˜®ê²¼ìŠµë‹ˆë‹¤!
+    [Header("°ÔÀÓ »óÅÂ")] // <-- ¿©±â·Î À§Ä¡¸¦ ¿Å°å½À´Ï´Ù!
     public GameMode CurrentMode;
-    public int currentDay = 1; // ë©°ì¹ ì°¨ì¸ì§€ ê¸°ë¡
+    public int currentDay = 1; // ¸çÄ¥Â÷ÀÎÁö ±â·Ï
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("GameStateManager ìƒì„±ë¨");
+            Debug.Log("GameStateManager »ı¼ºµÊ");
         }
         else
         {
@@ -37,59 +43,103 @@ public class GameStateManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Startì—ì„œëŠ” ì•„ë¬´ê²ƒë„ í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. (ë©”ì¸ ë©”ë‰´ì—ì„œ ë²„íŠ¼ ëˆ„ë¥¼ ë•Œ ì‹œì‘í•˜ê¸° ìœ„í•´)
+    // Start¿¡¼­´Â ¾Æ¹«°Íµµ ÇÏÁö ¾Ê½À´Ï´Ù. (¸ŞÀÎ ¸Ş´º¿¡¼­ ¹öÆ° ´©¸¦ ¶§ ½ÃÀÛÇÏ±â À§ÇØ)
     private void Start()
     {
         CurrentMode = GameMode.Title;
+        Time.timeScale = 1.0f;
     }
 
-    // 1. ë©”ì¸ ë©”ë‰´ì˜ [Game Start] ë²„íŠ¼ì— ì—°ê²°í•  í•¨ìˆ˜
+    // µ¥ÀÌÅÍ¸¦ ÃÊ±âÈ­ÇÏ´Â ÇÔ¼ö (»õ·Î¿î ³¯ ½ÃÀÛ ½Ã È£Ãâ)
+    public void ResetResults()
+    {
+        perfectOrders = 0;
+        sosoOrders = 0;
+        burntOrders = 0;
+        totalEarnings = 0;
+    }
+
+    // 1. ¸ŞÀÎ ¸Ş´ºÀÇ [Game Start] ¹öÆ°¿¡ ¿¬°áÇÒ ÇÔ¼ö
     public void StartNewGame()
     {
         currentDay = 1;
         StartDay();
     }
 
-    // 2. Day ì‹œì‘ ë¡œì§
+    // 2. Day ½ÃÀÛ ·ÎÁ÷
     public void StartDay()
     {
         CurrentMode = GameMode.Day;
-        Debug.Log($"[Day {currentDay}] ì‹œì‘! (ì”¬ ë¡œë“œ: RealDayScene)");
+        Time.timeScale = 1f;
+        Debug.Log($"[Day {currentDay}] ½ÃÀÛ! (¾À ·Îµå: RealDayScene)");
 
         SceneManager.LoadScene("RealDayScene");
 
-        // í…ŒìŠ¤íŠ¸ìš©: 5ì´ˆ ë’¤ì— ìë™ìœ¼ë¡œ ì˜ì—… ì¢…ë£Œ (ë‚˜ì¤‘ì— ì§€ìš°ì„¸ìš”!)
-        Invoke(nameof(EndDay), 5f);
+        // Å×½ºÆ®¿ë: 5ÃÊ µÚ¿¡ ÀÚµ¿À¸·Î ¿µ¾÷ Á¾·á (³ªÁß¿¡ Áö¿ì¼¼¿ä!)
+        //Invoke(nameof(EndDay), 5f);
     }
 
-    // 3. Day ì¢…ë£Œ ë¡œì§
+    // 3. Day Á¾·á ·ÎÁ÷
     public void EndDay()
     {
         CancelInvoke(nameof(EndDay));
 
-        Debug.Log($"[Day {currentDay}] ì˜ì—… ì¢…ë£Œ. ì •ì‚° ë° ì €ì¥ ì¤‘...");
+        Debug.Log($"[Day {currentDay}] ¿µ¾÷ Á¾·á. Á¤»ê ¹× ÀúÀå Áß...");
 
         // if (SaveLoadManager.Instance != null) SaveLoadManager.Instance.Save();
 
         StartNight();
     }
 
-    // 4. Night ì‹œì‘ ë¡œì§
+    // 4. Night ½ÃÀÛ ·ÎÁ÷
     public void StartNight()
     {
         CurrentMode = GameMode.Night;
-        Debug.Log("[Night] ì‹œì‘! (ì”¬ ë¡œë“œ: NightScene)");
+        Debug.Log("[Night] ½ÃÀÛ! (¾À ·Îµå: NightScene)");
 
         SceneManager.LoadScene("NightScene");
 
-        // í…ŒìŠ¤íŠ¸ìš©: 5ì´ˆ ë’¤ì— ë‹¤ìŒ ë‚ ë¡œ ì´ë™ (ë‚˜ì¤‘ì— ë²„íŠ¼ í´ë¦­ìœ¼ë¡œ ë³€ê²½í•˜ì„¸ìš”!)
-        Invoke(nameof(StartNextDay), 5f);
+        // Å×½ºÆ®¿ë: 5ÃÊ µÚ¿¡ ´ÙÀ½ ³¯·Î ÀÌµ¿ (³ªÁß¿¡ ¹öÆ° Å¬¸¯À¸·Î º¯°æÇÏ¼¼¿ä!)
+        //Invoke(nameof(StartNextDay), 5f);
     }
 
-    // 5. ë‹¤ìŒ ë‚ ë¡œ ë„˜ì–´ê°€ê¸°
+    // 5. ´ÙÀ½ ³¯·Î ³Ñ¾î°¡±â
     public void StartNextDay()
     {
-        currentDay++; // ë‚ ì§œ í•˜ë£¨ ì¦ê°€
-        StartDay();   // ë‹¤ì‹œ ë‚® ì‹œì‘
+        currentDay++; // ³¯Â¥ ÇÏ·ç Áõ°¡
+        StartDay();   // ´Ù½Ã ³· ½ÃÀÛ
+    }
+
+
+    private void OnEnable() { SceneManager.sceneLoaded += OnSceneLoaded; }
+    private void OnDisable() { SceneManager.sceneLoaded -= OnSceneLoaded; }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "RealDayScene")
+        {
+            // ¾À¿¡ ÀÖ´Â ¸Å´ÏÀúµéÀ» ´Ù½Ã Ã£¾Æ¼­ ¿¬°áÇÕ´Ï´Ù.
+            //cookingSystem = FindFirstObjectByType<CookingSystem>();
+            //customerManager = FindFirstObjectByType<CustomerManager>();
+            inventorySystem = FindFirstObjectByType<InventorySystem>();
+            economyManager = FindFirstObjectByType<EconomyManager>();
+            regionManager = FindFirstObjectByType<RegionManager>();
+            eventManager = FindFirstObjectByType<EventManager>();
+            upgradeManager = FindFirstObjectByType<UpgradeManager>();
+            // ... ´Ù¸¥ ¸Å´ÏÀúµéµµ µ¿ÀÏÇÏ°Ô
+
+            Debug.Log("RealDaySceneÀÇ ¸Å´ÏÀú ÂüÁ¶ Àç¿¬°á ¿Ï·á!");
+        }
+    }
+
+    public void ResetResultsForNextDay()
+    {
+        perfectOrders = 0;
+        sosoOrders = 0;
+        burntOrders = 0;
+        totalEarnings = 0;
+        currentDay++; // ´ÙÀ½ ³¯·Î ³¯Â¥ Áõ°¡
+        Debug.Log($"µ¥ÀÌÅÍ ÃÊ±âÈ­ ¿Ï·á. ÇöÀç {currentDay}ÀÏÂ÷ ¿µ¾÷ ÁØºñ Áß!");
     }
 }
+ 

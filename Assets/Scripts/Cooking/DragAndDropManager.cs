@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class DragAndDropManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class DragAndDropManager : MonoBehaviour
 
     void OnMouseDown()
     {
+        originalPosition = transform.position;
         isDragging = true;
         offset = (Vector2)transform.position - (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
