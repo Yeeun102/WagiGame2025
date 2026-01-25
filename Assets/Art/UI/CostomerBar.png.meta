@@ -1,25 +1,10 @@
 fileFormatVersion: 2
-guid: 612508fb7da35f7459e59e19f6373333
+guid: 3677ba00a27ef4a4d9bf5163526ab8c0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3092496681076154817
-    second: Reputation_0
-  - first:
-      213: -2185028423672187409
-    second: Reputation_1
-  - first:
-      213: -4584410532017942818
-    second: Reputation_2
-  - first:
-      213: 2804306981579683191
-    second: Reputation_3
-  - first:
-      213: -4331521888692519889
-    second: Reputation_4
-  - first:
-      213: 5198086871223123969
-    second: Reputation_5
+      213: -5792907287819663136
+    second: CostomerBar 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -90,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Reputation_0
+      name: CostomerBar 1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 100
-        height: 100
+        x: 24
+        y: 9
+        width: 152
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,96 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f3e916f37ae3515d0800000000000000
-      internalID: -3092496681076154817
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Reputation_1
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 0
-        width: 100
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fe533e6b9383da1e0800000000000000
-      internalID: -2185028423672187409
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Reputation_2
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 0
-        width: 100
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: edec28e09e6e060c0800000000000000
-      internalID: -4584410532017942818
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Reputation_3
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 0
-        width: 100
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 77574368756eae620800000000000000
-      internalID: 2804306981579683191
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Reputation_4
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 0
-        width: 100
-        height: 100
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f2c37a7aac753e3c0800000000000000
-      internalID: -4331521888692519889
+      spriteID: 0e8ccbc83857b9fa0800000000000000
+      internalID: -5792907287819663136
       vertices: []
       indices: 
       edges: []
@@ -241,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5916de171ca40d040b30199a40c3abe5
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -251,11 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Reputation_0: -3092496681076154817
-      Reputation_1: -2185028423672187409
-      Reputation_2: -4584410532017942818
-      Reputation_3: 2804306981579683191
-      Reputation_4: -4331521888692519889
+      CostomerBar 1_0: -5792907287819663136
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
